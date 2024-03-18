@@ -68,10 +68,15 @@
     - 题目解析
 
       ```
-      状态的定义：从当前节点u出发，到最远叶子节点的最长路径上的节点数。
-      状态的转移：当前节点u的状态，可以由其孩子节点v，转移而来。
-      边界：叶子节点or空节点。
+      状态的定义：f(u)表示从当前节点u出发，到最远叶子节点的最长路径上的节点数。
+      状态的转移：当前节点u的状态，可以由其孩子节点v，转移而来。（数学形式上的表达见下）
+      状态的边界：叶子节点or空节点。
       ```
+
+      - 状态的转移：$f(u)=\max \{f(v) + 1\}, v 是 u的孩子节点$
+      - 状态的边界：
+        - $f(u) = 0, u是叶子节点下面的空节点$
+        - $f(u) = 1, u是叶子节点$
 
     - 代码实现
 
@@ -111,10 +116,15 @@
   - 题目解析
 
     ```
-    状态的定义：从当前节点u出发，到最近叶子节点的最短路径上的节点数量。
+    状态的定义：f(u)表示从当前节点u出发，到最近叶子节点的最短路径上的节点数量。
     状态的转移：当前节点u的状态，可以由其孩子节点v，转移而来。
-    边界：叶子节点or空节点。
+    状态的边界：叶子节点or空节点。
     ```
+
+    - 状态的转移：$f(u)=\min \{f(v) + 1\}, v 是 u的孩子节点$
+    - 状态的边界：
+      - $f(u) = 0, u是叶子节点下面的空节点$
+      - $f(u) = 1, u是叶子节点$
 
   - 代码实现
 
@@ -138,7 +148,7 @@
   - 题目描述
 
     ```
-    给定一个 N 叉树，找到其最大深度。
+    给定一个N叉树，找到其最大深度。
     最大深度是指从根节点到最远叶子节点的最长路径上的节点总数。
     ```
 
@@ -157,10 +167,15 @@
   - 题目解析
     
     ```
-    状态的定义：从当前节点u出发，到最远叶子节点的最长路径上的节点数。
+    状态的定义：f(u)表示从当前节点u出发，到最远叶子节点的最长路径上的节点数。
     状态的转移：当前节点u的状态，可以由其孩子节点v，转移而来。
-  边界：叶子节点or空节点。
+  状态的边界：叶子节点or空节点。
     ```
+    
+    - 状态的转移：$f(u)=\max \{f(v) + 1\}, v 是 u的孩子节点$
+    - 状态的边界：
+      - $f(u) = 0, u是叶子节点下面的空节点$
+      - $f(u) = 1, u是叶子节点$
     
   - 代码实现
 
@@ -201,10 +216,13 @@
   - 题目解析
 
     ```
-    状态的定义：dfs(TreeNode* root)表示根节点root的前序遍历。
+    状态的定义：f(u)表示根节点u的前序遍历。
     状态的转移：当前节点u的状态，可以由其孩子节点v，转移而来。对于根节点的左孩子和右孩子形成的子树，它们依旧是原问题的一个子问题。
-    递归的边界：空树我们返回空即可
+    状态的边界：空树我们返回空即可
     ```
+
+    - 状态的转移：$f(u) = val(u) + f(L) + f(R), L是左孩子节点，R是右孩子节点，val(u)是当前u节点的值$
+    - 状态的边界：$f(u) = 空，u是叶子节点下面的空节点$
 
   - 代码实现
     
@@ -253,10 +271,13 @@
   - 题目分析
 
     ```
-    状态的定义：dfs(TreeNode* root)表示根节点root的前序遍历。
+    状态的定义：f(u)表示根节点u的前序遍历。
     状态的转移：当前节点u的状态，可以由其孩子节点v，转移而来。
-    递归的边界：空树我们返回空即可
+    状态的边界：空树我们返回空即可
     ```
+
+    - 状态的转移：$f(u) = val(u) + f(L1) + f(L2) + f(L3) + ..., L1, L2, L3, ...是u节点从左往右依次标号的的孩子节点$
+    - 状态的边界：$f(u) = val(u)，u是叶子节点，val(u)是当前u节点的值$
 
   - 代码实现
 
@@ -289,23 +310,25 @@
     ```
   - 题目解析
     ```
-    上面这个等式可以看作一个"状态"，式子里的x因为没啥变化，好似常量。
-    那么相等于题目给出了"状态"，我们需要找到状态之间的转移，从而把大问题拆解为一个更小的问题。
+    上面这个等式可以看作一个"状态"，式子里的x因为没啥变化，看作似常量。
+    那么相当于题目给出了"状态"，我们需要找到状态之间的转移，从而把大问题拆解为一个更小的问题。
     很显然，下面的等式成立，即我们找到了一种状态之间的转移。
     ```
-  - $$f(x,n)=\sqrt{n + f(x, n - 1)}$$
-  - "状态的边界"：$f(x,1)=\sqrt{1+x}$，这就是"最小的问题"，为什么我们要把大问题逐渐拆解为一个个更小的问题？其中原因就在这，因为"最小的问题"我们总是很容易解决。
+    
+    - 状态的转移：$f(x,n)=\sqrt{n + f(x, n - 1)}$
+    
+    - 状态的边界：$f(x,1)=\sqrt{1+x}$，这就是"最小的问题"，为什么我们要把大问题逐渐拆解为一个个更小的问题？其中原因就在这，因为"最小的问题"我们总是很容易解决。
   - 代码实现
     - 在实现中，dfs的函数声明，就可以看作我们对"状态"的一种在代码层面的表示，函数里面的代码就是对"状态"如何转移的一种描述。
       ```cpp
-      #include <bits/stdc++.h>
+    #include <bits/stdc++.h>
       using namespace std;
-
+  
       float dfs(float x, float n) {
         if (n == 1) return std::sqrt(1 + x);
-        return std::sqrt(n + dfs(x, n - 1));
+      return std::sqrt(n + dfs(x, n - 1));
       }
-
+  
       int main() {
         ios::sync_with_stdio(false);
         cin.tie(0);
@@ -331,19 +354,20 @@
     本题和上一题基本一摸一样，同样都是给出了状态，我们需要找到状态之间的转移。
     显然下面的等式成立。
     ```
-  - $$f(x,n)=\dfrac{x}{n+f(x,n-1)}$$
-  - 状态的边界：$f(x,1)=\dfrac{x}{1+x}$
+    
+    - 状态的转移：$f(x,n)=\dfrac{x}{n+f(x,n-1)}$
+    - 状态的边界：$f(x,1)=\dfrac{x}{1+x}$
   - 代码实现
     - 代码如下
       ```cpp
       #include <bits/stdc++.h>
-      using namespace std;
-
+    using namespace std;
+  
       float dfs(float x, float n) {
         if (n == 1) return x / (1 + x);
         return x / (n + dfs(x, n - 1));
-      }
-
+    }
+  
       int main() {
         ios::sync_with_stdio(false);
         cin.tie(0);
@@ -374,11 +398,14 @@
   - 题目解析
 
     ```
-    状态的定义：前i个数里已经选了哪些数（还没选择第i个数）。
+    状态的定义：f(i, v)表示前i个数里已经选了哪些数v（还没选择第i个数）。
     状态的转移：下一个数即第i个数选 or 不选。
-    递归的边界：已经考虑完所有数的时候。
+    状态的边界：已经考虑完所有数的时候。
     ```
 
+    - 状态的转移：$f(i, v) \rightarrow f(i + 1, newv), 根据第i个数选or不选转移到i+1去$
+    - 状态的边界：$f(n, v), n == nums.size()$
+  
   - 代码实现
     
     - 如下
@@ -404,7 +431,7 @@
               return ans;
           }
       };
-  ```
+      ```
   
 - 例题009：[子集 II](https://leetcode.cn/problems/subsets-ii/)
 
@@ -429,10 +456,13 @@
     上一题由于每个元素都不重复，即每个元素要么选0个，要么选1个。
     这一题由于有重复，即每个元素要么选0个，要么选1个，要么选2个，要么选3个，依次类推。
     
-    状态的定义：前i个数里已经选了哪些数（还没选择第i个数）。
+    状态的定义：f(i, v)表示前i个数里已经选了哪些数v（还没选择第i个数）。
     状态的转移：下一个数即第i个数一次性选多少个。
-    递归的边界：已经考虑完所有数的时候。
+    状态的边界：已经考虑完所有数的时候。
     ```
+
+    - 状态的转移：$f(i, v) \rightarrow f(i + 1, newv), 根据第i个数选几个转移到i+1去$
+    - 状态的边界：$f(n, v)，n == mp.end()$
 
   - 代码实现
 
@@ -494,10 +524,13 @@
   - 题目解析
 
     ```
-    状态的定义：前i个数里，已经选了哪些数（不包含第i个数），这些数的和为多少。
+    状态的定义：f(i, v, sum)表示前i个数里，已经选了哪些数v（不包含第i个数），这些数的和为sum。
     状态的转移：考虑第i个数选多少次。
-    递归的边界：已经考虑完所有数的时候。
+    状态的边界：已经考虑完所有数的时候。
     ```
+
+    - 状态的定义：$f(i, v, sum) \rightarrow f(i + 1, newv, newsum), 根据第i个元素选几个转移到i+1去$
+    - 状态的边界：$f(n, v, sum), n == 数组大小$
 
   - 代码实现
 
@@ -555,9 +588,14 @@
 
   - 题目解析
 
-    - 状态的定义：前i个数里已经选了哪些数（不包含第i个数），这些数的和为多少。
-      状态的转移：考虑第i个数选多少次。
-      递归的边界：已经考虑完所有数的时候。
+    ```
+    状态的定义：f(i, v, sum)表示前i个数里，已经选了哪些数v（不包含第i个数），这些数的和为sum。
+    状态的转移：考虑第i个数选多少次。
+    状态的的边界：已经考虑完所有数的时候。
+    ```
+
+    - 状态的定义：$f(i, v, sum) \rightarrow f(i + 1, newv, newsum), 根据第i个元素选几个转移到i+1去$
+    - 状态的边界：$f(n, v, sum), n == 数组大小$
 
   - 代码实现
 
@@ -570,7 +608,7 @@
       public:
           static const int N = 50 + 5;
           vector<vector<int>> ans;
-          // 记录每个数出现的个数, <值，个数>
+          // 记录每个数出现的个数，比如a[7]=4, 表示7这个数字出现了4次。
           int a[N];
           void dfs(int i, vector<int> v, int sum, const int &target) {
               if (i >= N) {
@@ -618,10 +656,16 @@
   - 题目解析
 
     ```
-    状态的定义：使用了那些数字（递增排序），其和为多少
+    状态的定义：f(v, sum)表示使用了那些数字v（递增排序），其和为sum
     状态的转移：枚举使用下一个数字，且比上一个数字大
-    边界：所有数字都考虑完了
+    状态的边界：所有数字都考虑完了
     ```
+
+    - 状态的定义：$f(v, sum) \rightarrow f(newv, newsum), 根据下一个数字选谁转移$
+    - 状态的边界：$f(v, sum), v.size() == k$
+    - 状态的剪枝：
+      - $由于可选的数字都是正数，一旦sum超过n，后面再选就没意义了$
+      - $v.size() > k, 选的数字超过k个了，后面再选就没意义了$
 
   - 代码实现
 
@@ -683,10 +727,13 @@
   - 题目解析
 
     ```
-    状态的定义：使用了那些数字（递增排序）
+    状态的定义：f(v)表示使用了那些数字v（递增排序）
     状态的转移：枚举使用下一个数字，且比上一个数字大
-    边界：所有数字都考虑完了
+    状态的边界：所有数字都考虑完了
     ```
+
+    - 状态的转移：$f(v) \rightarrow f(newv)，根据下一个数字选谁转移，且选的数比上一个数大$
+    - 状态的边界：$f(v), v.size() == k$
 
   - 代码实现
 
@@ -716,67 +763,180 @@
       ```
 
 - 例题014：[全排列](https://leetcode.cn/problems/permutations/)
-  
+
   - 题目描述
-  
+
+    ```
+    给定一个不含重复数字的数组nums，返回其所有可能的全排列。你可以按任意顺序返回答案。
+    ```
+
+  - 题目样例
+
+    ```
+    输入：nums = [1,2,3]
+    输出：[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+    ```
+
+  - 题目解析
+
+    ```
+    状态的定义：f(vis, v)表示当前使用了哪些数字vis，其排列为v
+    状态的转移：枚举下一个未使用的数字
+    状态的边界：所有数字都考虑完了
+    ```
+
+    - 状态的转移：$f(vis, v) \rightarrow f(newvis, newv), \ 根据下一个未选择的数字转移$
+    - 状态的边界：$f(vis, v), vis.size() == n$
+
+  - 代码实现
+
+    - 如下
+
+      ```cpp
+      class Solution {
+      public:
+          static const int N = 6 + 2;
+          vector<vector<int>> ans;
+          void dfs(set<int> vis, vector<int> v, const vector<int>& nums) {
+              int n = nums.size();
+              if (vis.size() == n) {
+                  ans.push_back(v);
+                  return ;
+              }
+              for (int i = 0; i < n; ++i) {
+                  if (vis.count(i) == 0) {
+                      auto newvis = vis;
+                      auto newv = v;
+                      newvis.insert(i);
+                      newv.push_back(nums[i]);
+                      dfs(newvis, newv, nums);
+                  }
+              }
+          }
+          vector<vector<int>> permute(vector<int>& nums) {
+              int n = nums.size();
+              set<int> vis;
+              vector<int> v;
+              dfs(vis, v, nums);
+              return ans;
+          }
+      };
+      ```
+
 - 例题015：[二叉树的所有路径](https://leetcode.cn/problems/binary-tree-paths/description/)
-  
+
   - 题目描述
     ```
     给你一个二叉树的根节点root，按任意顺序，返回所有从根节点到叶子节点的路径。
     ```
-  
-- 题目样例
-  
-    - <div align=center >
-          <img alt="aa" src="./pics/paths.jpg" style="zoom:0%"/>
-          <p>  </p>
-        </div>
     
-    - 输入：root = [1,2,3,null,5]
-  - 输出：["1->2->5","1->3"]
-  
-- 题目解析
-  
-    - 容易知道，对于**树**上的任意两个节点u，v ，它们之间的路径是唯一的。
-  - 本题我们总是从根节点到其他节点，所以在定义状态时没必要对根节点增加一维。所以我们可以这样定义状态，定义状态**dfs(TreeNode* cur)**表示从根节点到当前节点的路径（并不包含当前节点的值）。
-  
-- 代码实现
-  
-  - 在下面的实现中，cur和path，一起构成状态。表示当前在cur节点，根节点到cur节点的路径为path（并不包含cur节点的值）。
-  
-  - 拿上面的样例，举个例子，比如当前cur在节点5，那么此时path保存的节点为{1, 2}而不是{1, 2, 5}，当前节点5并没有保存在path里。
-  
-  - 有了状态，接下来是转移，转移显然就是递归的去跑当前节点的左右孩子节点。当其左右孩子节点都跑完后，我们需要"还原现场"，也即大家口中的"回溯"。既然要"还原现场"，那么我们肯定得知道原来的现场是什么，就是还没进入dfs函数内部的状态，那就是cur和path。在dfs函数内部我们对path做了修改，path.push_back()，所以还原就是path.pop_back()。
-  
-  - 在这里，可能很多初学者会疑惑，我们dfs(cur -> left)，dfs(cur -> right)也修改了path呀。其实这还不是不理解"递归"的表现，当dfs(cur -> left)函数执行完后，它也会还原当初进入dfs(cur -> left)时的状态，dfs(cur -> right)同理，所以当下面的代码dfs(cur -> left)和dfs(cur -> right)执行完后，唯一对path做了修改的就只是前面操作的path.push_back()，所以我们最后path.pop_back()也就还原了。
-  
-  - 多说一句，对于绝大多数初学者，"递归"，"回溯"基本上就是学习路上最大的拦路虎，有的初学者要花费几周甚至几个月才能理解其中的奥秘。希望大家好好理解，相信你也能够理解计算机中"递归"的美。
-  
-      ```cpp
-      class Solution {
-      public:
-          vector<string> path, ans;
-          void dfs(TreeNode* cur) {
-              if (cur == nullptr) return;
-              path.push_back(std::to_string(cur -> val));
-              if (cur -> left == nullptr && cur -> right == nullptr) {
-                  string t;
-                  for (int i = 0, len = path.size(); i < len; ++i) {
-                      if (i == 0) t += path[i];
-                      else t += "->" + path[i]; 
-                  }
-                  ans.push_back(t);
-              }
-              dfs(cur -> left);
-              dfs(cur -> right);
-              path.pop_back();
-          }
-          vector<string> binaryTreePaths(TreeNode* root) {
-              dfs(root);
-              return ans;
-          }
-      };
+  - 题目样例
+
+    <div align=center >
+        <img alt="aa" src="./pics/paths.jpg" style="zoom:0%"/>
+        <p>  </p>
+      </div>
+
     ```
-  
-- 这一行始终保留，不要删除
+    输入：root = [1,2,3,null,5]
+    输出：["1->2->5","1->3"]
+    ```
+
+  - 题目解析
+    
+      ```
+    容易知道，对于树上的任意两个节点u，v ，它们之间的路径是唯一的（简单路径）。
+    本题我们总是从根节点到其他节点，所以在定义状态时没必要对根节点增加一维。所以我们可以这样定义状态：
+    
+    状态的定义：f(cur)表示从根节点到当前节点cur的路径（并不包含当前节点的值）
+    状态的转移：添加当前节点cur的值到路径里去，然后继续递归其孩子节点
+    状态的边界：叶子节点
+    ```
+    
+    - 状态的转移：$f(cur, path) \rightarrow f(child, newpath), child是cur的孩子节点$
+    - 状态的边界：$f(cur, path), cur是叶子节点$
+    
+  - 代码实现
+
+    - 在下面的实现中，cur和path，一起构成状态。表示当前在cur节点，根节点到cur节点的路径为path（并不包含cur节点的值）。
+
+    - 拿上面的样例，举个例子，比如当前cur在节点5，那么此时path保存的节点为{1, 2}而不是{1, 2, 5}，当前节点5并没有保存在path里。
+
+    - 有了状态，接下来是转移，转移显然就是递归的去跑当前节点的左右孩子节点。当其左右孩子节点都跑完后，我们需要"还原现场"，也即大家口中的"回溯"。既然要"还原现场"，那么我们肯定得知道原来的现场是什么，就是还没进入dfs函数内部的状态，那就是cur和path。在dfs函数内部我们对path做了修改，path.push_back()，所以还原就是path.pop_back()。
+
+    - 在这里，可能很多初学者会疑惑，我们dfs(cur -> left)，dfs(cur -> right)也修改了path呀。其实这还是不理解"递归"的表现，当dfs(cur -> left)函数执行完后，它也会还原当初进入dfs(cur -> left)时的状态，dfs(cur -> right)同理，所以当下面的代码dfs(cur -> left)和dfs(cur -> right)执行完后，唯一对path做了修改的就只是前面操作的path.push_back()，所以我们最后path.pop_back()也就还原了。
+
+    - 多说一句，对于绝大多数初学者，"递归"，"回溯"基本上就是学习路上最大的拦路虎，有的初学者要花费几周甚至几个月才能理解其中的奥秘。希望大家好好理解，相信你也能够理解计算机中"递归"的美。
+
+    - 显式回溯：注意path传的是引用哟
+
+        ```cpp
+        class Solution {
+        public:
+            vector<string> path, ans;
+            void dfs(TreeNode* cur, vector<string> &path) {
+                if (cur == nullptr) return;
+                path.push_back(std::to_string(cur -> val));
+                // 叶子节点
+                if (cur -> left == nullptr && cur -> right == nullptr) {
+                    string t;
+                    for (int i = 0, len = path.size(); i < len; ++i) {
+                        if (i == 0) t += path[i];
+                        else t += "->" + path[i]; 
+                    }
+                    ans.push_back(t);
+                }
+                dfs(cur -> left, path);
+                dfs(cur -> right, path);
+                path.pop_back();
+            }
+            vector<string> binaryTreePaths(TreeNode* root) {
+                dfs(root, path);
+                return ans;
+            }
+      };
+      ```
+      
+    - 隐式回溯：path传的是值复制哟，全程不需要pop_back()
+
+        ```cpp
+        class Solution {
+        public:
+            vector<string> path, ans;
+            void dfs(TreeNode* cur, vector<string> path) {
+                if (cur == nullptr) return;
+                // 叶子节点
+                if (cur -> left == nullptr && cur -> right == nullptr) {
+                    auto newpath = path;
+                    newpath.push_back(std::to_string(cur -> val));
+                    string t;
+                    for (int i = 0, len = newpath.size(); i < len; ++i) {
+                        if (i == 0) t += newpath[i];
+                        else t += "->" + newpath[i]; 
+                    }
+                    ans.push_back(t);
+                    return ;
+                }
+                auto newpath1 = path;
+                newpath1.push_back(std::to_string(cur -> val));
+                dfs(cur -> left, newpath1);
+        
+                auto newpath2 = path;
+                newpath2.push_back(std::to_string(cur -> val));
+                dfs(cur -> right, newpath2);
+            }
+            vector<string> binaryTreePaths(TreeNode* root) {
+                dfs(root, path);
+                return ans;
+            }
+        };
+        ```
+
+        
+
+- 下面几行始终保留，不要删除
+
+##### 递归题目精讲, 下一个主题？
+
+- ff
+- 

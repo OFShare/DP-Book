@@ -1,32 +1,41 @@
 ##### 递归例题
 
-- 下面是书上的一些递归例题，对于初学者例题越简单越好
+- 下面是书上的一些递归例题，对于初学者例题越简单越好。
 
-- |                             题目                             |                           参考代码                           |             简要说明              |
-  | :----------------------------------------------------------: | :----------------------------------------------------------: | :-------------------------------: |
-  | [二叉树的最大深度](https://leetcode.cn/problems/maximum-depth-of-binary-tree/description/) | [maximum-depth-of-binary-tree.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/maximum-depth-of-binary-tree.cpp) |               入门                |
-  | [二叉树的最小深度](https://leetcode.cn/problems/minimum-depth-of-binary-tree/) | [minimum-depth-of-binary-tree.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/minimum-depth-of-binary-tree.cpp) |               入门                |
-  | [N 叉树的最大深度](https://leetcode.cn/problems/maximum-depth-of-n-ary-tree/description/) | [maximum-depth-of-n-ary-tree.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/maximum-depth-of-n-ary-tree.cpp) |               入门                |
-  | [二叉树的前序遍历](https://leetcode.cn/problems/binary-tree-preorder-traversal/description/) |                                                              |               入门                |
-  | [N 叉树的前序遍历](https://leetcode.cn/problems/n-ary-tree-preorder-traversal/description/) | [n-ary-tree-preorder-traversal.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/n-ary-tree-preorder-traversal.cpp) |               入门                |
-  |     [求 f(x,n)](https://www.luogu.com.cn/problem/B2147)      |                                                              |               入门                |
-  |    [再求 f(x,n)](https://www.luogu.com.cn/problem/B2148)     |                                                              |               入门                |
-  |        [子集](https://leetcode.cn/problems/subsets/)         |                                                              |    枚举第i个元素【选 or 不选】    |
-  |     [子集 II](https://leetcode.cn/problems/subsets-ii/)      |                                                              | 枚举第i个元素 【选几个】，STL语法 |
-  |  [组合总和](https://leetcode.cn/problems/combination-sum/)   |                                                              |                                   |
-  | [组合总和 II](https://leetcode.cn/problems/combination-sum-ii/) |                                                              |                                   |
-  | [组合总和 III](https://leetcode.cn/problems/combination-sum-iii/) |                                                              |                                   |
-  |      [组合](https://leetcode.cn/problems/combinations/)      |                                                              |                                   |
-  |     [全排列](https://leetcode.cn/problems/permutations/)     |                                                              |             回溯初步              |
-  | [二叉树的所有路径](https://leetcode.cn/problems/binary-tree-paths/description/) |                                                              |             回溯初步              |
-  |                                                              |                                                              |                                   |
-  | [二叉树的中序遍历](https://leetcode.cn/problems/binary-tree-inorder-traversal/description/) | [binary-tree-inorder-traversal.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/binary-tree-inorder-traversal.cpp) |               入门                |
-  | [二叉树的后序遍历](https://leetcode.cn/problems/binary-tree-postorder-traversal/description/) | [binary-tree-postorder-traversal.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/binary-tree-postorder-traversal.cpp) |               入门                |
-  |                                                              |                                                              |                略                 |
-  |                                                              |                                                              |                略                 |
-  |                                                              |                                                              |                略                 |
-  |                                                              |                                                              |                                   |
-  | [N 叉树的后序遍历](https://leetcode.cn/problems/n-ary-tree-postorder-traversal/description/) | [n-ary-tree-postorder-traversal.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/n-ary-tree-postorder-traversal.cpp) |                略                 |
+- 状态的定义一般用$f(...)$表示，在代码具体实现时函数一般用$dfs(...)$表示，状态的存放一般用数组$dp(...)$表示。
+
+- 函数的声明：$int \ dfs(int \ i, \ int \ sum, \ const \ int \ \&n, \ const \ vector\!<\!int\!> \ \&nums)$
+
+  - 凡是用const + &表示的变量，都与状态的转移无关，如上面这个函数里的n, nums。
+
+- 对于绝大多数初学者，"递归"，"回溯"基本上就是学习路上最大的拦路虎，有的初学者要花费几周甚至几个月才能理解其中的奥秘。希望大家好好理解，相信你也能够理解计算机中"递归"的美
+
+- |                             题目                             |                           参考代码                           |                           简要说明                           |
+  | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
+  | [二叉树的最大深度](https://leetcode.cn/problems/maximum-depth-of-binary-tree/description/) | [maximum-depth-of-binary-tree.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/maximum-depth-of-binary-tree.cpp) |                            $入门$                            |
+  | [二叉树的最小深度](https://leetcode.cn/problems/minimum-depth-of-binary-tree/) | [minimum-depth-of-binary-tree.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/minimum-depth-of-binary-tree.cpp) |                            $入门$                            |
+  | [N 叉树的最大深度](https://leetcode.cn/problems/maximum-depth-of-n-ary-tree/description/) | [maximum-depth-of-n-ary-tree.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/maximum-depth-of-n-ary-tree.cpp) |                            $入门$                            |
+  | [二叉树的前序遍历](https://leetcode.cn/problems/binary-tree-preorder-traversal/description/) | [binary-tree-preorder-traversal.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/binary-tree-preorder-traversal.cpp) |                            $入门$                            |
+  | [N 叉树的前序遍历](https://leetcode.cn/problems/n-ary-tree-preorder-traversal/description/) | [n-ary-tree-preorder-traversal.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/n-ary-tree-preorder-traversal.cpp) |                            $入门$                            |
+  |     [求 f(x,n)](https://www.luogu.com.cn/problem/B2147)      | [B2147.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/B2147.cpp) |                            $入门$                            |
+  |    [再求 f(x,n)](https://www.luogu.com.cn/problem/B2148)     | [B2148.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/B2148.cpp) |                            $入门$                            |
+  |                                                              |                                                              |                                                              |
+  |        [子集](https://leetcode.cn/problems/subsets/)         | [subsets.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/subsets.cpp) |             $入门，枚举第i个元素【选 or 不选】$              |
+  |     [子集 II](https://leetcode.cn/problems/subsets-ii/)      | [subsets-ii.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/subsets-ii.cpp) |          $入门，枚举第i个元素 【选几个】，STL语法$           |
+  |  [组合总和](https://leetcode.cn/problems/combination-sum/)   | [combination-sum.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/combination-sum.cpp) | $入门，f(i, v, sum)表示前i个数里，已经选了哪些数v（不包含第i个数），这些数的和为sum$ |
+  | [组合总和 II](https://leetcode.cn/problems/combination-sum-ii/) | [combination-sum-ii.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/combination-sum-ii.cpp) |             $同上，只是候选集合里的数只能用一次$             |
+  | [组合总和 III](https://leetcode.cn/problems/combination-sum-iii/) | [combination-sum-iii.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/combination-sum-iii.cpp) | $入门，f(v, sum)表示使用了那些数字v（递增排序），其和为sum$  |
+  |      [组合](https://leetcode.cn/problems/combinations/)      | [combinations.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/combinations.cpp) |         $入门，f(v)表示使用了那些数字v（递增排序）$          |
+  |     [全排列](https://leetcode.cn/problems/permutations/)     | [permutations.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/permutations.cpp) |    $入门，f(vis, v)表示当前使用了哪些数字vis，其排列为v$     |
+  | [二叉树的所有路径](https://leetcode.cn/problems/binary-tree-paths/description/) | [binary-tree-paths.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/binary-tree-paths.cpp) | $入门，显式回溯/隐式回溯，f(cur)表示从根节点到当前节点cur的路径（并不包含当前节点的值）$ |
+  |                                                              |                                                              |                                                              |
+  |                                                              |                                                              |                                                              |
+  |                                                              |                                                              |                                                              |
+  |                                                              |                                                              |                              略                              |
+  |                                                              |                                                              |                              略                              |
+  |                                                              |                                                              |                              略                              |
+  |                                                              |                                                              |                                                              |
+  |                                                              |                                                              |                                                              |
 
 ##### 递归练习题
 
@@ -34,9 +43,9 @@
 
 - |                             题目                             |                           参考代码                           | 简要说明 |
   | :----------------------------------------------------------: | :----------------------------------------------------------: | :------: |
-  | [二叉树的中序遍历](https://leetcode.cn/problems/binary-tree-inorder-traversal/description/) | [binary-tree-inorder-traversal.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/binary-tree-inorder-traversal.cpp) |   入门   |
-  | [二叉树的后序遍历](https://leetcode.cn/problems/binary-tree-postorder-traversal/description/) | [binary-tree-postorder-traversal.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/binary-tree-postorder-traversal.cpp) |   入门   |
-  | [N 叉树的后序遍历](https://leetcode.cn/problems/n-ary-tree-postorder-traversal/description/) | [n-ary-tree-postorder-traversal.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/n-ary-tree-postorder-traversal.cpp) |    略    |
+  | [二叉树的中序遍历](https://leetcode.cn/problems/binary-tree-inorder-traversal/description/) | [binary-tree-inorder-traversal.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/binary-tree-inorder-traversal.cpp) |  $入门$  |
+  | [二叉树的后序遍历](https://leetcode.cn/problems/binary-tree-postorder-traversal/description/) | [binary-tree-postorder-traversal.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/binary-tree-postorder-traversal.cpp) |  $入门$  |
+  | [N 叉树的后序遍历](https://leetcode.cn/problems/n-ary-tree-postorder-traversal/description/) | [n-ary-tree-postorder-traversal.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/n-ary-tree-postorder-traversal.cpp) |  $入门$  |
 
   
 
