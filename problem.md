@@ -4,11 +4,9 @@
 
 - 状态的定义一般用$f(...)$表示，在代码具体实现时函数一般用$dfs(...)$表示，状态的存放一般用数组$dp(...)$表示。
 
-- 函数的声明：$int \ dfs(int \ i, \ int \ sum, \ const \ int \ \&n, \ const \ vector\!<\!int\!> \ \&nums)$
+- 函数的声明：$int \ dfs(int \ i, \ int \ sum, \ const \ int \ \&n, \ const \ vector\!<\!int\!> \ \&nums)$，凡是用const + &表示的变量，都与状态的转移无关。
 
-  - 凡是用const + &表示的变量，都与状态的转移无关，如上面这个函数里的n, nums。
-
-- 对于绝大多数初学者，"递归"，"回溯"基本上就是学习路上最大的拦路虎，有的初学者要花费几周甚至几个月才能理解其中的奥秘。希望大家好好理解，相信你也能够理解计算机中"递归"的美
+- 对于绝大多数初学者，"递归"，"回溯"基本上就是学习路上最大的拦路虎，有的初学者要花费几周甚至几个月才能理解其中的奥秘。希望大家好好理解，相信你也能够理解计算机中"递归"的美。
 
 - |                             题目                             |                           参考代码                           |                           简要说明                           |
   | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
@@ -20,22 +18,34 @@
   |     [求 f(x,n)](https://www.luogu.com.cn/problem/B2147)      | [B2147.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/B2147.cpp) |                            $入门$                            |
   |    [再求 f(x,n)](https://www.luogu.com.cn/problem/B2148)     | [B2148.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/B2148.cpp) |                            $入门$                            |
   |                                                              |                                                              |                                                              |
-  |        [子集](https://leetcode.cn/problems/subsets/)         | [subsets.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/subsets.cpp) |             $入门，枚举第i个元素【选 or 不选】$              |
-  |     [子集 II](https://leetcode.cn/problems/subsets-ii/)      | [subsets-ii.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/subsets-ii.cpp) |          $入门，枚举第i个元素 【选几个】，STL语法$           |
+  |        [子集](https://leetcode.cn/problems/subsets/)         | [subsets.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/subsets.cpp) | $入门，f(i, v)表示前i个数里已经选了哪些数v（还没选择第i个数）枚举第i个元素【选 or 不选】$ |
+  |     [子集 II](https://leetcode.cn/problems/subsets-ii/)      | [subsets-ii.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/subsets-ii.cpp) |       $入门，同上，枚举第i个元素 【选几个】，STL语法$        |
   |  [组合总和](https://leetcode.cn/problems/combination-sum/)   | [combination-sum.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/combination-sum.cpp) | $入门，f(i, v, sum)表示前i个数里，已经选了哪些数v（不包含第i个数），这些数的和为sum$ |
   | [组合总和 II](https://leetcode.cn/problems/combination-sum-ii/) | [combination-sum-ii.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/combination-sum-ii.cpp) |             $同上，只是候选集合里的数只能用一次$             |
   | [组合总和 III](https://leetcode.cn/problems/combination-sum-iii/) | [combination-sum-iii.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/combination-sum-iii.cpp) | $入门，f(v, sum)表示使用了那些数字v（递增排序），其和为sum$  |
   |      [组合](https://leetcode.cn/problems/combinations/)      | [combinations.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/combinations.cpp) |         $入门，f(v)表示使用了那些数字v（递增排序）$          |
   |     [全排列](https://leetcode.cn/problems/permutations/)     | [permutations.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/permutations.cpp) |    $入门，f(vis, v)表示当前使用了哪些数字vis，其排列为v$     |
-  | [二叉树的所有路径](https://leetcode.cn/problems/binary-tree-paths/description/) | [binary-tree-paths.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/binary-tree-paths.cpp) | $入门，显式回溯/隐式回溯，f(cur)表示从根节点到当前节点cur的路径（并不包含当前节点的值）$ |
+  | [二叉树的所有路径](https://leetcode.cn/problems/binary-tree-paths/description/) | [binary-tree-paths.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/binary-tree-paths.cpp) | $入门，显式回溯/隐式回溯，f(cur, path)表示从根节点到当前节点cur的路径path（并不包含当前节点的值）$ |
   |                                                              |                                                              |                                                              |
+  |        [迷宫](https://www.luogu.com.cn/problem/P1605)        |                                                              |                                                              |
+  |       [01迷宫](https://www.luogu.com.cn/problem/P1141)       |                                                              |                                                              |
+  |  [自然数的拆分问题](https://www.luogu.com.cn/problem/P2404)  |                                                              |                                                              |
+  |  [图的 m 着色问题](https://www.luogu.com.cn/problem/P2819)   |                                                              |                                                              |
   |                                                              |                                                              |                                                              |
+  |     [求细胞数量](https://www.luogu.com.cn/problem/P1451)     |                                                              |                                                              |
+  |      [装箱问题](https://www.luogu.com.cn/problem/P1049)      |                                                              |                                                              |
+  |      [部落卫队](https://www.luogu.com.cn/problem/P1692)      |                                                              |                                                              |
+  | [八皇后 Checker Challenge](https://www.luogu.com.cn/problem/P1219) |                                                              |                                                              |
   |                                                              |                                                              |                                                              |
-  |                                                              |                                                              |                              略                              |
-  |                                                              |                                                              |                              略                              |
-  |                                                              |                                                              |                              略                              |
-  |                                                              |                                                              |                                                              |
-  |                                                              |                                                              |                                                              |
+  | [判断二分图](https://leetcode.cn/problems/is-graph-bipartite/) |                                                              |                                                              |
+  | [可能的二分法](https://leetcode.cn/problems/possible-bipartition/) |                                                              |                                                              |
+  |   [汉诺塔问题](https://leetcode.cn/problems/hanota-lcci/)    |                                                              |                                                              |
+  | [优美的排列](https://leetcode.cn/problems/beautiful-arrangement/) |                                                              |                                                              |
+  |  [漂亮数组](https://leetcode.cn/problems/beautiful-array/)   |                                                              |                                                              |
+  | [破冰游戏](https://leetcode.cn/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/) |                                                              |                                                              |
+  |  [消除游戏](https://leetcode.cn/problems/elimination-game/)  |                                                              |                                                              |
+  |   [排序数组](https://leetcode.cn/problems/sort-an-array/)    |                                                              |                                                              |
+  | [寻找两个正序数组的中位数](https://leetcode.cn/problems/median-of-two-sorted-arrays/) |                                                              |                                                              |
 
 ##### 递归练习题
 
@@ -46,7 +56,11 @@
   | [二叉树的中序遍历](https://leetcode.cn/problems/binary-tree-inorder-traversal/description/) | [binary-tree-inorder-traversal.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/binary-tree-inorder-traversal.cpp) |  $入门$  |
   | [二叉树的后序遍历](https://leetcode.cn/problems/binary-tree-postorder-traversal/description/) | [binary-tree-postorder-traversal.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/binary-tree-postorder-traversal.cpp) |  $入门$  |
   | [N 叉树的后序遍历](https://leetcode.cn/problems/n-ary-tree-postorder-traversal/description/) | [n-ary-tree-postorder-traversal.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/n-ary-tree-postorder-traversal.cpp) |  $入门$  |
-
+|     [图像渲染](https://leetcode.cn/problems/flood-fill/)     |                                                              |          |
+  |  [Lake Counting S](https://www.luogu.com.cn/problem/P1596)   |                                                              |          |
+  |      [填涂颜色](https://www.luogu.com.cn/problem/P1162)      |                                                              |          |
+  |      [新汉诺塔](https://www.luogu.com.cn/problem/P1242)      |                                                              |          |
+  
   
 
 递归练习题001：[爬楼梯](https://leetcode.cn/problems/climbing-stairs/description/)

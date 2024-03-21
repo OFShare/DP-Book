@@ -1,3 +1,7 @@
+##### 写在前面的话
+
+- “什么？你说那个天生废灵根的宗门弃子修成了至尊境界。”
+
 ##### 如何理解"状态"
 
 - 动态规划在具体实现时一般有以下三种要素：状态的定义，状态的转移，状态的边界。其中动态规划中的“状态”是一个抽象的概念，理解抽象的概念总是比较“虚”，所以我们将尝试把抽象的状态具体化，以实际的例子出发来加以理解。下面是几个具体的状态的定义：
@@ -44,7 +48,7 @@
 
 ##### 递归题目精讲
 
-- 例题001：[二叉树的最大深度](https://leetcode.cn/problems/maximum-depth-of-binary-tree/)
+- 例题A_001：[二叉树的最大深度](https://leetcode.cn/problems/maximum-depth-of-binary-tree/)
 
     - 题目描述
 
@@ -92,7 +96,7 @@
         };
         ```
 
-- 例题002：[二叉树的最小深度](https://leetcode.cn/problems/minimum-depth-of-binary-tree/)
+- 例题A_002：[二叉树的最小深度](https://leetcode.cn/problems/minimum-depth-of-binary-tree/)
 
   - 题目描述
 
@@ -143,7 +147,7 @@
       };
       ```
 
-- 例题003：[N 叉树的最大深度](https://leetcode.cn/problems/maximum-depth-of-n-ary-tree/)
+- 例题A_003：[N 叉树的最大深度](https://leetcode.cn/problems/maximum-depth-of-n-ary-tree/)
 
   - 题目描述
 
@@ -193,7 +197,7 @@
       };
       ```
 
-- 例题004：[二叉树的前序遍历](https://leetcode.cn/problems/binary-tree-preorder-traversal/description/)
+- 例题A_004：[二叉树的前序遍历](https://leetcode.cn/problems/binary-tree-preorder-traversal/description/)
 
   - 题目描述
 
@@ -248,7 +252,7 @@
       };
       ```
 
-- 例题005：[N 叉树的前序遍历](https://leetcode.cn/problems/n-ary-tree-preorder-traversal/)
+- 例题A_005：[N 叉树的前序遍历](https://leetcode.cn/problems/n-ary-tree-preorder-traversal/)
 
   - 题目描述
 
@@ -299,7 +303,7 @@
       };
       ```
 
-- 例题006：[求 f(x,n)](https://www.luogu.com.cn/problem/B2147)
+- 例题A_006：[求 f(x,n)](https://www.luogu.com.cn/problem/B2147)
   - 题目描述
     - 已知 $f(x,n)=\sqrt{n+\sqrt{(n-1)+\sqrt{(n-2)+\sqrt{...+2+\sqrt{1+x}}}}}$。
     - 计算 $f$ 的值。
@@ -340,7 +344,7 @@
       }
       ```
   
-- 例题007：[再求 f(x,n)](https://www.luogu.com.cn/problem/B2148)
+- 例题A_007：[再求 f(x,n)](https://www.luogu.com.cn/problem/B2148)
   - 题目描述
     - $f(x,n)=\dfrac{x}{n+\dfrac{x}{(n-1)+\dfrac{x}{(n-2)+\dfrac{\vdots}{\cdots+\dfrac{x}{1+x}}}}}$
     - 用递归函数求解。
@@ -379,7 +383,7 @@
       }
       ```
   
-- 例题008：[子集](https://leetcode.cn/problems/subsets/)
+- 例题A_008：[子集](https://leetcode.cn/problems/subsets/)
 
   - 题目描述
 
@@ -433,7 +437,7 @@
       };
       ```
   
-- 例题009：[子集 II](https://leetcode.cn/problems/subsets-ii/)
+- 例题A_009：[子集 II](https://leetcode.cn/problems/subsets-ii/)
 
   - 题目描述
 
@@ -501,7 +505,7 @@
       };
       ```
 
-- 例题010：[组合总和](https://leetcode.cn/problems/combination-sum/)
+- 例题A_010：[组合总和](https://leetcode.cn/problems/combination-sum/)
 
   - 题目描述
 
@@ -562,7 +566,7 @@
       };
       ```
 
-- 例题011：[组合总和 II](https://leetcode.cn/problems/combination-sum-ii/)
+- 例题A_011：[组合总和 II](https://leetcode.cn/problems/combination-sum-ii/)
 
   - 题目描述
 
@@ -632,7 +636,7 @@
       };
       ```
 
-- 例题012：[组合总和 III](https://leetcode.cn/problems/combination-sum-iii/)
+- 例题A_012：[组合总和 III](https://leetcode.cn/problems/combination-sum-iii/)
 
   - 题目描述
 
@@ -700,7 +704,7 @@
       };
       ```
 
-- 例题013：[组合](https://leetcode.cn/problems/combinations/)
+- 例题A_013：[组合](https://leetcode.cn/problems/combinations/)
 
   - 题目描述
 
@@ -762,7 +766,7 @@
       };
       ```
 
-- 例题014：[全排列](https://leetcode.cn/problems/permutations/)
+- 例题A_014：[全排列](https://leetcode.cn/problems/permutations/)
 
   - 题目描述
 
@@ -823,7 +827,7 @@
       };
       ```
 
-- 例题015：[二叉树的所有路径](https://leetcode.cn/problems/binary-tree-paths/description/)
+- 例题A_015：[二叉树的所有路径](https://leetcode.cn/problems/binary-tree-paths/description/)
 
   - 题目描述
     ```
@@ -848,7 +852,7 @@
     容易知道，对于树上的任意两个节点u，v ，它们之间的路径是唯一的（简单路径）。
     本题我们总是从根节点到其他节点，所以在定义状态时没必要对根节点增加一维。所以我们可以这样定义状态：
     
-    状态的定义：f(cur)表示从根节点到当前节点cur的路径（并不包含当前节点的值）
+    状态的定义：f(cur, path)表示从根节点到当前节点cur的路径path（并不包含当前节点的值）
     状态的转移：添加当前节点cur的值到路径里去，然后继续递归其孩子节点
     状态的边界：叶子节点
     ```
@@ -862,7 +866,7 @@
 
     - 拿上面的样例，举个例子，比如当前cur在节点5，那么此时path保存的节点为{1, 2}而不是{1, 2, 5}，当前节点5并没有保存在path里。
 
-    - 有了状态，接下来是转移，转移显然就是递归的去跑当前节点的左右孩子节点。当其左右孩子节点都跑完后，我们需要"还原现场"，也即大家口中的"回溯"。既然要"还原现场"，那么我们肯定得知道原来的现场是什么，就是还没进入dfs函数内部的状态，那就是cur和path。在dfs函数内部我们对path做了修改，path.push_back()，所以还原就是path.pop_back()。
+    - 有了状态，接下来是转移，转移显然就是递归的去跑当前节点的左右孩子节点。当其左右孩子节点每次跑完后，我们都需要"还原现场"，也即大家口中的"回溯"。既然要"还原现场"，那么我们肯定得知道原来的现场是什么，就是还没进入dfs函数内部的状态，那就是cur和path。在dfs函数内部我们对path做了修改，path.push_back()，所以还原就是path.pop_back()。
 
     - 在这里，可能很多初学者会疑惑，我们dfs(cur -> left)，dfs(cur -> right)也修改了path呀。其实这还是不理解"递归"的表现，当dfs(cur -> left)函数执行完后，它也会还原当初进入dfs(cur -> left)时的状态，dfs(cur -> right)同理，所以当下面的代码dfs(cur -> left)和dfs(cur -> right)执行完后，唯一对path做了修改的就只是前面操作的path.push_back()，所以我们最后path.pop_back()也就还原了。
 
@@ -930,6 +934,640 @@
                 return ans;
             }
         };
+        ```
+
+        
+
+- 例题A_016：[迷宫](https://www.luogu.com.cn/problem/P1605)
+
+    - 题目描述
+
+        ```
+        给定一个N*M方格的迷宫，迷宫里有T处障碍，障碍处不可通过。
+        在迷宫中移动有上下左右四种方式，每次只能移动一个方格。数据保证起点上没有障碍。
+        给定起点坐标和终点坐标，每个方格最多经过一次，问有多少种从起点坐标到终点坐标的方案。
+        1<= N, M <= 5
+        ```
+
+    - 题目样例
+
+        ```
+        第一行为三个正整数N,M,T，分别表示迷宫的长宽和障碍总数。
+        第二行为四个正整数SX, SY(起点坐标), FX, FY(终点坐标) 
+        接下来T行, 每行两个正整数，表示障碍点的坐标。
+        
+        输入
+        2 2 1
+        1 1 2 2
+        1 2
+        输出
+        1
+        ```
+
+    - 题目解析
+
+        ```
+        状态的定义：f(vis, x, y)表示哪些点坐标已经被访问过了vis（并不包含当前节点）, 当前在坐标(x, y)处
+        状态的转移：枚举下一个可以访问的坐标
+        状态的边界：从当前坐标出发已没有可以访问的坐标or找到终点坐标了
+        ```
+
+        - 状态的转移：$f(vis, x, y) \rightarrow f(newvis, newx, newy)$
+        - 状态的边界：$xxx$
+
+    - 代码实现
+
+        - 如下，我们把vis放在全局变量里
+
+            ```cpp
+            #include <bits/stdc++.h>
+            using namespace std;
+            
+            const int N = 5 + 2;
+            const int dx[4] = {1, 0, -1, 0}, dy[4] = {0, 1, 0, -1};
+            int n, m, t, sx, sy, fx, fy, vis[N][N], broken[N][N], ans;
+            
+            void dfs(int x, int y) {
+              // 边界
+              if (x == fx && y == fy) {
+                ans += 1;
+                return ;
+              }
+              for (int i = 0; i < 4; ++i) {
+                int newx = x + dx[i], newy = y + dy[i];
+                // 先判断(newx, newy)是否在方格内，再判断不是障碍物点且没被访问
+                if (newx >= 1 && newx <= n && newy >= 1 && newy <= m && vis[newx][newy] + broken[newx][newy] == 0) {
+                  vis[x][y] = 1;
+                  dfs(newx, newy);
+                  // 回溯
+                  vis[x][y] = 0;
+                }
+              }
+            }
+            int main() {
+              cin >> n >> m >> t;
+              cin >> sx >> sy >> fx >> fy;
+              while (t--) {
+                int x, y;
+                cin >> x >> y;
+                broken[x][y] = 1;
+              }
+              dfs(sx, sy);
+              cout << ans;
+              return 0;
+            }
+            ```
+
+- 例题A_017：[01迷宫](https://www.luogu.com.cn/problem/P1141)
+
+    - 题目描述
+
+        ```
+        有一个仅由数字0与1组成的n×n格迷宫。若你位于一格0上，那么你可以移动到相邻4格中的某一格1上，同样若你位于一格1上，那么你可以移动到相邻4格中的某一格0上。你的任务是：对于给定的迷宫，询问从某一格开始能移动到多少个格子（包含自身）
+        ```
+
+    - 题目样例
+
+        ```
+        第一行为两个正整数n,m
+        下面n行, 每行n个字符, 字符只可能是0或1, 字符之间没有空格。
+        接下来m行, 每行两个用空格分隔的正整数i, j, 询问从这一格（i, j）开始能移动到多少格。
+        
+        输入
+        2 2
+        01
+        10
+        1 1
+        2 2
+        输出
+        4
+        4
+        ```
+
+    - 题目解析
+
+        ```
+        "从某一格开始能移动到多少个格子"类似于洪水覆盖(flood fill), 我们可以使用dfs标记每个联通块, 每个联通块里格子所能到的数量都是相等的，等于联通块的大小。
+        状态的定义：f(x, y, color, number)表示从某个格子出发, 走到坐标(x, y)处，已经标记颜色color的格子有number个（当前节点还未被标记）
+        状态的转移：枚举下一个可以访问的坐标
+        状态的边界：从当前坐标出发已没有可以访问的坐标
+        ```
+
+        - 状态的转移：$f(x, y, color, number) \rightarrow f(newx, newy, color, number + 1)$
+        - 状态的边界：$f(x, y, color, number), 没有可以访问的坐标了$
+        - 时间复杂度：$每个格子只会被标记（染色）一次且只访问一次，所以总的时间复杂度为O(n ^ 2)$
+
+    - 代码实现
+
+        - 如下，注意number传的是引用哟
+
+            ```cpp
+            #include <bits/stdc++.h>
+            using namespace std;
+            
+            const int N = 1e3 + 5;
+            const int dx[4] = {1, 0, -1, 0}, dy[4] = {0, 1, 0, -1};
+            // 由于a初始值只有0或1, 后面我们对数组a的标记（染色）可以直接从2开始
+            int n, m, a[N][N], mp[N * N];
+            
+            void dfs(int x, int y, int color, int &number) {
+              int expected = 1 - a[x][y];
+              // 标记当前节点
+              a[x][y] = color;
+              number += 1;
+              for (int i = 0; i < 4; ++i) {
+                int newx = x + dx[i], newy = y + dy[i];
+                if (newx >= 1 && newx <= n && newy >= 1 && newy <= n && a[newx][newy] == expected) {
+                  dfs(newx, newy, color, number);
+                }
+              }
+            }
+            int main() {
+              cin >> n >> m;
+              for (int i = 1; i <= n; ++i) {
+                string str;
+                cin >> str;
+                for (int j = 0, sz = str.size(); j < sz; ++j) {
+                  if (str[j] == '0') a[i][j + 1] = 0;
+                  else a[i][j + 1] = 1;
+                }
+              }
+              // 尝试从每个点坐标出发开始标记（染色）
+              int color = 1, number = 0;
+              for (int i = 1; i <= n; ++i) {
+                for (int j = 1; j <= n; ++j) {
+                  if (a[i][j] < 2) {
+                    dfs(i, j, ++color, number);
+                    mp[color] = number;
+                    number = 0;
+                  }
+                }
+              }
+              while (m--) {
+                int i, j;
+                cin >> i >> j;
+                cout << mp[a[i][j]] << "\n";
+              }
+              return 0;
+            }
+            ```
+
+- 例题A_018：[自然数的拆分问题](https://www.luogu.com.cn/problem/P2404)
+
+    - 题目描述
+
+        ```
+        任何一个大于1的自然数n，总可以拆分成若干个小于n的自然数之和。现在给你一个自然数n，要求你求出n的拆分成一些数字的和。每个拆分后的序列中的数字从小到大排序。然后你需要输出这些序列，其中字典序小的序列需要优先输出。2≤n≤8。
+        ```
+
+    - 题目样例
+
+        ```
+        输入
+        7
+        输出
+        1+1+1+1+1+1+1
+        1+1+1+1+1+2
+        1+1+1+1+3
+        1+1+1+2+2
+        1+1+1+4
+        1+1+2+3
+        1+1+5
+        1+2+2+2
+        1+2+4
+        1+3+3
+        1+6
+        2+2+3
+        2+5
+        3+4
+        ```
+
+    - 题目解析
+
+        ```
+        状态的定义：f(n, v)表示前面的拆分序列为v，还剩下大小为n的数字需要拆分
+        状态的转移：枚举下一个数
+        状态的边界：不可再拆分的时候
+        ```
+
+        - 状态的转移：$f(n, v) \rightarrow f(n - x, newv), x >= v.back()$
+        - 状态的边界：$f(0, v), 剩下的数字为0，已拆分完$
+
+    - 代码实现
+
+        - 如下，枚举的时候x是从小到大的，自然符合字典序小优先的要求
+
+            ```cpp
+            #include <bits/stdc++.h>
+            using namespace std;
+            
+            int n;
+            void dfs(int n, vector<int> &v) {
+              // 递归的边界
+              if (n == 0) {
+                for (int i = 0, sz = v.size(); i < sz; ++i) {
+                  if (i == 0) cout << v[i];
+                  else cout << "+" << v[i];
+                }
+                cout << "\n";
+                return ;
+              }
+              // 枚举下一个数
+              for (int x = v.back(); x <= n; ++x) {
+                v.push_back(x);
+                dfs(n - x, v);
+                v.pop_back();
+              }
+            }
+            int main() {
+              cin >> n;
+              vector<int> v;
+              for (int x = 1; x < n; ++x) {
+                v.push_back(x);
+                dfs(n - x, v);
+                v.pop_back();
+              }
+              return 0;
+            }
+            ```
+
+- 例题A_019：[图的 m 着色问题](https://www.luogu.com.cn/problem/P2819)
+
+    - 题目描述
+
+        ```
+        给定无向连通图G和m种不同的颜色, 用这些颜色为图G的各顶点着色，每个顶点着一种颜色。如果有一种着色法使 
+        G中每条边的2个顶点着不同颜色，则称这个图是m可着色的，求一共有多少不同的着色法。n <= 100, 保证答案不超过20000
+        ```
+
+    - 题目样例
+
+        ```
+        第1行有3个正整数n,k,m，表示给定的图G有n个顶点和k条边，m种颜色。接下来的k行中，每行有2个正整数u,v表示图G的一条边(u,v)。
+        
+        输入
+        5 8 4
+        1 2
+        1 3
+        1 4
+        2 3
+        2 4
+        2 5
+        3 4
+        4 5
+        输出
+        48
+        ```
+
+    - 题目解析
+
+        ```
+        考虑按顶点编号从小到大依次对每个点染色，从第1个点开始，依次填入和前面不冲突的数，直到到第n+1一个点时表示这种方法可行。
+        
+        状态的定义：f(u, color)表示当前染色到第u个点（当前节点还未染色），其前面的节点[1, u - 1]都已染好色保存在color中
+        状态的转移：枚举当前节点u染什么色
+        状态的边界：所有节点都已染好色
+        ```
+
+        - 状态的转移：$f(u, color) \rightarrow f(u + 1, \{color + i\}), 枚举当前节点染色为i$
+        - 状态的边界：$f(u, color), u == n + 1$
+
+    - 代码实现
+
+        ```cpp
+        #include <bits/stdc++.h>
+        using namespace std;
+        const int N = 100 + 5;
+        vector<int> g[N];
+        int color[N], n, k, m, ans = 0;
+        // 一个坑点，图可能存在孤立的点
+        bool check(int u) {
+          for (auto &v: g[u]) {
+            if (color[u] == color[v]) return 0;
+          }
+          return 1;
+        }
+        void dfs(int u) {
+          if (u == n + 1) {
+            ans += 1;
+            return ;
+          }
+          for (int i = 1; i <= m; ++i) {
+            color[u] = i;
+            if (!check(u)) continue;
+            dfs(u + 1);
+          }
+          color[u] = 0;
+        }
+        int main() {
+          cin >> n >> k >> m;
+          for (int i = 1; i <= k; ++i) {
+            int u, v;
+            cin >> u >> v;
+            g[u].push_back(v);
+            g[v].push_back(u);
+          }
+          dfs(1);
+          cout << ans << "\n";
+          return 0;
+        }
+        ```
+
+- 例题A_020：[求细胞数量](https://www.luogu.com.cn/problem/P1451)
+
+    - 题目描述
+
+        ```
+        一矩形阵列由数字0到9组成，数字1到9代表细胞，细胞的定义为沿细胞数字上下左右若还是细胞数字则为同一细胞，求给定矩形阵列的细胞个数。
+        ```
+        
+    - 题目样例
+
+        ```
+        第一行两个整数代表矩阵大小n和m。1≤n,m≤100
+        接下来n行，每行一个长度为m的只含字符0到9的字符串，代表这个n×m的矩阵。
+        
+        输入
+        4 10
+        0234500067
+        1034560500
+        2045600671
+        0000000089
+        输出
+        4
+        ```
+
+    - 题目解析
+
+        ```
+        属于同一个细胞的数字都染成相同的颜色，每次从未被染色的数字(>=1)出发搜索。
+        
+        状态的定义：f(x, y, color)表示从某一个位置出发，当前走到位置(x, y)处，涂色为color
+        状态的定义：枚举下一个可以染色的位置
+        状态的边界：没有可染色的位置了
+        ```
+
+        - 状态的转移：$f(x, y, color) \rightarrow f(newx, newy, color), 枚举下一个可以染色的位置$
+        - 状态的边界：$f(x, y, color), 没有下一个位置可以染色了$
+        - 时间复杂度：$每个位置最多被染色一次，所以总的时间复杂度O(N * M)$
+        
+    - 代码实现：
+
+        - 如下，染色编号从START开始计数
+
+            ```cpp
+            #include <bits/stdc++.h>
+            using namespace std;
+            
+            const int N = 1e2 + 5, START = 10;
+            const int dx[4] = {1, 0, -1, 0}, dy[4] = {0, 1, 0, -1};
+            int n, m, a[N][N];
+            void dfs(int x, int y, const int &color) {
+              a[x][y] = color;
+              for (int i = 0; i < 4; ++i) {
+                int newx = x + dx[i], newy = y + dy[i];
+                if (newx >= 1 && newx <= n && newy >= 1 && newy <= m) {
+                  if (a[newx][newy] >= 1 && a[newx][newy] <= 9)
+                    dfs(newx, newy, color);
+                }
+              }
+            }
+            int main() {
+              cin >> n >> m;
+              for (int i = 1; i <= n; ++i) {
+                string str;
+                cin >> str;
+                for (int j = 0; j < m; ++j) {
+                  if (str[j] == '0') a[i][j + 1] = 0;
+                  else a[i][j + 1] = 1;
+                }
+              }
+              int color = START;
+              for (int i = 1; i <= n; ++i)
+                for (int j = 1; j <= m; ++j)
+                  if (a[i][j] >= 1 && a[i][j] <= 9)
+                    dfs(i, j, ++color);
+              cout << color - START << "\n";
+              return 0;
+            }
+            ```
+
+- 例题A_021：[装箱问题](https://www.luogu.com.cn/problem/P1049)
+
+    - 题目描述
+
+        ```
+        有一个箱子容量为V，同时有n个物品，每个物品有一个体积。现在从n个物品中，任取若干个装入箱内（也可以不取），使箱子的剩余空间最小。输出这个最小值。0 <= n <= 30, 1 <= V <= 20000。
+        ```
+
+    - 题目样例
+
+        ```
+        第一行共一个整数V，表示箱子容量。
+        第二行共一个整数n，表示物品总数。
+        接下来n行，每行有一个正整数，表示第i个物品的体积。
+        
+        输入
+        24
+        6
+        8
+        3
+        12
+        7
+        9
+        7
+        输出
+        0
+        ```
+
+    - 题目解析
+
+        ```
+        状态的定义：f(i, volume)表示前i个物品（第i个物品还未被选择），体积为volume
+        状态的转移：枚举第i个物品选or不选
+        状态的边界：所有物品都考虑完了
+        ```
+
+        - 状态的转移：
+          - $f(i, volume) \rightarrow f(i + 1, volume + 0), 不选第i个物品$
+          - $f(i, volume) \rightarrow f(i + 1, volume + v(i)), 选第i个物品$
+        - 状态的边界：
+          - $f(i, volume), i == n + 1, 所有物品都已考虑完$
+        - 时间复杂度：$每个物品都可选or可不选, 所以总的时间复杂度为O(2 ^ N)$
+
+    - 代码实现
+
+        - 如下
+
+            ```cpp
+            #include <bits/stdc++.h>
+            using namespace std;
+            const int N = 30 + 5;
+            int V, n, v[N], ans;
+            void dfs(int i, int volume) {
+              // 剪枝
+              if (volume > V) return ;
+              // 边界
+              if (i == n + 1) {
+                ans = std::min(ans, V - volume);
+                return ;
+              }
+              // 不选
+              dfs(i + 1, volume + 0);
+              // 选
+              dfs(i + 1, volume + v[i]);
+            }
+            int main() {
+              cin >> V >> n;
+              for (int i = 1; i <= n; ++i)
+                cin >> v[i];
+              ans = V;
+              dfs(1, 0);
+              cout << ans;
+              return 0;
+            }
+            ```
+
+- 例题A_022：[部落卫队](https://www.luogu.com.cn/problem/P1692)
+
+    - 题目描述
+
+        ```
+        原始部落byteland中的居民们为了争夺有限的资源，经常发生冲突。几乎每个居民都有他的仇敌。部落酋长为了组织一支保卫部落的队伍，希望从部落的居民中选出最多的居民入伍，并保证队伍中任何2个人都不是仇敌。给定byteland部落中居民间的仇敌关系，编程计算组成部落卫队的最佳方案。若有多种方案可行，输出字典序最大的方案。
+        ```
+
+    - 题目样例
+
+        ```
+        输入：第1行有2个正整数n和m，表示 byteland 部落中有n个居民，居民间有m个仇敌关系
+             接下来的m行中，每行有2个正整数u和v，表示居民u与居民v是仇敌。
+        
+        输出：第1行是部落卫队的人数；第2行是卫队组成Xi, Xi=0表示居民i不在卫队中，Xi=1表示居民i在卫队中。
+        
+        输入
+        7  10
+        1  2
+        1  4
+        2  4
+        2  3
+        2  5
+        2  6
+        3  5
+        3  6
+        4  5
+        5  6
+        输出
+        3
+        1 0 1 0 0 0 1
+        ```
+
+    - 题目解析
+
+        ```
+        状态的定义：f(i, v)表示前i个居民（还未考虑第i个居民），目前已选出的居民编号为v
+        状态的转移：枚举第i个居民的选择
+        状态的边界：所有居民都考虑完了
+        ```
+
+        - 状态的转移：
+          - $f(i, v) \rightarrow f(i + 1, \{v + i\}), 选第i个居民$
+          - $f(i, v) \rightarrow f(i + 1, v), 不选第i个居民$
+        - 状态的边界：
+          - $f(i, v), i == n + 1, 所有居民都已考虑完了$
+
+    - 代码实现
+
+        - 如下，在状态转移时先考虑选再考虑不选，这样先搜索到的自然就是字典序大的方案。
+
+            ```cpp
+            #include <bits/stdc++.h>
+            using namespace std;
+            
+            const int N = 1e2 + 5;
+            int n, m, a[N][N], ans_cnt;
+            vector<int> ans;
+            
+            void dfs(int i, vector<int> &v) {
+              // 边界
+              if (i == n + 1) {
+                if (v.size() > ans_cnt) {
+                  ans_cnt = v.size();
+                  ans = v;
+                }
+                return ;
+              }
+              bool ok = 1;
+              for (auto &c: v) {
+                if (a[c][i] == 1 || a[i][c] == 1) {
+                  ok = 0;
+                }
+              }
+              // 选第i个
+              if (ok) {
+                v.push_back(i);
+                dfs(i + 1, v);
+                v.pop_back();
+              }
+              // 不选第i个
+              dfs(i + 1, v);
+            }
+            int main() {
+              cin >> n >> m;
+              for (int i = 1; i <= m; ++i) {
+                int u, v;
+                cin >> u >> v;
+                a[u][v] = a[v][u] = 1;    
+              }
+              vector<int> v;
+              dfs(1, v);
+              cout << ans.size() << "\n";
+              for (int i = 1; i <= n; ++i) {
+                bool found = 0;
+                for (auto &c: ans) {
+                  if (i == c) {
+                    found = 1;
+                    break;
+                  }
+                }
+                if (found) cout << 1 << " ";
+                else cout << 0 << " ";
+              }
+              return 0;
+            }
+            ```
+
+- 例题A_023：[八皇后 Checker Challenge](https://www.luogu.com.cn/problem/P1219)
+
+    - 题目描述
+
+        ```
+        一个如下的6×6的跳棋棋盘，有六个棋子被放置在棋盘上，使得每行、每列，每条对角线（包括两条主对角线的所有平行线）上至多有一个棋子。
+        
+        上面的布局可以用序列2 4 6 1 3 5来描述，第i个数字表示在第i行的相应位置（列）有一个棋子。这只是棋子放置的一个解。请编一个程序找出所有棋子放置的解。并把它们以上面的序列方法输出，解按字典顺序排列。请输出前3个解。最后一行是解的总个数。
+        ```
+
+    - 题目样例
+
+        <div align=center >
+            <img alt="xxxx" src="./pics/queen.png" style="zoom:0%" />
+        </div>
+
+        ```
+        输入：一个正整数n，表示棋盘是n×n大小的。6≤n≤13
+        输出：前三行为前三个解，每个解的两个数字之间用一个空格隔开。第四行只有一个数字，表示解的总数。
+        输入
+        6
+        输出
+        2 4 6 1 3 5
+        3 6 2 5 1 4
+        4 1 5 2 6 3
+        4
+        ```
+
+    - 题目解析
+
+        ```
+        
         ```
 
         
