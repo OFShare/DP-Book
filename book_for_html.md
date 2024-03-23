@@ -1572,6 +1572,85 @@
 
         
 
+- 例题A_024：[判断二分图](https://leetcode.cn/problems/is-graph-bipartite/)
+
+    - 题目描述
+
+        ```
+        给定一个无向图（这个图可能不是连通图），如果图是二分图，返回true；否则，返回false 。
+        二分图定义：如果能将一个图的节点集合分割成两个独立的子集A和B，并使图中的每一条边的两个节点一个来自A集合，一个来自B集合，就将这个图称为二分图 。
+        ```
+
+    - 题目样例
+
+        <div align=center >
+            <img alt="xxxx" src="./pics/is-graph-bipartite1.jpg" style="zoom:0%" />
+            <img alt="xxxx" src="./pics/is-graph-bipartite1.jpg" style="zoom:0%" />
+        </div>
+
+        ```
+        上面左边的图
+        输入：graph = [[1,2,3],[0,2],[0,1,3],[0,2]]
+        输出：false
+        解释：不能将节点分割成两个独立的子集，以使每条边都连通一个子集中的一个节点与另一个子集中的一个节点。
+        
+        上面右边的图
+        输入：graph = [[1,3],[0,2],[1,3],[0,2]]
+        输出：true
+        解释：可以将节点分成两组:{0, 2}和{1, 3}。
+        ```
+
+    - 题目解析
+
+        ```
+        我们任选一个从未染过色的节点出发，尝试将这个节点的联通块黑白染色，如果能成，说明这个联通块是二分图。
+        
+        状态的定义：f(u, color)表示从当前节点u出发（当前节点还未染色），对节点u所在的联通块能否染色为二分图
+        状态的转移：继续染色节点u的相邻节点
+        状态的边界：没有可以继续染色的节点了
+        ```
+
+        - 状态的转移：$f(u, color) \rightarrow f(v, 1 - color), v是u的相邻节点$
+        - 状态的边界：$f(u, color), 相邻节点v都已染好色了$
+        - 时间复杂度：$每个节点一旦染完色后颜色就定了，所以每个节点做多染色一次，时间复杂度为O(N)$
+
+    - 代码实现
+
+        - 如下
+
+            ```cpp
+            class Solution {
+            public:
+                // vis[u] 的取值-1（从未被访问过）, 0（被访问过染色为白）, 1（被访问过染色为黑）
+                int vis[105];
+                // 从当前节点u出发（当前节点染色为color），能否染色为二分图
+                int dfs(int u, int color, const vector<vector<int>>& g) {
+                    vis[u] = color;
+                    for (auto &v: g[u]) {
+                        if (vis[v] == vis[u]) return 0;
+                        else if (vis[v] == -1 && !dfs(v, 1 - color, g)) return 0;
+                    }
+                    return 1;
+                }
+                bool isBipartite(vector<vector<int>>& graph) {
+                    int n = graph.size();
+                    std::memset(vis, -1, sizeof vis);
+                    for (int i = 0; i < n; ++i)
+                        if (vis[i] == -1 && !dfs(i, 0, graph))
+                            return 0;
+                    return 1;
+                }
+            };
+            ```
+
+- 例题A_025：[汉诺塔问题](https://leetcode.cn/problems/hanota-lcci/)
+
+    - 
+
+- 例题A_026：[优美的排列](https://leetcode.cn/problems/beautiful-arrangement/)
+
+- 
+
 - 下面几行始终保留，不要删除
 
 ##### 递归题目精讲, 下一个主题？

@@ -31,14 +31,12 @@
   |       [01迷宫](https://www.luogu.com.cn/problem/P1141)       |                                                              |                                                              |
   |  [自然数的拆分问题](https://www.luogu.com.cn/problem/P2404)  |                                                              |                                                              |
   |  [图的 m 着色问题](https://www.luogu.com.cn/problem/P2819)   |                                                              |                                                              |
-  |                                                              |                                                              |                                                              |
   |     [求细胞数量](https://www.luogu.com.cn/problem/P1451)     |                                                              |                                                              |
   |      [装箱问题](https://www.luogu.com.cn/problem/P1049)      |                                                              |                                                              |
   |      [部落卫队](https://www.luogu.com.cn/problem/P1692)      |                                                              |                                                              |
   | [八皇后 Checker Challenge](https://www.luogu.com.cn/problem/P1219) |                                                              |                                                              |
   |                                                              |                                                              |                                                              |
   | [判断二分图](https://leetcode.cn/problems/is-graph-bipartite/) |                                                              |                                                              |
-  | [可能的二分法](https://leetcode.cn/problems/possible-bipartition/) |                                                              |                                                              |
   |   [汉诺塔问题](https://leetcode.cn/problems/hanota-lcci/)    |                                                              |                                                              |
   | [优美的排列](https://leetcode.cn/problems/beautiful-arrangement/) |                                                              |                                                              |
   |  [漂亮数组](https://leetcode.cn/problems/beautiful-array/)   |                                                              |                                                              |
@@ -59,6 +57,7 @@
 |     [图像渲染](https://leetcode.cn/problems/flood-fill/)     |                                                              |          |
   |  [Lake Counting S](https://www.luogu.com.cn/problem/P1596)   |                                                              |          |
   |      [填涂颜色](https://www.luogu.com.cn/problem/P1162)      |                                                              |          |
+  | [可能的二分法](https://leetcode.cn/problems/possible-bipartition/) |                                                              |          |
   |      [新汉诺塔](https://www.luogu.com.cn/problem/P1242)      |                                                              |          |
   
   
