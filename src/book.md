@@ -1580,12 +1580,12 @@
         - 状态的边界：$f(i, v), i == n + 1, 填完所有行了$
         
     - 代码实现
-    
-    - 如下, 由于我们是一行一行且列也是从小到大填的棋子，自然满足题目要求的字典序排序
-    
-        ```cpp
-        #include <bits/stdc++.h>
-        using namespace std;
+
+        - 如下, 由于我们是一行一行且列也是从小到大填的棋子，自然满足题目要求的字典序排序
+
+            ```cpp
+            #include <bits/stdc++.h>
+            using namespace std;
             
             using pii = std::pair<int, int>;
             int n, cnt = 0;
@@ -1637,7 +1637,7 @@
               return 0;
             }
             ```
-    
+
 - 例题A_024：[判断二分图](https://leetcode.cn/problems/is-graph-bipartite/)
 
     - 题目描述
