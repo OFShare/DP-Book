@@ -21,9 +21,10 @@
   - ...
 - 如果我们把状态看作图的节点，状态之间的转移看作一条有向边，那么就构成我们常说的有向无环图（DAG）。
 <div align=center >
-    <img alt="xxxx" src="./pics/dag.jpg" style="zoom:30%" />
+    <img alt="xxxx" src="../pics/dag.jpg" style="zoom:50%" />
     <p> 图一 DAG </p>
 </div>
+
 
 
 ##### 如何理解”状态的边界“
@@ -60,7 +61,7 @@
     - 题目样例
 
       <div align=center >
-      <img alt="aa" src="./pics/maximum-depth-of-binary-tree.jpg" style="zoom:0%"/>
+      <img alt="aa" src="../pics/maximum-depth-of-binary-tree.jpg" style="zoom:0%"/>
       <p> 样例 </p>
       </div>
 
@@ -108,7 +109,7 @@
   - 题目样例
 
     <div align=center >
-    <img alt="aa" src="./pics/maximum-depth-of-binary-tree.jpg" style="zoom:0%"/>
+    <img alt="aa" src="../pics/maximum-depth-of-binary-tree.jpg" style="zoom:0%"/>
     <p> 样例 </p>
     </div>
 
@@ -159,7 +160,7 @@
   - 题目样例
 
     <div align=center >
-    <img alt="aa" src="./pics/maximum-depth-of-n-ary-tree.png" style="zoom:0%"/>
+    <img alt="aa" src="../pics/maximum-depth-of-n-ary-tree.png" style="zoom:0%"/>
     <p> 样例 </p>
     </div>
 
@@ -208,7 +209,7 @@
   - 题目样例
 
     <div align=center >
-    <img alt="aa" src="./pics/pre_order.jpg" style="zoom:0%"/>
+    <img alt="aa" src="../pics/pre_order.jpg" style="zoom:0%"/>
     <p> 二叉树 </p>
     </div>
 
@@ -263,7 +264,7 @@
   - 题目样例
 
     <div align=center >
-    <img alt="aa" src="./pics/n-ary-tree-preorder-traversal.png" style="zoom:0%"/>
+    <img alt="aa" src="../pics/n-ary-tree-preorder-traversal.png" style="zoom:0%"/>
     <p> N叉树样例 </p>
     </div>
 
@@ -837,7 +838,7 @@
   - 题目样例
 
     <div align=center >
-        <img alt="aa" src="./pics/paths.jpg" style="zoom:0%"/>
+        <img alt="aa" src="../pics/paths.jpg" style="zoom:0%"/>
         <p>  </p>
       </div>
 
@@ -1549,7 +1550,7 @@
     - 题目样例
 
         <div align=center >
-            <img alt="xxxx" src="./pics/queen.png" style="zoom:0%" />
+            <img alt="xxxx" src="../pics/queen.png" style="zoom:0%" />
         </div>
 
         ```
@@ -1584,8 +1585,8 @@
     - 题目样例
 
         <div align=center >
-            <img alt="xxxx" src="./pics/is-graph-bipartite1.jpg" style="zoom:0%" />
-            <img alt="xxxx" src="./pics/is-graph-bipartite1.jpg" style="zoom:0%" />
+            <img alt="xxxx" src="../pics/is-graph-bipartite1.jpg" style="zoom:0%" />
+            <img alt="xxxx" src="../pics/is-graph-bipartite1.jpg" style="zoom:0%" />
         </div>
 
         ```
