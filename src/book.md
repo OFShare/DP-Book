@@ -1,6 +1,8 @@
 ##### 写在前面的话
 
 - “什么？你说那个天生废灵根的宗门弃子修成了至尊境界。”
+- 人生如此复杂，机会多得像稠密图，我们没理由认输。尽管我们走不了最短路，但图仍是连通图，TLE之前，没有一个节点叫失败。
+- 人生就像动态规划，你的一个又一个阶段是由上天安排的，而你，决定的是在这一阶段可以由上一阶段的哪些状态转移而来。越勤奋，越幸运，并不代表这一次你决策的方向有多么优秀，却代表着现在的这一个状态能够续写多少可能的结果。
 
 ##### 如何理解"状态"
 
@@ -331,7 +333,7 @@
   
       float dfs(float x, float n) {
         if (n == 1) return std::sqrt(1 + x);
-      return std::sqrt(n + dfs(x, n - 1));
+        return std::sqrt(n + dfs(x, n - 1));
       }
   
       int main() {
@@ -1569,33 +1571,32 @@
 
         ```
         我们一行一行的填棋子，如果当前填到第i行，那么我们只要知道前i行填的棋子分别在哪儿，我们就可以确定填第i行的棋子了，所以我们如下设计状态。
-        
-    状态的定义：f(i, v)表示前i行（还未填第i行的棋子），填了哪些棋子v
+        状态的定义：f(i, v)表示前i行（还未填第i行的棋子），填了哪些棋子v
         状态的转移：在第i行填一个棋子，且和前面的棋子不冲突（不在同行、同列、同对角线上）
-        状态的边界：填完所有行了
+    状态的边界：填完所有行了    
         ```
         
         - 状态的转移：$f(i, v) \rightarrow f(i + 1, newv), 在第i行填一个棋子且和前面填的棋子不冲突$
         - 状态的边界：$f(i, v), i == n + 1, 填完所有行了$
         
     - 代码实现
-
-        - 如下, 由于我们是一行一行且列也是从小到大填的棋子，自然满足题目要求的字典序排序
-
-            ```cpp
+    
+    - 如下, 由于我们是一行一行且列也是从小到大填的棋子，自然满足题目要求的字典序排序
+    
+        ```cpp
         #include <bits/stdc++.h>
-            using namespace std;
+        using namespace std;
             
-        using pii = std::pair<int, int>;
+            using pii = std::pair<int, int>;
             int n, cnt = 0;
-    vector<vector<int> > ans;
+            vector<vector<int> > ans;
             void dfs(int i, vector<pii> &v) {
-          if (i == n + 1) {
+              if (i == n + 1) {
                 cnt += 1;
                 // 保存前3个解
-            if (cnt <= 3) {
+                if (cnt <= 3) {
                   vector<int> tmp;
-              for (auto &c: v) tmp.push_back(c.second);
+                  for (auto &c: v) tmp.push_back(c.second);
                   ans.push_back(tmp);
                 }
                 return ;
@@ -1605,36 +1606,38 @@
               // 检查和前面的棋子不在同一列(j != y)
               // 检查和前面的棋子不在同一对角线, 即斜率不为1or-1
               // 斜率为1(i - x) == (j - y) * 1，斜率为-1(i - x) == (j - y) * -1
-          for (int j = 1; j <= n; ++j) {
+              for (int j = 1; j <= n; ++j) {
                 bool ok = 1;
-        for (auto &c: v) {
+                for (auto &c: v) {
                   int x = c.first, y = c.second;
-              if (j == y || (i - x) == (j - y) * 1 || (i - x) == (j - y) * -1) {
+                  if (j == y || (i - x) == (j - y) * 1 || (i - x) == (j - y) * -1) {
                     ok = 0;
                     break;
                   }
                 }
                 // 如果能在(i, j)填棋子
-            if (ok) {
+                if (ok) {
                   v.push_back({i, j});
-              dfs(i + 1, v);
+                  dfs(i + 1, v);
                   v.pop_back();
-            }
+                }
               }
-    }
+            }
             int main() {
-      cin >> n;
+              cin >> n;
               vector<pii> v;
-          dfs(1, v);
+              dfs(1, v);
               for (auto &v: ans) {
-                for (auto &c: v) cout << c << " ";
+                for (auto &c: v) {
+                  cout << c << " ";
+                }
                 cout << "\n";
               }
               cout << cnt;
               return 0;
             }
             ```
-
+    
 - 例题A_024：[判断二分图](https://leetcode.cn/problems/is-graph-bipartite/)
 
     - 题目描述
@@ -1841,5 +1844,6 @@
 
 ##### 递归题目精讲, 下一个主题？
 
-- ff
 - 
+
+  
