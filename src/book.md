@@ -1568,10 +1568,72 @@
     - 题目解析
 
         ```
+        我们一行一行的填棋子，如果当前填到第i行，那么我们只要知道前i行填的棋子分别在哪儿，我们就可以确定填第i行的棋子了，所以我们如下设计状态。
         
+    状态的定义：f(i, v)表示前i行（还未填第i行的棋子），填了哪些棋子v
+        状态的转移：在第i行填一个棋子，且和前面的棋子不冲突（不在同行、同列、同对角线上）
+        状态的边界：填完所有行了
         ```
-
         
+        - 状态的转移：$f(i, v) \rightarrow f(i + 1, newv), 在第i行填一个棋子且和前面填的棋子不冲突$
+        - 状态的边界：$f(i, v), i == n + 1, 填完所有行了$
+        
+    - 代码实现
+
+        - 如下, 由于我们是一行一行且列也是从小到大填的棋子，自然满足题目要求的字典序排序
+
+            ```cpp
+        #include <bits/stdc++.h>
+            using namespace std;
+            
+        using pii = std::pair<int, int>;
+            int n, cnt = 0;
+    vector<vector<int> > ans;
+            void dfs(int i, vector<pii> &v) {
+          if (i == n + 1) {
+                cnt += 1;
+                // 保存前3个解
+            if (cnt <= 3) {
+                  vector<int> tmp;
+              for (auto &c: v) tmp.push_back(c.second);
+                  ans.push_back(tmp);
+                }
+                return ;
+              }
+              // 尝试在第i行j列填一个棋子(i, j)
+              // 由于是在第i行填棋子, 肯定和前面的行不同, 自然满足每行至多有一个棋子
+              // 检查和前面的棋子不在同一列(j != y)
+              // 检查和前面的棋子不在同一对角线, 即斜率不为1or-1
+              // 斜率为1(i - x) == (j - y) * 1，斜率为-1(i - x) == (j - y) * -1
+          for (int j = 1; j <= n; ++j) {
+                bool ok = 1;
+        for (auto &c: v) {
+                  int x = c.first, y = c.second;
+              if (j == y || (i - x) == (j - y) * 1 || (i - x) == (j - y) * -1) {
+                    ok = 0;
+                    break;
+                  }
+                }
+                // 如果能在(i, j)填棋子
+            if (ok) {
+                  v.push_back({i, j});
+              dfs(i + 1, v);
+                  v.pop_back();
+            }
+              }
+    }
+            int main() {
+      cin >> n;
+              vector<pii> v;
+          dfs(1, v);
+              for (auto &v: ans) {
+                for (auto &c: v) cout << c << " ";
+                cout << "\n";
+              }
+              cout << cnt;
+              return 0;
+            }
+            ```
 
 - 例题A_024：[判断二分图](https://leetcode.cn/problems/is-graph-bipartite/)
 
@@ -1702,6 +1764,78 @@
 - 例题A_026：[优美的排列](https://leetcode.cn/problems/beautiful-arrangement/)
 
     - 题目描述
+
+      ```
+      假设有从1到n的n个整数(1 <= n <= 15)。用这些整数构造一个数组perm（下标从1开始），只要满足下述条件之一，该数组就是一个优美的排列：
+      perm[i]能够被i整除
+      i能够被perm[i]整除
+      给你一个整数n，返回可以构造的优美排列的数量。
+      ```
+
+    - 题目样例
+
+      ```
+      输入：n = 2
+      输出：2
+      解释：
+      第 1 个优美的排列是 [1,2]：
+          - perm[1] = 1 能被 i = 1 整除
+          - perm[2] = 2 能被 i = 2 整除
+      第 2 个优美的排列是 [2,1]:
+          - perm[1] = 2 能被 i = 1 整除
+          - i = 2 能被 perm[2] = 1 整除
+      ```
+
+    - 题目解析
+
+      ```
+      状态的定义：f(i, v)表示构造前i个整数perm（第i个位置还未填），使用了哪些数v
+      状态的转移：枚举第i个位置填哪个数
+      状态的边界：填完所有数了
+      ```
+
+      - 状态的转移：$f(i, v) \rightarrow f(i + 1, newv), 枚举第i个位置填哪个数$
+      - 状态的边界：$f(i, v), v.size() == n, 填完所有数了$
+
+    - 代码实现
+
+      - 如下
+
+        ```cpp
+        class Solution {
+        public:
+            int ans = 0;
+            void dfs(int i, unordered_set<int> &v, const int &n) {
+                if (i == n + 1) {
+                    ans += 1;
+                    return ;
+                }
+                // 枚举第i个位置填哪个数, v保存的前面填了哪些数
+                for (int num = 1; num <= n; ++num) {
+                    if (v.count(num) == 0 && (num % i == 0 || i % num == 0)) {
+                        v.insert(num);
+                        dfs(i + 1, v, n);
+                        v.erase(num);
+                    }
+                }
+            }
+            int countArrangement(int n) {
+                unordered_set<int> v;
+                dfs(1, v, n);
+                return ans;
+            }
+        };
+        ```
+
+- 例题A_027：[漂亮数组](https://leetcode.cn/problems/beautiful-array/)
+
+- 例题A_028：[破冰游戏](https://leetcode.cn/problems/yuan-quan-zhong-zui-hou-sheng-xia-de-shu-zi-lcof/)
+
+- 例题A_029：[消除游戏](https://leetcode.cn/problems/elimination-game/)
+
+- 例题A_030：[排序数组](https://leetcode.cn/problems/sort-an-array/)
+
+- 例题A_031：[寻找两个正序数组的中位数](https://leetcode.cn/problems/median-of-two-sorted-arrays/)
 
 - 下面几行始终保留，不要删除
 

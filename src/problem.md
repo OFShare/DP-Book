@@ -59,6 +59,7 @@
   |      [填涂颜色](https://www.luogu.com.cn/problem/P1162)      |                                                              |          |
   | [可能的二分法](https://leetcode.cn/problems/possible-bipartition/) |                                                              |          |
   |      [新汉诺塔](https://www.luogu.com.cn/problem/P1242)      |                                                              |          |
+  |       [约瑟夫](https://www.luogu.com.cn/problem/P1145)       |                                                              |          |
   
   
 
