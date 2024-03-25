@@ -2060,7 +2060,7 @@
         - 状态的边界：$f(nums), nums.size() <= 1$
         - 时间复杂度：由于归并排序每次都将当前待排序的序列折半成两个子序列递归调用，然后再合并两个有序的子序列，而每次合并两个有序的子序列需要O(n)的时间复杂度，所以我们可以列出归并排序运行时间T(n)的递归表达式：
           - $T(N) = 2 * T(N / 2) + O(N)$
-          - 根据**主定理**（解上面的递归式方程）我们可以得出归并排序的时间复杂度为$O(NlongN)$
+          - 根据**主定理**（解上面的递归式方程）我们可以得出归并排序的时间复杂度为$O(NlogN)$
 
     - 代码实现
 
@@ -2107,11 +2107,75 @@
         
         算法的时间复杂度应该为O(log (m+n)) 。
         ```
+        
+    - 题目样例
+
+        ```
+        输入：nums1 = [1,3], nums2 = [2]
+        输出：2.00000
+        解释：合并数组 = [1,2,3] ，中位数 2
+        
+        输入：nums1 = [1,2], nums2 = [3,4]
+        输出：2.50000
+        解释：合并数组 = [1,2,3,4] ，中位数 (2 + 3) / 2 = 2.5
+        ```
+
+    - 题目解析
+
+        ```
+        求两个正序数组的中位数 => 转换为 求两个正序数组的第k小的数
+        
+        状态的定义：f(L1, R1, L2, R2, k, nums1, nums2)表示在有序数组nums1中的[L1, R1]范围内，有序数组nums2中的[L2, R2]范围内，寻找第k小的数。
+        状态的转移：mid1 = L1 + k/2, mid2 = R2 + k/2, num1和nums2分别取出最小的k/2个元素，比较nums1[mid1]和nums[mid2]，如果nums1[mid1] < nums2[mid2]说明nums1里的[L1, mid1]的数肯定不会是答案，可以排除掉，在剩下的范围继续搜，同理num1[mid] > nums[mid]。
+        状态的边界：看下面的代码注释
+        ```
+
+        - 状态的转移:
+          - $f(L1, R1, L2, R2, k, nums1, nums2) \rightarrow f(newL1, R1, L2, R2, k', nums1, nums2), 排除nums1里的前k/2个元素$
+          - $f(L1, R1, L2, R2, k, nums1, nums2) \rightarrow f(L1, R1, newL2, R2, k', nums1, nums2), 排除nums2里的前k/2个元素$
+        - 时间复杂度：
+          - $每次排除k/2个元素，所以时间复杂度为O(logK)，k = (nums1.size() + nums2.size()) / 2$
+
+    - 代码实现
+
+        - 如下，转换为求前第k小（大）的这种技巧很常见
+
+            ```cpp
+            class Solution {
+            public:
+                // 中位数：转化成寻找两个有序数组中的第k小的数
+                // k -> k/2 -> k/4 -> ...
+                // 每次排除k/2个元素
+                int dfs(int L1, int R1, int L2, int R2, int k, const vector<int>& nums1, const vector<int>& nums2) {
+                    // 递归边界一：第k小的数在nums2中
+                    if (L1 > R1) return nums2[L2 + k - 1];
+                    // 递归边界二：第k小的数在nums1中
+                    if (L2 > R2) return nums1[L1 + k - 1];
+                    // 递归边界三：两者取小
+                    if (k == 1) return std::min(nums1[L1], nums2[L2]);
+            
+                    int mid1 = std::min(L1 + k / 2 - 1, R1);
+                    int mid2 = std::min(L2 + k / 2 - 1, R2);
+                    // 排除k/2个数字后，在剩下的范围内继续搜（k - k/2）小的数
+                    if (nums1[mid1] < nums2[mid2]) return dfs(mid1 + 1, R1, L2, R2, k - (mid1 - L1 + 1), nums1, nums2);
+                    return dfs(L1, R1, mid2 + 1, R2, k - (mid2 - L2 + 1), nums1, nums2);
+                }
+                double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+                    int n1 = nums1.size(), n2 = nums2.size();
+                    // 奇数
+                    if ((n1 + n2) % 2) return dfs(0, n1 - 1, 0, n2 - 1, (n1 + n2 + 1) / 2, nums1, nums2);
+                    // 偶数
+                    else {
+                        int a = dfs(0, n1 - 1, 0, n2 - 1, (n1 + n2 ) / 2, nums1, nums2);
+                        int b = dfs(0, n1 - 1, 0, n2 - 1, (n1 + n2 ) / 2 + 1, nums1, nums2);
+                        return 1.0 * (a + b) / 2;
+                    }
+                }
+            };
+            ```
 
 - 下面几行始终保留，不要删除
 
 ##### 递归题目精讲, 下一个主题？
 
 - 
-
-  
