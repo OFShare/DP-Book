@@ -4,9 +4,9 @@
 
 - 状态的定义一般用$f(...)$表示，在代码具体实现时函数一般用$dfs(...)$表示，状态的存放一般用数组$dp(...)$表示。
 
-- 函数的声明：$int \ dfs(int \ i, \ int \ sum, \ const \ int \ \&n, \ const \ vector\!<\!int\!> \ \&nums)$，凡是用const + &表示的变量，都与状态的转移无关。
+- 函数的声明：$int \ dfs(int \ i, \ int \ sum, \ const \ int \ \&n, \ const \ vector\!<\!int\!> \ \&nums)$，凡是用**const  + &**表示的变量，都与状态的转移无关。
 
-- 对于绝大多数初学者，"递归"，"回溯"基本上就是学习路上最大的拦路虎，有的初学者要花费几周甚至几个月才能理解其中的奥秘。希望大家好好理解，相信你也能够理解计算机中递归的美。
+- 对于绝大多数初学者，$递归$，$回溯$基本上就是学习路上最大的拦路虎，有的初学者要花费几周甚至几个月才能理解其中的奥秘。希望大家好好理解，相信你也能够理解计算机中递归的美。
 
 - |                             题目                             |                           参考代码                           |                           简要说明                           |
   | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
@@ -60,6 +60,9 @@
   | [可能的二分法](https://leetcode.cn/problems/possible-bipartition/) |                                                              |          |
   |      [新汉诺塔](https://www.luogu.com.cn/problem/P1242)      |                                                              |          |
   |       [约瑟夫](https://www.luogu.com.cn/problem/P1145)       |                                                              |          |
+  |  [最短的桥](https://leetcode.cn/problems/shortest-bridge/)   |                                                              |          |
+  | [连通网络的操作次数](https://leetcode.cn/problems/number-of-operations-to-make-network-connected/) |                                                              |          |
+  |   [螺旋矩阵](https://leetcode.cn/problems/spiral-matrix/)    |                                                              |          |
   
   
 
