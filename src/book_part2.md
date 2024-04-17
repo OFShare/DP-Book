@@ -410,7 +410,7 @@
 
   - 代码实现
 
-    - 如下，由于本题数据范围过大，$O(N^2)$的做法并不能通过，可以去这提交[最长递增子序列](https://leetcode.cn/problems/longest-increasing-subsequence/)，参考代码here。。。
+    - 如下，由于本题数据范围过大，$O(N^2)$的做法并不能通过，可以去这提交[最长递增子序列](https://leetcode.cn/problems/longest-increasing-subsequence/)，参考代码here：[longest-increasing-subsequence.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/longest-increasing-subsequence.cpp)
 
       ```cpp
       #include <bits/stdc++.h>
@@ -501,7 +501,7 @@
 
   - 代码实现
 
-    - 如下，本题范围是1e5，所以$O(N^2)$的做法会超时，可以去这提交数据范围更小的题[最长公共子序列](https://leetcode.cn/problems/longest-common-subsequence/)，参考代码here。。。555
+    - 如下，本题范围是1e5，所以$O(N^2)$的做法会超时，可以去这提交数据范围更小的题[最长公共子序列](https://leetcode.cn/problems/longest-common-subsequence/)，参考代码here：[longest-common-subsequence.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/longest-common-subsequence.cpp)
 
     - 在记忆化搜索的实现中，未访问过的状态一般初始化为-1，也就是代码里的$std::memset(dp, -1, sizeof\ \ dp)$这行
     
