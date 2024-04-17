@@ -381,4 +381,160 @@
     - 所以上面一共实现了四份代码（除去滚动数组优化的实现），希望大家好好理解。对于这四种实现虽然本质都相同，但是在一些时间复杂度要求更高的题目中，**人人为我**的递推实现中，常常可以优化转移的时间，如**前缀和优化DP、线段树优化DP...**，为啥可以优化转移呢？因为在**人人为我**的DP实现中哪些要依赖的状态都已经计算好了，所以我们可以对已计算好的状态利用一些数据结构等技巧优化转移。
     - 对于后面要讲的DP问题，在时间复杂度可以通过题目的情况下，我就只实现其中一种了，由于个人偏好我常常用记忆化搜索的方式实现。
 
+- 例题B_003：[最长上升子序列 LIS](https://www.luogu.com.cn/problem/AT_chokudai_S001_h)
+
+  - 题目描述
+
+    ```
+    给定一个长为n的序列ai，求这个序列的最长单调上升子序列长度。N <= 1e5
+    ```
+
+  - 题目样例
+
+    ```
+    // 输入
+    5
+    3 1 5 4 2
+    
+    // 输出
+    2
+    ```
+
+  - 题目解析
+
+    - 先给出经典的$O(N ^ 2)$的做法
+    - 状态的定义：$f(i)表示前i个元素[1: i], 以第i个元素结尾时，最长单调上升子序列长度$
+    - 状态的转移：$f(i) = max\{ f(j) + 1 \}, 且\ a[j] \ < \ a[i]$
+    - 状态的边界：$f(i) = 1, 只有自己一个元素$
+    - 时间复杂度：$状态数为O(N), 转移要O(N), 所以总的时间复杂度为O(N ^ 2)$
+
+  - 代码实现
+
+    - 如下，由于本题数据范围过大，$O(N^2)$的做法并不能通过，可以去这提交[最长递增子序列](https://leetcode.cn/problems/longest-increasing-subsequence/)，参考代码here。。。
+
+      ```cpp
+      #include <bits/stdc++.h>
+      using namespace std;
+      
+      const int N = 5e3 + 5;
+      int n, a[N], dp[N], ans = 1;
+      
+      int main() {
+        cin >> n;
+        for (int i = 1; i <= n; ++i) cin >> a[i];
+        
+        for (int i = 1; i <= n; ++i) {
+          dp[i] = 1;
+          for (int j = 1; j < i; ++j) {
+            if (a[j] < a[i]) {
+              dp[i] = std::max(dp[i], dp[j] + 1);
+            }
+          }
+          ans = std::max(ans, dp[i]);
+        }
+        cout << ans << "\n";
+        return 0;
+      }
+      ```
+
+  - 题目解析二
+
+    - 本题存在一个经典的贪心 + 二分做法
+    - 状态的定义：$f(i)表示从左往右扫描数组时，最长递增子序列长度为i时，这个子序列结尾的最小值$
+    - 由于这里结尾保存的最小值，体现了贪心的思想
+    - 由于是从左往右扫描，当扫描到$a[i]$时，如何快速插入$a[i]$到合适位置用到了二分，因为按照上面的状态的定义，长度为3的子序列的结尾的值，肯定小于长度为4的子序列的结尾的值，即长度越大值越大，所以可以二分。
+
+  - 代码实现
+
+    - 如下，时间复杂度$O(N * logN)$，下面的实现中dp数组下标是从0开始的，所以$dp[i]$保存的长度就是$i + 1$
+
+      ```cpp
+      #include <bits/stdc++.h>
+      using namespace std;
+      
+      // dp[i]表示从左往右扫描数组时，最长递增子序列长度为i+1时，这个子序列结尾的最小值
+      vector<int> dp;
+      
+      int n, x;
+      
+      int main() {
+      
+        cin >> n;
+        for (int i = 1; i <= n; ++i) {
+          cin >> x;
+          auto it = std::lower_bound(dp.begin(), dp.end(), x);
+          
+          if (it == dp.end()) dp.push_back(x);
+          else *it = x;
+        }
+        cout << dp.size() << "\n";
+        return 0;
+      }
+      ```
+
+- 例题B_004：[最长公共子序列 LCS](https://www.luogu.com.cn/problem/P1439)
+
+  - 题目描述
+
+    ```
+    给出1,2,...,n的两个排列P1和P2，求它们的最长公共子序列。N <= 1e5
+    ```
+
+  - 题目样例
+
+    ```
+    // 输入
+    5 
+    3 2 1 4 5
+    1 2 3 4 5
+    
+    // 输出
+    3
+    ```
+
+  - 题目解析
+
+    - 先给出经典的$O(N ^ 2)$的做法
+    - 状态的定义：$f(i, \ j)表示排列P1的前i个元素，排列P2的前j个元素，它们的最长的公共子序列的长度$
+    - 状态的转移：$f(i, \ j) \begin{cases} \leftarrow f(i - 1, \ j - 1) \ + \ 1，\ \ P1[i] \ = P2[j] \\ \\ \leftarrow max\{ f(i - 1, \ j), f(i, j - 1) \} \ + \ 0，\ \ P1[i] \ != P2[j] \end{cases}$
+    - 状态的边界：$f(0, \ j) = 0, f(i, \ 0) = 0$
+
+  - 代码实现
+
+    - 如下，本题范围是1e5，所以$O(N^2)$的做法会超时，可以去这提交数据范围更小的题[最长公共子序列](https://leetcode.cn/problems/longest-common-subsequence/)，参考代码here。。。555
+
+    - 在记忆化搜索的实现中，未访问过的状态一般初始化为-1，也就是代码里的$std::memset(dp, -1, sizeof\ \ dp)$这行
+    
+      ```cpp
+    // 记忆化搜索实现，时间复杂度O(N ^ 2)
+      #include <bits/stdc++.h>
+    using namespace std;
+      
+      const int N = 1e3 + 5;
+      int n, P1[N], P2[N], dp[N][N];
+      
+      // dp[i][j]：表示排列P1的前i个元素，排列P2的前j个元素，它们的最长的公共子序列的长度
+      int dfs(int i, int j) {
+        if (i == 0 || j == 0) return 0;
+        if (dp[i][j] != -1) return dp[i][j];
+        int ret = 0;
+        if (P1[i] == P2[j]) ret = std::max(ret, dfs(i - 1, j - 1) + 1);
+        return dp[i][j] = std::max({ret, dfs(i - 1, j), dfs(i, j - 1)});
+      }
+      
+      int main() {
+        cin >> n;
+        for (int i = 1; i <= n; ++i) cin >> P1[i];
+        for (int i = 1; i <= n; ++i) cin >> P2[i];
+        
+        std::memset(dp, -1, sizeof dp);
+        cout << dfs(n, n) << "\n";
+        return 0;
+      }
+      ```
+      
+
+  - 题目解析二
+    - 巧妙的转化为。。。
+
 ##### 不要删这行
