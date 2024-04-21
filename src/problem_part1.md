@@ -9,7 +9,9 @@
 
 - 状态的定义一般用$f(...)$表示，在代码具体实现时函数一般用$dfs(...)$表示，状态的存放一般用数组$dp(...)$表示。
 
-- 函数的声明：$int \ dfs(int \ i, \ int \ sum, \ const \ int \ \&n, \ const \ vector\!<\!int\!> \ \&nums)$，凡是用**const  + &**表示的变量，都与状态的转移无关。
+- 函数的声明：$int \ dfs(int \ i, \ int \ sum, \ const \ int \ \&n, \ const \ vector\!<\!int\!> \ \&nums)$，凡是用$const  + \&$表示的变量，都与状态的转移无关。
+
+- 联通块问题常见有$dfs、bfs、并查集$三种实现方式，$dfs$的实现有助于理解递归，所以本书绝大部分问题都是$dfs$实现的。
 
 - 对于绝大多数初学者，$递归$，$回溯$基本上就是学习路上最大的拦路虎，有的初学者要花费几周甚至几个月才能理解其中的奥秘。希望大家好好理解，相信你也能够理解计算机中递归的美。
 
@@ -54,24 +56,23 @@
 
 - 如下，只给出参考代码
 
-- |                             题目                             |                           参考代码                           | 简要说明 |
-  | :----------------------------------------------------------: | :----------------------------------------------------------: | :------: |
-  | [二叉树的中序遍历](https://leetcode.cn/problems/binary-tree-inorder-traversal/description/) | [binary-tree-inorder-traversal.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/binary-tree-inorder-traversal.cpp) |  $入门$  |
-  | [二叉树的后序遍历](https://leetcode.cn/problems/binary-tree-postorder-traversal/description/) | [binary-tree-postorder-traversal.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/binary-tree-postorder-traversal.cpp) |  $入门$  |
-  | [N 叉树的后序遍历](https://leetcode.cn/problems/n-ary-tree-postorder-traversal/description/) | [n-ary-tree-postorder-traversal.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/n-ary-tree-postorder-traversal.cpp) |  $入门$  |
-| [二叉树的最近公共祖先](https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/) | [lowest-common-ancestor-of-a-binary-tree.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/lowest-common-ancestor-of-a-binary-tree.cpp) |          |
-  |     [图像渲染](https://leetcode.cn/problems/flood-fill/)     | [flood-fill.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/flood-fill.cpp) |          |
-  | [岛屿的周长](https://leetcode.cn/problems/island-perimeter/) | [island-perimeter.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/island-perimeter.cpp) |          |
-  | [边界着色](https://leetcode.cn/problems/coloring-a-border/)  | [coloring-a-border.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/coloring-a-border.cpp) |          |
-  |  [Lake Counting S](https://www.luogu.com.cn/problem/P1596)   | [P1596.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/P1596.cpp) |          |
-  |      [填涂颜色](https://www.luogu.com.cn/problem/P1162)      | [P1162.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/P1162.cpp) |          |
-  | [UCV2013H - Slick](https://www.luogu.com.cn/problem/SP15436) |                                                              |          |
-  | [AT_abc015_3](https://www.luogu.com.cn/problem/AT_abc015_3)  | [AT_abc015_3.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/AT_abc015_3.cpp) |          |
-  | [可能的二分法](https://leetcode.cn/problems/possible-bipartition/) |                                                              |          |
-  |      [新汉诺塔](https://www.luogu.com.cn/problem/P1242)      |                                                              |          |
-  |       [约瑟夫](https://www.luogu.com.cn/problem/P1145)       |                                                              |          |
-  |  [最短的桥](https://leetcode.cn/problems/shortest-bridge/)   |                                                              |          |
-  | [连通网络的操作次数](https://leetcode.cn/problems/number-of-operations-to-make-network-connected/) |                                                              |          |
-  |   [螺旋矩阵](https://leetcode.cn/problems/spiral-matrix/)    |                                                              |          |
-  |   [互质树](https://leetcode.cn/problems/tree-of-coprimes/)   |                                                              |          |
+- |                             题目                             |                           参考代码                           |
+  | :----------------------------------------------------------: | :----------------------------------------------------------: |
+  | [二叉树的中序遍历](https://leetcode.cn/problems/binary-tree-inorder-traversal/description/) | [binary-tree-inorder-traversal.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/binary-tree-inorder-traversal.cpp) |
+  | [二叉树的后序遍历](https://leetcode.cn/problems/binary-tree-postorder-traversal/description/) | [binary-tree-postorder-traversal.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/binary-tree-postorder-traversal.cpp) |
+  | [N 叉树的后序遍历](https://leetcode.cn/problems/n-ary-tree-postorder-traversal/description/) | [n-ary-tree-postorder-traversal.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/n-ary-tree-postorder-traversal.cpp) |
+| [二叉树的最近公共祖先](https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/) | [lowest-common-ancestor-of-a-binary-tree.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/lowest-common-ancestor-of-a-binary-tree.cpp) |
+  |     [图像渲染](https://leetcode.cn/problems/flood-fill/)     | [flood-fill.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/flood-fill.cpp) |
+  | [岛屿的周长](https://leetcode.cn/problems/island-perimeter/) | [island-perimeter.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/island-perimeter.cpp) |
+  | [边界着色](https://leetcode.cn/problems/coloring-a-border/)  | [coloring-a-border.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/coloring-a-border.cpp) |
+  |  [Lake Counting S](https://www.luogu.com.cn/problem/P1596)   | [P1596.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/P1596.cpp) |
+  |      [填涂颜色](https://www.luogu.com.cn/problem/P1162)      | [P1162.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/P1162.cpp) |
+  | [UCV2013H - Slick](https://www.luogu.com.cn/problem/SP15436) |                                                              |
+  | [AT_abc015_3](https://www.luogu.com.cn/problem/AT_abc015_3)  | [AT_abc015_3.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/AT_abc015_3.cpp) |
+  | [可能的二分法](https://leetcode.cn/problems/possible-bipartition/) |                             done                             |
+  |       [约瑟夫](https://www.luogu.com.cn/problem/P1145)       |                                                              |
+  |  [最短的桥](https://leetcode.cn/problems/shortest-bridge/)   |                                                              |
+  | [连通网络的操作次数](https://leetcode.cn/problems/number-of-operations-to-make-network-connected/) |                                                              |
+  |   [螺旋矩阵](https://leetcode.cn/problems/spiral-matrix/)    |                                                              |
+  |   [互质树](https://leetcode.cn/problems/tree-of-coprimes/)   |                                                              |
   

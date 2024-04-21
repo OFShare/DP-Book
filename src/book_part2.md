@@ -5,6 +5,8 @@
 ##### 写在前面的话
 
 - 经过第一卷的学习，我们应该已经比较熟悉递归、回溯，现在我们开始接触动态规划。当然，依旧是从简单的、经典的，一些问题入手。
+- 动态规划为何常常是算法竞赛的宠儿？可能的一个原因在于，动态规划的问题需要选手在（复杂的）给定题目的描述中，抽象出合理的状态以及高效的状态转移，这表达了选手高超的分析和建模的能力。
+- 状态如果以更加广义的方式理解，其实不仅仅只出现在DP里，如贪心时要维护的信息，$bfs$寻找最短路时的状态，滑动窗口维护[L, R)信息时的状态等等，广泛的我们可以把**需要维护的信息**都可以叫状态，状态是我们对问题的抽象表达，维护相关的信息/状态就可以顺利的解决问题了。
 
 ##### DP题目精讲
 
@@ -446,7 +448,7 @@
 
   - 代码实现
 
-    - 如下，时间复杂度$O(N * logN)$，下面的实现中dp数组下标是从0开始的，所以$dp[i]$保存的长度就是$i + 1$
+    - 如下，时间复杂度$O(N * logN)$，下面的实现中$dp$数组下标是从0开始的，所以$dp[i]$保存的长度就是$i + 1$
 
       ```cpp
       #include <bits/stdc++.h>
@@ -454,7 +456,6 @@
       
       // dp[i]表示从左往右扫描数组时，最长递增子序列长度为i+1时，这个子序列结尾的最小值
       vector<int> dp;
-      
       int n, x;
       
       int main() {
@@ -471,7 +472,7 @@
         return 0;
       }
       ```
-
+  
 - 例题B_004：[最长公共子序列 LCS](https://www.luogu.com.cn/problem/P1439)
 
   - 题目描述
@@ -501,7 +502,7 @@
 
   - 代码实现
 
-    - 如下，本题范围是1e5，所以$O(N^2)$的做法会超时，可以去这提交数据范围更小的题[最长公共子序列](https://leetcode.cn/problems/longest-common-subsequence/)，参考代码here：[longest-common-subsequence.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/longest-common-subsequence.cpp)
+    - 如下，本题范围是$1e5$，所以$O(N^2)$的做法会超时，可以去这提交数据范围更小的题[最长公共子序列](https://leetcode.cn/problems/longest-common-subsequence/)，参考代码here：[longest-common-subsequence.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/longest-common-subsequence.cpp)
 
     - 在记忆化搜索的实现中，未访问过的状态一般初始化为-1，也就是代码里的$std::memset(dp, -1, sizeof\ \ dp)$这行
     
@@ -535,6 +536,217 @@
       
 
   - 题目解析二
-    - 巧妙的转化为。。。
+    
+    - 巧妙的转化，将排列等价映射，转化成$LIS$问题
+    
+      ```
+      A:3 2 1 4 5
+      B:1 2 3 4 5
+      
+      我们不妨给它们重新标个号：把3标成a,把2标成b，把1标成c……于是变成：
+      
+      A: a b c d e
+      B: c b a d e
+      
+      这样标号之后，LCS长度显然不会改变。但是出现了一个性质：
+      
+      两个序列的子序列，一定是A的子序列。而A本身就是单调递增的。
+      因此这个子序列是单调递增的。
+      
+      换句话说，只要这个子序列在B中单调递增，它就是A的子序列。
+      
+      哪个最长呢？当然是B的LIS最长。
+      
+      自此完成转化。
+      ```
+  
+  - 代码实现二
+  
+    - 等价映射转化为$LIS$问题，而$LIS$问题可以做到$O(N * logN)$
+  
+      ```cpp
+      #include <bits/stdc++.h>
+      using namespace std;
+      
+      const int N = 1e5 + 5;
+      int mp[N], n, x;
+      
+      int LIS(const vector<int> &v) {
+        vector<int> dp;
+        for (auto &c: v) {
+          auto it = lower_bound(dp.begin(), dp.end(), c);
+          if (it == dp.end()) dp.push_back(c);
+          else *it = c;
+        }
+        return dp.size();
+      }
+      
+      int main() {  
+        cin >> n;
+        for (int i = 1; i <= n; ++i) {
+          cin >> x;
+          mp[x] = i;
+        }
+        vector<int> v;
+        for (int i = 1; i <= n; ++i) {
+          cin >> x;
+          v.push_back(mp[x]);
+        }
+        cout << LIS(v);
+        return 0;
+      }
+      ```
+
+- 例题B_005：[编辑距离](https://www.luogu.com.cn/problem/P2758)
+
+  - 题目描述
+
+    ```
+    设A和B是两个字符串。我们要用最少的字符操作次数，将字符串A转换为字符串B。这里所说的字符操作共有三种：
+    	1. 删除一个字符；
+    	2. 插入一个字符；
+    	3. 将一个字符改为另一个字符。
+    A,B均只包含小写字母
+    ```
+
+  - 题目样例
+
+    ```
+    输入：A = "horse", B = "ros"
+    输出：3
+    解释：
+    horse -> rorse (将 'h' 替换为 'r')
+    rorse -> rose (删除 'r')
+    rose -> ros (删除 'e')
+    ```
+
+  - 题目解析
+
+    - 状态的定义：$f(i, j)表示将字符串A的前i个字符[0:i]，使用三种操作转换为，字符串B的前j个字符[0:j]，的最少操作数$
+
+    - 状态的转移：$f(i, \ j) \begin{cases} \leftarrow f(i - 1, \ j) \ + \ 1，\ \ 删除A里的第i个字符 \\ \\ \leftarrow max\{ f(i, \ j - 1) \ + \ 1, \ \ 在A的末尾插入一个字符B[j] \\ \\ \leftarrow f(i - 1, j - 1) \} \ + \ 1，\ \ 将A[i]改为B[j]，注意到如果A[i] = B[j]那显然不用改了 \end{cases}$
+
+    - 状态的边界：$f(-1, j) = j + 1, f(i, -1) = i + 1$
+
+  - 代码实现
+
+    - 如下，记忆化实现
+
+      ```cpp
+      #include <bits/stdc++.h>
+      using namespace std;
+      
+      const int N = 2e3 + 5;
+      int dp[N][N];
+      string s1, s2;
+      
+      // dp[i][j]表示将字符串A的前i个字符[0:i]，使用三种操作转换为，字符串B的前j个字符[0:j]，的最少操作数
+      int dfs(int i, int j) {
+        if (i < 0) return j + 1;
+        if (j < 0) return i + 1;
+        if (dp[i][j] != -1) return dp[i][j];
+        int ret = i + j, flag = (s1[i] == s2[j]? 0: 1);
+        return dp[i][j] = std::min({dfs(i - 1, j) + 1, dfs(i, j - 1) + 1, dfs(i - 1, j - 1) + flag});
+      }
+      
+      int main() {
+        cin >> s1 >> s2;
+        
+        std::memset(dp, -1, sizeof dp);
+        cout << dfs(s1.size() - 1, s2.size() - 1) << "\n";
+        return 0;
+      }
+      ```
+
+- 例题B_006：[斐波那契乘积](https://www.luogu.com.cn/problem/P10095)
+
+  - 题目描述
+
+    ```
+    给定一个自然数n，求出将其表示为大于1的斐波那契数的乘积的方式数量。 N <= 1e18
+    斐波那契数指斐波那契数列（f(0) = 1, f(1) = 1, f(i) = f(i - 1) + f(i -2)）中出现的数。
+    ```
+
+  - 题目样例
+
+    ```
+    // 多组输入，第一行输入的数表示组数
+    5
+    2
+    7
+    8
+    40
+    64
+    
+    // 输出
+    1
+    0
+    2
+    2
+    3
+    
+    样例解释
+    2 = 2
+    7无法被表示为斐波那契乘积
+    8 = 8 = 2 * 2 * 2
+    40 = 5 * 8 = 2 * 2 * 2 * 5
+    64 = 8 * 8 = 2 * 2 * 2 * 8 = 2 * 2 * 2 * 2 * 2 * 2
+    ```
+
+  - 题目解析
+    - N看起来很大，不过斐波那契数增长的很快，所以在N的范围内，斐波那契数的个数并不是很多（不到90个），所以可以DP解决
+    - 由于是多组数据输入，我们先预处理$<=1e18$内的所有斐波那契数，存放到$nums$数组里
+    - 状态的定义：$f(i, x)表示nums数组里的前i个元素[0:i], 构成斐波那契数的乘积为x，的方式数量$
+    - 状态的转移：$f(i, \ x) \begin{cases} \leftarrow f(i, \ x \ / \ nums[i])，\ x \ \% \ nums[i] = 0, 拆出一个nums[i]出来（注意由于可能可以拆除多个nums[i], 所以i的下标不变） \\ \\ \leftarrow max\{ f(i - 1, \ x), \ \ 一个nums[i]也不选，直接跳过 \end{cases}$
+
+  - 代码实现
+
+    - 如下，记忆化实现，由于$dp[{i, \ x}]$里的x数值可能很多，所以用$std::map$保存状态
+
+    - 看样例解释拆分出来的数都是从小到大的，我们$dfs$拆分时是从大到小拆分的（$nums$本身是有序的），方案数是等价的/一样的
+
+      ```cpp
+      #include <bits/stdc++.h>
+      using namespace std;
+      
+      using ll = long long;
+      using pii = pair<int, ll>;
+      
+      const ll N = 1e18 + 5;
+      ll t, n;
+      map<pii, ll> dp;
+      vector<ll> nums;
+      
+      // dp[{i, x}]表示nums数组里的前i个元素[0:i]，构成斐波那契数的乘积为x，的方式数量
+      ll dfs(int i, ll x) {
+        if (i < 0) return x == 1? 1: 0;
+        if (dp.count({i, x})) return dp[{i, x}];
+        ll ret = 0;
+        // 选出一个nums[i]
+        if (x % nums[i] == 0) ret += dfs(i, x / nums[i]);
+        // 跳过nums[i]
+        ret += dfs(i - 1, x);
+        return dp[{i, x}] = ret;
+      }
+      
+      int main() {
+        // 先预处理出<=N范围内的所有斐波那契数，虽然看起来N很大，但是在这个范围内的斐波那契数不会太多
+        ll a = 1, b = 2, c;
+        while (b < N) {
+          nums.push_back(b);
+          c = a + b;
+          a = b;
+          b = c;
+        }
+        // cout << nums.size() << "\n";
+        
+        cin >> t;
+        while (t--) {
+          cin >> n;
+          cout << dfs(nums.size() - 1, n) << "\n";
+        }
+        return 0;
+      }
+      ```
 
 ##### 不要删这行
