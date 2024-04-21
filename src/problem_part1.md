@@ -69,8 +69,8 @@
   |      [填涂颜色](https://www.luogu.com.cn/problem/P1162)      | [P1162.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/P1162.cpp) |
   | [UCV2013H - Slick](https://www.luogu.com.cn/problem/SP15436) |                                                              |
   | [AT_abc015_3](https://www.luogu.com.cn/problem/AT_abc015_3)  | [AT_abc015_3.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/AT_abc015_3.cpp) |
-  | [可能的二分法](https://leetcode.cn/problems/possible-bipartition/) |                             done                             |
-  |       [约瑟夫](https://www.luogu.com.cn/problem/P1145)       |                                                              |
+  | [可能的二分法](https://leetcode.cn/problems/possible-bipartition/) | [possible-bipartition.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/possible-bipartition.cpp) |
+  |       [约瑟夫](https://www.luogu.com.cn/problem/P1145)       | [P1145_1.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/P1145_1.cpp)（模拟），[P1145_2.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/P1145_2.cpp)（等价映射） |
   |  [最短的桥](https://leetcode.cn/problems/shortest-bridge/)   |                                                              |
   | [连通网络的操作次数](https://leetcode.cn/problems/number-of-operations-to-make-network-connected/) |                                                              |
   |   [螺旋矩阵](https://leetcode.cn/problems/spiral-matrix/)    |                                                              |

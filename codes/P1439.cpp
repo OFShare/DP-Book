@@ -4,6 +4,7 @@ using namespace std;
 const int N = 1e5 + 5;
 int mp[N], n, x;
 
+// 将排列的LCS转化为LIS
 int LIS(const vector<int> &v) {
   vector<int> dp;
   for (auto &c: v) {
