@@ -5,8 +5,8 @@
 ##### 写在前面的话
 
 - 经过第一卷的学习，我们应该已经比较熟悉递归、回溯，现在我们开始接触动态规划。当然，依旧是从简单的、经典的，一些问题入手。
-- 动态规划为何常常是算法竞赛的宠儿？可能的一个原因在于，动态规划的问题需要选手在（复杂的）给定题目的描述中，抽象出合理的状态以及高效的状态转移，这表达了选手高超的分析和建模的能力。
-- 状态如果以更加广义的方式理解，其实不仅仅只出现在DP里，如贪心时要维护的信息，$bfs$寻找最短路时的状态，滑动窗口维护[L, R)信息时的状态等等，广泛的我们可以把**需要维护的信息**都可以叫状态，状态是我们对问题的抽象表达，维护相关的信息/状态就可以顺利的解决问题了。
+- 动态规划为何常常是算法竞赛的宠儿？可能的一个原因在于，动态规划的问题需要选手在（复杂的）给定题目的描述中，抽象出合理的状态以及高效的状态转移，这表达了选手高超的分析和建模的能力。（动态规划的思想：从复杂的题目背景中抽象出状态表示，然后设计它们之间的转移）
+- 状态如果以更加广义的方式理解，其实不仅仅出现在DP里，如贪心时要维护的信息，$bfs$寻找最短路时的状态，滑动窗口维护[L, R)信息时的状态等等，广泛的我们可以把**需要维护的信息**都可以叫状态，状态是我们对问题的抽象表达，维护相关的信息/状态就可以顺利的解决问题了。
 
 ##### DP题目精讲
 
@@ -748,5 +748,760 @@
         return 0;
       }
       ```
+
+- 例题B_007：[最大正方形](https://www.luogu.com.cn/problem/P1387)
+
+  - 题目描述
+
+    ```
+    在一个n×m的只包含0和1的矩阵里找出一个不包含0的最大正方形，输出边长。
+    ```
+
+  - 题目样例
+
+    ```
+    // 输入
+    4 4
+    0 1 1 1
+    1 1 1 0
+    0 1 1 0
+    1 1 0 1
+    
+    // 输出
+    2
+    ```
+
+  - 题目解析
+
+    ```
+    题目要求全1的最大正方形的边长，可以考虑每一个以（x, y）为右下角顶角的情况
+    ```
+
+    - 状态的定义：$f(x, y)表示以坐标(x, y)为右下角顶角的最大正方形的边长$，$up(x, y)表示以坐标(x, y)向上连续1的个数，同理left$
+    - 状态的转移：$f(x, y) = min\{\ f(x - 1, y - 1) + 1, \ left(x, y), \ up(x, y)\ \}$
+    - 时间复杂度：$从上到下，从左到右开始遍历，每个坐标（x，y）都只访问一次，所以总的时间复杂度为O(N ^ 2)$
+
+  - 代码实现
+
+    - 如下，看着类似的题[最大子矩阵](https://leetcode.cn/problems/max-submatrix-lcci/)（提示：直接枚举4个顶角$O(N ^ 4)$，可以枚举上下边界, 再求最大子段和$O(N ^ 3)$ 
+
+      ```cpp
+      #include <bits/stdc++.h>
+      using namespace std;
+      
+      const int N = 1e2 + 5;
+      int n, m, ans, a[N][N], dp[N][N], up[N][N], Left[N][N];
+      
+      int main() {
+        cin >> n >> m;
+        for (int i = 1; i <= n; ++i)
+          for (int j = 1; j <= m; ++j)
+            cin >> a[i][j];
+        
+        // 有三个状态dp, up, left，都可以在（从上到下，从左到右）一次遍历求得。
+        for (int x = 1; x <= n; ++x) {
+          for (int y = 1; y <= m; ++y) {
+            if (a[x][y] == 0) {
+              dp[x][y] = up[x][y] = Left[x][y] = 0;
+            }
+            else {
+              up[x][y] = up[x - 1][y] + 1;
+              Left[x][y] = Left[x][y - 1] + 1;
+              dp[x][y] = std::min({dp[x - 1][y - 1] + 1, Left[x][y], up[x][y]});
+            }
+            ans = std::max(ans, dp[x][y]);
+          }
+        }
+        cout << ans << "\n";
+        return 0;
+      }
+      ```
+
+- 例题B_008：[滑雪](https://www.luogu.com.cn/problem/P1434)
+
+  - 题目描述
+
+    ```
+    给定一个R x C整数矩阵，找出其中最长递增路径的长度。
+    对于每个单元格，你可以往上，下，左，右四个方向移动。 你不能在 角线方向上移动或移动到边界外（即不允许环绕）
+    ```
+
+  - 题目样例
+
+    ```
+    // 输入
+    3 3
+    9 9 4
+    6 6 8
+    2 1 1
+    
+    // 输出
+    4
+    ```
+
+    <div align=center >
+        <img alt="xxxx" src="../pics/longest-increasing-path-in-a-matrix.jpg" style="zoom:0%" />
+    </div>
+
+  - 题目解析
+
+    - 由于只能从值大的（A）走到值小的（B）,我们从A连一条有向边到B，即A --> B，那么整个滑雪过程其实就是再DAG图上滑动。属于我们上面讲的（显式）DAG模型。
+    - 状态的定义：$f(x, y)表示从坐标（x, y）出发，能获得的最长距离$
+    - 状态的转移：$f(x, y) = max\{ \ f(newx, newy) + 1，\ (newx, \ newy)是能从(x, y)一步可以走到的点的坐标\}$
+
+    - 时间复杂度：$O(R * C) = 状态数O(R * C) * 转移数O(1)$
+
+  - 代码实现
+
+    - 如下，相似的题[矩阵中的最长递增路径](https://leetcode.cn/problems/longest-increasing-path-in-a-matrix/)，[矩阵中严格递增的单元格数](https://leetcode.cn/problems/maximum-strictly-increasing-cells-in-a-matrix/)，[Integers on Grid](https://www.luogu.com.cn/problem/AT_abc224_e)（难，需要DP优化，后面统一在DP优化章节讲）
+
+    - 下面的代码是以某状态出发实现的，我们知道DAG模型，有两种对称的状态的定义，如果以某状态结束该怎么实现呢？
+
+      ```cpp
+      #include <bits/stdc++.h>
+      using namespace std;
+      
+      const int N = 1e2 + 5;
+      const int dx[4] = {1, 0, -1, 0}, dy[4] = {0, 1, 0, -1};
+      int R, C, ans, a[N][N], dp[N][N];
+      
+      // dp[x][y]表示从坐标（x, y）出发，能走的最长的距离
+      int dfs(int x, int y) {
+        if (dp[x][y] != -1) return dp[x][y];
+        int ret = 1;
+        for (int i = 0; i < 4; ++i) {
+          int newx = x + dx[i], newy = y + dy[i];
+          if (newx >= 1 && newx <= R && newy >= 1 && newy <= C && a[newx][newy] < a[x][y])
+            ret = std::max(ret, dfs(newx, newy) + 1);
+        }
+        return dp[x][y] = ret;
+      }
+      
+      int main() {
+        cin >> R >> C;
+        for (int i = 1; i <= R; ++i)
+          for (int j = 1; j <= C; ++j)
+            cin >> a[i][j];
+        
+        std::memset(dp, -1, sizeof dp);
+        for (int i = 1; i <= R; ++i)
+          for (int j = 1; j <= C; ++j)
+            ans = std::max(ans, dfs(i, j));
+        
+        cout << ans << "\n";
+        return 0;
+      }
+      ```
+
+- 例题B_009：[最长路](https://www.luogu.com.cn/problem/P1807)
+
+  - 题目描述
+
+    ```
+    设G为有n个顶点的带权有向无环图，G中各顶点的编号为1到n，请设计算法，计算图G中1到n的最长路。
+    ```
+
+  - 题目样例
+
+    ```
+    // n <= 1500, m <= 5e4
+    // 输入，顶点数n，边数m
+    2 1
+    1 2 1
+    
+    // 输出
+    1
+    ```
+
+  - 题目解析
+    - 带权有向无环图，DAG模型
+    - 状态的定义：$f(u)表示从节点u出发，到达节点n的最长路$
+    - 状态的转移：$f(u) = max\{\ f(v) + w，其中<u, v, w>, 表示有一条边u连接v，且权值为w\}$
+    - 时间复杂度：$O(V + E), 图中每个顶点，每条边，都只访问一次$
+
+  - 代码实现
+
+    - 如下，看下$std::array$的用法
+
+      ```cpp
+      #include <bits/stdc++.h>
+      using namespace std;
+      
+      const int N = 1500 + 5, INF = 1e9;
+      int n, m, dp[N];
+      vector<array<int, 2> > g[N];
+      
+      // dp[u]表示从节点u出发，到达节点n的最长路。
+      // 如果dp[u] = -INF, 表示从节点u出发，无法到达节点n
+      int dfs(int u) {
+        if (u == n) return 0;
+        if (dp[u] != -1) return dp[u];
+        int ret = -INF;
+        for (auto &c: g[u]) {
+          int v = c[0], w = c[1];
+          ret = std::max(ret, dfs(v) + w); 
+        }
+        return dp[u] = ret;
+      }
+      
+      int main() {
+        cin >> n >> m;
+        for (int i = 1; i <= m; ++i) {
+          int u, v, w;
+          cin >> u >> v >> w;
+          g[u].push_back({v, w});
+        }
+        
+        std::memset(dp, -1, sizeof dp);
+        int ans = dfs(1);
+        if (ans < 0) cout << -1;
+        else cout << ans;
+        return 0;
+      }
+      ```
+  
+- 例题B_010：[Backward Digit Sums](https://www.luogu.com.cn/problem/P1118)
+
+  - 题目描述
+
+    ```
+    写出一个1∼n 的排列a，然后每次将相邻两个数相加，构成新的序列，再对新序列进行这样的操作，显然每次构成的序列都比上一次的序列长度少1，直到只剩下一个数字位置。
+    
+    下面时一个例子
+    3 1 2 4
+    4 3 6
+    7 9
+    16
+    最后得到16这样一个数字
+    
+    现在给出n，以及最后得到的数字大小sum，请你求出最初的序列a。如果有多个答案，则输出字典序最小的哪个。
+    ```
+
+  - 题目样例
+
+    ```
+    // 输入
+    4 16
+    
+    // 输出
+    3 1 2 4
+    ```
+
+  - 题目解析
+
+    ```
+    可以发现当给出一个n时，最后的答案的系数对应杨辉三角的第n - 1行。
+    
+    所以可以先递推预处理杨辉三角，然后搜索。
+    ```
+
+  - 代码实现
+
+    - 如下，杨辉三角和组合数关系密切
+
+      ```cpp
+      #include <bits/stdc++.h>
+      using namespace std;
+      
+      /* 杨辉三角
+      1
+      1 1
+      1 2 1
+      1 3 3 1
+      1 4 6 4 1
+      */
+      
+      /*
+      n = 5时，最后的系数为1 4 6 4 1, 对应杨辉三角的第4行（从0开始）
+      
+      a     b     c     d      e
+        a+b   b+c   c+d     d+e
+         a+2b+c b+2c+d  c+2d+e
+          a+3b+3c+d b+3c+3d+e
+              a+4b+6c+4d+e
+      */
+      
+      const int N = 12 + 5;
+      // 杨辉三角
+      int n, sum, found, c[N][N], vis[N];
+      vector<int> ans;
+      
+      void dfs(int i, int s, vector<int> &path) {
+        // 剪枝
+        if (s > sum || found) return ;
+        if (i == n) {
+          if (s == sum) {
+            found = 1;
+            ans = path;
+          }
+          return ;
+        }
+        for (int num = 1; num <= n; ++num) {
+          if (vis[num] == 0) {
+            vis[num] = 1;
+            path.push_back(num);
+            // c[n - 1][i] * num, 也就是这一位在最后的答案里的权重
+            dfs(i + 1, s + c[n - 1][i] * num, path);
+            // 回溯
+            path.pop_back();
+            vis[num] = 0;
+          }
+        }
+      }
+      
+      int main() {
+        // 递推预处理杨辉三角
+        c[0][0] = 1;
+        for (int i = 1; i < N; ++i) {
+          for (int j = 0; j <= i; ++j) {
+            if (j == 0) c[i][j] = 1;
+            else c[i][j] = c[i - 1][j - 1] + c[i - 1][j];
+          }
+        }
+        cin >> n >> sum;
+        
+        vector<int> path;
+        dfs(0, 0, path);
+        if (found) {
+          for (auto &c: ans) cout << c << " ";
+        }
+        return 0;
+      }
+      ```
+
+- 例题B_011：[吃奶酪](https://www.luogu.com.cn/problem/P1433)
+
+  - 题目描述
+
+    ```
+    房间里放着N块奶酪。一只小老鼠要把它们都吃掉，问至少要跑多少距离？老鼠一开始在 (0,0) 点处。N <= 15
+    ```
+
+    - 对于两个点 $(x_1,y_1)$，$(x_2, y_2)$，两点之间的距离公式为 $\sqrt{(x_1-x_2)^2+(y_1-y_2)^2}$
+
+  - 题目样例
+
+    ```
+    // 输入
+    4
+    1 1
+    1 -1
+    -1 1
+    -1 -1
+    
+    // 输出
+    7.41（保留2位小数）
+    ```
+
+  - 题目解析一
+
+    - 状态的定义：$f(u, dis, cnt, vis)表示当前走到节点u，走过的距离为dis，走过哪些点的个数为cnt，走过哪些点保存在vis$
+    
+    - 状态的转移：$f(u, dis, cnt, vis) \rightarrow f(new\_u，new\_dis，new\_cnt，new\_vis)，枚举下一个未访问过的点new\_u$
+
+    - 代码实现如下, 交上去喜提$TLE$
+    
+      ```cpp
+      #include <bits/stdc++.h>
+      using namespace std;
+      
+      const int N = 15 + 2;
+      int n, vis[N];
+      float x[N], y[N], ans = 1e9;
+      
+      float distance(int u, int v) {
+        return std::sqrt((x[u] - x[v]) * (x[u] - x[v]) + (y[u] - y[v]) * (y[u] - y[v]));
+      }
+      
+      // vis并未保存在dfs函数的参数列表里，而是一个全局变量
+      // 状态<u, dis, cnt, vis>表示当前走到节点u，走过的距离为dis，走过哪些点的个数为cnt，走过哪些点保存在vis
+      void dfs(int u, float dis, int cnt) {
+        // 边界
+        if (cnt == n) {
+          ans = std::min(ans, dis);
+          return ;
+        }
+        // 剪枝
+        if (dis > ans) return ;
+        // 枚举下一个未选择的点
+        for (int v = 1; v <= n; ++v) {
+          if (vis[v] == 0) {
+            vis[v] = 1;
+            dfs(v, dis + distance(u, v), cnt + 1);      
+            vis[v] = 0;
+          }
+        }
+      }
+      
+      int main() {
+        cin >> n;
+        for (int i = 1; i <= n; ++i) cin >> x[i] >> y[i];
+        
+        vis[0] = 1;
+        dfs(0, 0, 0);
+        cout << setprecision(2) << fixed << ans << endl;
+        return 0;
+      }
+      ```
+    
+  - 题目解析二
+
+    - ```cpp
+      假设我们访问过了节点0 3 5, 也就是vis[0] = vis[3] = vis[5] = 1
+      
+      放在二进制下, num = 2 ^ 0 + 2 ^ 3 + 2 ^ 5 = 1 + 8 + 32 = 41.
+      
+      也就是说我们可以用num=41来表示访问过了节点0 3 5.
+      
+      把一堆数字{0, 3, 5}压缩为一个状态41，也就是大家常说的状态压缩。
+      ```
+
+    - N <= 15, 我们可以把哪些访问过的点压缩为一个状态，进行下面的状态压缩DP
+
+    - 状态的定义：$f(u，vis)表示当前在u节点，已经访问过的节点集合为vis时，从此出发，访问完所有节点的最小距离$
+
+    - 状态的转移：$f(u，vis) \leftarrow min\{\ f(v，new\_vis) + distance(u, v) \ \}，枚举下一个未访问的节点v$
+
+    - 时间复杂度：$状态数 * 转移数 = O(n * 2^n) * O(n) = O(n^2 * 2^n)$
+
+    - 代码实现如下，状态的定义我们是按照从某个节点出发进行的
+
+      ```cpp
+      #include <bits/stdc++.h>
+      using namespace std;
+      
+      const int N = 15 + 2, INF = 1e9;
+      int n, visited[N][1 << N];
+      float x[N], y[N], dp[N][1 << N];
+      
+      float distance(int u, int v) {
+        return std::sqrt((x[u] - x[v]) * (x[u] - x[v]) + (y[u] - y[v]) * (y[u] - y[v]));
+      }
+      
+      // 从<u, vis>节点u出发，已经访问过的点的集合为vis，访问完所有节点，的最小距离
+      float dfs(int u, int vis) {
+        if (vis == (1 << (n + 1)) - 1) return 0;
+        if (visited[u][vis]) return dp[u][vis];
+        
+        float ret = INF;
+        // 枚举下一个未访问的点v
+        for (int v = 1; v <= n; ++v) {
+          if (((1 << v) & vis) == 0) {
+            ret = std::min(ret, dfs(v, vis + (1 << v)) + distance(u, v));
+          }
+        }
+        visited[u][vis] = 1;
+        return dp[u][vis] = ret;
+      }
+      
+      int main() {
+        cin >> n;
+        for (int i = 1; i <= n; ++i) cin >> x[i] >> y[i];
+        
+        cout << setprecision(2) << fixed << dfs(0, 1) << endl;
+        return 0;
+      }
+      ```
+
+- 例题B_012：[取数游戏](https://www.luogu.com.cn/problem/P1123)
+
+  - 题目描述
+
+    ```
+    一个N×M的由非负整数构成的数字矩阵，你需要在其中取出若干个数字，使得取出的任意两个数字不相邻（若一个数字在另外一个数字相邻8个格子中的一个即认为这两个数字相邻），求取出数字和最大是多少。N, M <= 6, T <= 20
+    ```
+
+  - 题目样例
+
+    ```
+    // 输入，第一行代表数据组数，接下来输入N和M，代表数字矩阵的N行M列
+    3
+    4 4
+    67 75 63 10
+    29 29 92 14
+    21 68 71 56
+    8 67 91 25
+    2 3
+    87 70 85
+    10 3 17
+    3 3
+    1 1 1
+    1 99 1
+    1 1 1
+    
+    // 输出
+    271
+    172
+    99
+    ```
+
+    <div align="center" style="height:265px">
+        <img alt="xxxx" src="../pics/P1123.png" style="zoom:0%"/>
+    </div>
+
+  -  题目解析
+
+    - 状态的定义：$f(x，y，sum，vis)表示走到了（x, y）坐标，目前和为sum（不包括当前坐标(x, y)），访问过的坐标保存在vis里$
+
+    - 状态的转移：$f(x，y，sum，vis) \rightarrow f(x，y + 1, new\_sum，new\_vis) 对于当前坐标（x, y）选还是不选$
+
+  - 代码实现
+
+    - 如下, $dfs$的过程是一个格子一个格子，从左到右从上到下 进行的
+
+      ```cpp
+      #include <bits/stdc++.h>
+      using namespace std;
+      
+      const int N = 6 + 2;
+      const int dx[8] = {1, 1, 0, -1, -1, -1, 0, 1};
+      const int dy[8] = {0, 1, 1, 1, 0, -1, -1, -1};
+      int T, n, m, ans, a[N][N], vis[N][N];
+      
+      // 如果(x, y)被选，那相邻8个格子都不能有选的
+      bool check(int x, int y) {
+        for (int i = 0; i < 8; ++i) {
+          int newx = x + dx[i], newy = y + dy[i];
+          if (newx >= 1 && newx <= n && newy >= 1 && newy <= m && vis[newx][newy])
+            return 0;
+        }
+        return 1;
+      }
+      
+      // dfs的过程是一个格子一个格子，从左到右从上到下 进行的
+      // 状态：<x, y, sum， vis>表示走到了（x, y）坐标，目前和为sum（不包括当前坐标(x, y)），访问过的坐标保存在vis里
+      // 转移：对于当前坐标（x, y）选还是不选
+      void dfs(int x, int y, int sum) {
+        // 边界，走到了(n + 1, 1)的位置
+        if (x == n + 1) {
+          if (sum > ans) ans = sum;
+          return ;
+        }
+        // 本行走完了，该走下一行了
+        if (y == m + 1) return dfs(x + 1, 1, sum);
+        // 不选(x, y)
+        dfs(x, y + 1, sum);
+        // 选(x, y), 那就得确保满足已经选了的元素没有和它相邻的
+        if (check(x, y)) {
+          vis[x][y] = 1;
+          dfs(x, y + 1, sum + a[x][y]);
+          vis[x][y] = 0;
+        }
+      }
+      
+      int main() {
+        cin >> T;
+        while (T--) {
+          cin >> n >> m;
+          for (int i = 1; i <= n; ++i)
+            for (int j = 1; j <= m; ++j)
+                cin >> a[i][j];
+      
+          ans = 0;    
+          dfs(1, 1, 0);
+          cout << ans << "\n";
+        }
+        return 0;
+      }
+      ```
+
+
+- 例题B_013：[最大子数组和](https://leetcode.cn/problems/maximum-subarray/)
+
+  - 题目描述
+
+    ```
+    给你一个整数数组nums，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。子数组是数组中的一个连续部分。
+    ```
+
+  - 题目样例
+
+    ```
+    输入：nums = [-2,1,-3,4,-1,2,1,-5,4]
+    输出：6
+    解释：连续子数组[4,-1,2,1]的和最大，为6 。
+    ```
+
+  - 题目解析
+
+    - 状态的定义：$f(i)表示考虑前i个元素[0:i]以第i个元素结尾，的最大值$
+    - 状态的转移：$f(i) \begin{cases} \leftarrow nums[i]，单独存在\\ \\ \leftarrow f(i - 1) + a[i]，和前面的一段连在一起 \end{cases}$
+    - 时间复杂度：$状态数为O(N)，转移为O(1)，所以总的时间复杂度为O(N)$
+
+  - 代码实现
+
+    - 如下，看着类似的题[Longest X](https://www.luogu.com.cn/problem/AT_abc229_d)（提示滑动窗口或二分答案）
+
+      ```cpp
+      class Solution {
+      public:
+          // dp[i]表示已第i个元素结尾的连续最大和
+          // 由于dp[i]只和dp[i - 1]有关, 所以可以滚动，用一个变量pre表示dp[i - 1]的状态就行
+          int maxSubArray(vector<int>& nums) {
+              int n = nums.size(), pre = 0, ans = -1e9;
+              for (int i = 0; i < n; ++i) {
+                  pre = std::max(nums[i], pre + nums[i]);
+                  ans = std::max(ans, pre);
+              }
+              return ans;
+          }
+      }; 
+      ```
+
+- 例题B_014：[环形子数组的最大和](https://leetcode.cn/problems/maximum-sum-circular-subarray/)
+
+  - 题目描述
+
+    ```
+    给定一个长度为n的环形整数数组nums，返回nums的非空子数组的最大可能和。环形数组意味着数组的末端将会与开头相连呈环状
+    ```
+
+  - 题目样例
+
+    ```
+    输入：nums = [1,-2,3,-2]
+    输出：3
+    解释：从子数组 [3] 得到最大和 3
+    ```
+
+  - 题目解析
+
+    ```
+    最大的可能和，只可能有两种形式：情况一：单独的某一段，为答案；情况二：开头的一段 + 末尾的一段，为答案
+    ```
+
+    - 状态的定义：$f(i)表示前i个元素[0:i]，前缀和的最大值$
+    - 状态的转移：$f(i) = max\{ f(i - 1)，s[0:i] \ 其中s[0:i]表示前i个元素的和\}$
+
+  - 代码实现
+
+    - 如下，总的时间复杂度为$O(N)$
+
+      ```cpp
+      class Solution {
+      public:
+          int maxSubarraySumCircular(vector<int>& nums) {
+              int n = nums.size(), pre = 0, ans = -1e9;
+              // 情况一：单独的某一段，为答案
+              for (int i = 0; i < n; ++i) {
+                  pre = std::max(nums[i], pre + nums[i]);
+                  ans = std::max(ans, pre);
+              }
+              // 预处理dp, dp[i]表示[0: i]范围内，前缀和的最大值
+              int s = nums[0];
+              vector<int> dp(n + 5, 0);
+              dp[0] = nums[0];
+              for (int i = 1; i < n; ++i) {
+                  s += nums[i];
+                  dp[i] = std::max(dp[i - 1], s);
+              }
+              // 情况二：开头的一段 + 末尾的一段，为答案
+              s = 0;
+              for (int i = n - 1; i >= 1; --i) {
+                  s += nums[i];
+                  ans = std::max(ans, dp[i - 1] + s);
+              }
+              return ans;
+          }
+      };
+      ```
+
+- 例题B_015：[删除一次得到子数组最大和](https://leetcode.cn/problems/maximum-subarray-sum-with-one-deletion/)
+
+  - 题目描述
+
+    ```
+    给你一个整数数组，返回它的某个非空子数组（连续元素）在执行一次可选的删除操作后，所能得到的最大元素总和。
+    ```
+
+  - 题目样例
+
+    ```
+    输入：arr = [1,-2,0,3]
+    输出：4
+    解释：我们可以选出 [1, -2, 0, 3]，然后删掉 -2，这样得到 [1, 0, 3]，和最大。
+    ```
+
+  - 题目解析
+
+    - 第一种比较直观的思路，相似的题[Remove One Element](https://codeforces.com/contest/1272/problem/D)
+
+      - 枚举每个删除位置i, ans = max \{ 左边连续最大和($dp\_left[i - 1]$) + (删除位置i) + 右边连续最大和($dp\_right[i + 1]$) \}
+
+      - 代码实现如下, 时间复杂度$O(N)$
+
+        ```cpp
+        class Solution {
+        public:
+            static const int N = 1e5 + 5, INF = 1e9;
+            // dp_left[i]表示前i个元素[0:i]，以第i个位置结尾的，最大连续和
+            // dp_right[i]表示后i个元素[i:n)，以第i个位置结尾的，最大连续和
+            
+            // 答案之一：左边连续最大和 + (删除位置) + 右边连续最大和
+        
+            int dp_left[N], dp_right[N];
+            int maximumSum(vector<int>& arr) {
+                if (arr.size() == 1) return arr[0];
+                int n = arr.size(), ans = -INF;
+                for (int i = 0; i < n; ++i)
+                    dp_left[i] = std::max(arr[i], (i - 1 >= 0? dp_left[i - 1]: 0) + arr[i]);
+        
+                for (int i = n - 1; i >= 0; --i)
+                    dp_right[i] = std::max(arr[i], dp_right[i + 1] + arr[i]);
+                
+                for (int i = 0; i < n; ++i) {
+                    int L = i - 1 >= 0? dp_left[i - 1]: 0;
+                    int R = dp_right[i + 1];
+                    // 删除第i个位置的元素
+                    ans = std::max({ans, L + R, (i != 0 ? L: -INF), (i != n - 1? R: -INF)});
+                    // 不删除
+                    ans = std::max({ans, dp_left[i], dp_right[i]});
+                }
+                return ans;
+            }
+        };
+        ```
+
+    - 第二种思路
+
+      - 状态的定义
+
+        - $f(i，0)表示考虑前i个元素[0:i]，以第i个位置结尾，恰好删除0个时，的最大值$
+        - $f(i，1)表示考虑前i个元素[0:i]，以第i个位置结尾，恰好删除1个时，的最大值$
+
+      - 状态的转移
+
+        - $f(i，0) = max\{\ arr[i]，f(i - 1) + arr[i] \ \}$
+        - $f(i，1) = max\{\ f(i - 1，1) + arr[i]，f(i，0) + 0，枚举第i个元素删还是不删\ \}$
+
+      - 代码实现如下，由于$f(i，...)只与f(i - 1，...)有关，当然可以滚动数组优化$，时间复杂度$O(N)$
+
+        ```cpp
+        class Solution {
+        public:
+            // zero表示考虑前i个元素[0:i], 以第i个位置结尾，恰好删除0个时，的最大值
+            // one表示考虑前i个元素[0:i], 以第i个位置结尾，恰好删除1个时，的最大值（值得注意的是虽然以i个元素结尾，但是第i个元素可能并没有被选）
+        
+            // 可能大家会习惯性定义，以第i个元素结尾，的最大值。在这个状态定义下，由于以i个元素结尾，看起来就是第i个元素必须取了。
+            // 其实我们关心的是以第i个位置结尾时，向左连续的，最大值。而第i个位置上的元素取or删除，是我们的决策。
+            // 所以以第i个位置结尾时定义状态就清晰多了
+            int maximumSum(vector<int>& arr) {
+                int n = arr.size(), zero = -1e9, one = -1e9, ans = -1e9;
+                for (int i = 0; i < n; ++i) {
+                    int new_zero = std::max(arr[i], zero + arr[i]);
+                    int new_one = std::max(one + arr[i], zero + 0);
+        
+                    zero = std::move(new_zero);
+                    one = std::move(new_one);
+                    ans = std::max({ans, zero, one});
+                }
+                return ans;
+            }
+        };
+        ```
+
+- 例题B_016：[打家劫舍](https://leetcode.cn/problems/house-robber/)
+- 例题B_017：[打家劫舍 II](https://leetcode.cn/problems/house-robber-ii/)
+- 例题B_018：[打家劫舍 III](https://leetcode.cn/problems/house-robber-iii/)
 
 ##### 不要删这行
