@@ -1069,7 +1069,7 @@
       }
       ```
 
-- 例题B_011：[吃奶酪](https://www.luogu.com.cn/problem/P1433)
+- 例题B_011：<span id="P1433">[吃奶酪](https://www.luogu.com.cn/problem/P1433) </span>
 
   - 题目描述
 
@@ -1096,11 +1096,11 @@
   - 题目解析一
 
     - 状态的定义：$f(u, dis, cnt, vis)表示当前走到节点u，走过的距离为dis，走过哪些点的个数为cnt，走过哪些点保存在vis$
-    
+
     - 状态的转移：$f(u, dis, cnt, vis) \rightarrow f(new\_u，new\_dis，new\_cnt，new\_vis)，枚举下一个未访问过的点new\_u$
 
     - 代码实现如下, 交上去喜提$TLE$
-    
+
       ```cpp
       #include <bits/stdc++.h>
       using namespace std;
@@ -1143,7 +1143,7 @@
         return 0;
       }
       ```
-    
+
   - 题目解析二
 
     - ```cpp
@@ -1330,7 +1330,7 @@
 
   - 代码实现
 
-    - 如下，看着类似的题[Longest X](https://www.luogu.com.cn/problem/AT_abc229_d)（提示滑动窗口或二分答案）
+    - 如下，看着类似的题[Longest X](https://www.luogu.com.cn/problem/AT_abc229_d)
 
       ```cpp
       class Solution {
@@ -1501,7 +1501,939 @@
         ```
 
 - 例题B_016：[打家劫舍](https://leetcode.cn/problems/house-robber/)
+
+  - 题目描述
+
+    ```
+    你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。
+    
+    给定一个代表每个房屋存放金额的非负整数数组，计算你 不触动警报装置的情况下 ，一夜之内能够偷窃到的最高金额。
+    ```
+
+  - 题目样例
+
+    ```
+    输入：[1,2,3,1]
+    输出：4
+    解释：偷窃 1 号房屋 (金额 = 1) ，然后偷窃 3 号房屋 (金额 = 3)。
+         偷窃到的最高金额 = 1 + 3 = 4 。
+    ```
+
+  - 题目解析
+
+    - 状态的定义：$f(i，0/1)表示考虑前i个位置的元素，第i个位置的元素不偷(0)/偷(1)时，的最大值$
+    - 状态的转移：
+
+      - $f(i, 0) = max\{\ f(i - 1，0), f(i - 1，1) \ \}，前一个位置的元素，可偷/可不偷$
+      - $f(i，1) = max\{\ f(i - 1，0) + nums[i]，前一个位置的元素只能不偷 \ \}$
+
+  - 代码实现
+
+      - 如下，由于$f(i，...)只与f(i - 1，...)有关，当然可以滚动数组优化$，时间复杂度$O(N)$
+
+        ```cpp
+        class Solution {
+        public:
+            // steal表示考虑前i个位置的元素[0:i], 第i个位置的元素偷时，的最大值
+            // non_steal表示考虑前i个位置的元素[0:i], 第i个位置的元素不偷时，的最大值
+            int rob(vector<int>& nums) {
+                int n = nums.size(), steal = nums[0], non_steal = 0, ans = nums[0];
+                for (int i = 1; i < n; ++i) {
+                    int new_steal = nums[i] + non_steal;
+                    int new_non_steal = std::max(non_steal, steal) + 0;
+        
+                    ans = std::max({new_steal, new_non_steal});
+                    steal = std::move(new_steal);
+                    non_steal = std::move(new_non_steal);
+                }
+                return ans;
+            }
+        };
+        ```
+
 - 例题B_017：[打家劫舍 II](https://leetcode.cn/problems/house-robber-ii/)
+
+    - 题目描述
+
+      ```
+      你是一个专业的小偷，计划偷窃沿街的房屋，每间房内都藏有一定的现金。这个地方所有的房屋都 围成一圈 ，这意味着第一个房屋和最后一个房屋是紧挨着的。同时，相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警 。
+      
+      给定一个代表每个房屋存放金额的非负整数数组，计算你在不触动警报装置的情况下，今晚能够偷窃到的最高金额。
+      ```
+
+    - 题目样例
+
+      ```
+      输入：nums = [2,3,2]
+      输出：3
+      解释：你不能先偷窃 1 号房屋（金额 = 2），然后偷窃 3 号房屋（金额 = 2）, 因为他们是相邻的。
+      ```
+
+    - 题目解析
+
+        - 第一个房屋和最后一个房屋是紧挨着的，即构成环。为了处理环，我们的状态里可以增加一维，表示第一个房屋是否被偷
+      - 状态的定义：$f(i，0/1，0/1)表示考虑前i个位置的元素，第i个位置的元素不偷(0)/偷(1)时，首个位置的元素不偷(0)/偷(1)时，的最大值$
+      - 状态的转移：和上一个题类似，只是多了当我们选择偷首个位置的元素时，最后一个位置的元素只能不偷
+
+    - 代码实现
+
+        - 如下，由于$f(i，...)只与f(i - 1，...)有关，当然可以滚动数组优化$，时间复杂度$O(N)$
+
+          ```cpp
+          class Solution {
+          public:
+              const int INF = 1e9;
+              // steal表示考虑前i个位置的元素[0:i], 第i个位置的元素偷时，的最大值
+              // non_steal表示考虑前i个位置的元素[0:i], 第i个位置的元素不偷时，的最大值
+              // flag = 1, 表示偷了首元素; flag = 0, 表示没有偷首元素。是否偷了首元素，只有在考虑末尾元素时，才有用处（处理首尾相连的情况）。
+              int robbb(int steal, int non_steal, int flag, const vector<int>& nums) {
+                  int n = nums.size(), ans = std::max({steal, non_steal});
+                  for (int i = 1; i < n; ++i) {
+                      int new_steal = -INF, new_non_steal = -INF;
+                      if (!(i == n - 1 && flag == 1)) new_steal = nums[i] + non_steal;
+                      new_non_steal = std::max(non_steal, steal) + 0;
+          
+                      ans = std::max({new_steal, new_non_steal});
+                      steal = std::move(new_steal);
+                      non_steal = std::move(new_non_steal);
+                  }
+                  return ans;
+              }
+          
+              int rob(vector<int>& nums) {
+                  return std::max(robbb(nums[0], 0, 1, nums), robbb(0, 0, 0, nums));
+              }
+          };
+          ```
+
 - 例题B_018：[打家劫舍 III](https://leetcode.cn/problems/house-robber-iii/)
+
+    - 题目描述
+
+      ```
+      小偷又发现了一个新的可行窃的地区。这个地区只有一个入口，我们称之为 root 。
+      
+      除了 root 之外，每栋房子有且只有一个“父“房子与之相连。一番侦察之后，聪明的小偷意识到“这个地方的所有房屋的排列类似于一棵二叉树”。 如果 两个直接相连的房子在同一天晚上被打劫 ，房屋将自动报警。
+      
+      给定二叉树的 root。返回 在不触动警报的情况下 ，小偷能够盗取的最高金额 。
+      ```
+
+    - 题目样例
+
+      ```
+      输入: root = [3,2,3,null,3,null,1]
+      输出: 7 
+      解释: 小偷一晚能够盗取的最高金额 3 + 3 + 1 = 7
+      ```
+
+      <div align="center" >
+          <img alt="xxxx" src="../pics/house-robber-iii.jpg" style="zoom:0%"/>
+      </div>
+
+    - 题目解析
+
+      - 只是把一维序列上的问题，转移到树上，做法不变
+      - 状态的定义：$f(root，0/1)表示考虑以root为根的子树，该位置的元素不偷(0)/偷(1)时，的最大值$
+      - 状态的转移：
+        - $f(root，0) = \sum_{child} \ max\{\ f(child，0)，f(child，1) \}，孩子节点child，可偷/可不偷$
+        - $f(root，1) = (\ \sum_{child} \ f(child，0)\ ) + (root \rightarrow value)，孩子节点child，只能不偷$
+
+    - 代码实现
+
+      - 如下，由于树天然的具有递归结构，树上相关的DP通常用记忆化搜索实现，时间复杂度$O(N)$
+
+        ```cpp
+        class Solution {
+        public:
+            int ans = 0;
+            // 以root为根的子树，<偷，不偷>时，的最大值
+            std::array<int, 2> dfs(TreeNode* root) {
+                if (root == NULL) return {0, 0};
+                auto ret1 = dfs(root -> left);
+                auto ret2 = dfs(root -> right);
+                
+                int steal = root -> val + ret1[1] + ret2[1];
+                int non_steal = std::max(ret1[0], ret1[1]) + std::max(ret2[0], ret2[1]);
+                ans = std::max(steal, non_steal);
+                return {steal, non_steal};
+            }
+          
+            int rob(TreeNode* root) {
+                dfs(root);
+                return ans;
+            }
+        };
+        ```
+
+- 例题B_019：[不同路径](https://leetcode.cn/problems/unique-paths/)
+
+    - 题目描述
+
+        ```
+        一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为 “Start” ）。
+        机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为 “Finish” ）。问总共有多少条不同的路径？
+        ```
+
+    - 题目样例
+
+      ```
+    输入：m = 3, n = 7
+      输出：28
+      ```
+      
+    <div align="center" >
+          <img alt="xxxx" src="../pics/unique-paths.png" style="zoom:0%"/>
+    </div>
+
+    - 题目解析
+
+      - 由于只能向下或者向右移动，如果把位置坐标看作图上的节点，自然构成了一个DAG图，在DAG图上DP是非常的自然
+      - 状态的定义：$f(m，n)表示从左上角走到以坐标（m, n）结束时，的不同的路径数$
+      - 状态的转移：$f(m，n) \begin{cases} \leftarrow f(m - 1，n)，从上方而来\\ \\ \leftarrow f(m，n - 1)，从左方而来 \end{cases}$
+      - 状态的边界：$f(1，1) = 1, 起点坐标$
+      
+    - 代码实现
+
+      ```cpp
+      class Solution {
+      public:
+          static const int N = 1e2 + 5;
+          // dp[m][n]表示从左上角走到以（m, n）结束时，的不同的路径数
+          int dp[N][N];
+          int uniquePaths(int m, int n) {
+              if (m == 0 || n == 0) return 0;
+              if (m == 1 && n == 1) return 1;
+              if (dp[m][n] != 0) return dp[m][n];
+              return dp[m][n] = uniquePaths(m - 1, n) + uniquePaths(m, n - 1);
+          }
+      };
+      ```
+
+- 例题B_020：[不同路径 II](https://leetcode.cn/problems/unique-paths-ii/)
+
+  - 题目描述
+
+    ```
+    一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为 “Start” ）。机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为 “Finish”）。现在考虑网格中有障碍物。那么从左上角到右下角将会有多少条不同的路径？网格中的障碍物和空位置分别用 1 和 0 来表示。
+    ```
+
+  - 题目样例
+
+      ```
+      输入：obstacleGrid = [[0,0,0],[0,1,0],[0,0,0]]
+      输出：2
+      解释：3x3 网格的正中间有一个障碍物。
+      从左上角到右下角一共有 2 条不同的路径：
+      1. 向右 -> 向右 -> 向下 -> 向下
+      2. 向下 -> 向下 -> 向右 -> 向右
+      ```
+
+      <div align="center" >
+          <img alt="xxxx" src="../pics/unique-paths-ii.jpg" style="zoom:0%"/>
+      </div>
+
+  - 题目解析
+
+    - 本题和上一题，状态的定义，状态的转移，状态的边界（多了一点，当该位置是障碍物时$f(x，y) = 0$）都是一样的
+
+  - 代码实现
+
+    - 如下，$当该位置是障碍物时：obstacleGrid[m][n] == 1, f(m，n) = 0$
+
+      ```cpp
+      class Solution {
+      public:
+          static const int N = 1e2 + 5;
+          // dp[m][n]表示从左上角走到以（m, n）结束时，的不同的路径数
+          int dp[N][N];
+          int uniquePaths(int m, int n, const vector<vector<int>>& obstacleGrid) {
+              if (m < 0 || n < 0 || obstacleGrid[m][n] == 1) return 0;
+              if (m == 0 && n == 0) return 1;
+              if (dp[m][n] != 0) return dp[m][n];
+              return dp[m][n] = uniquePaths(m - 1, n, obstacleGrid) + uniquePaths(m, n - 1, obstacleGrid);
+          }
+      
+          int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
+              int m = obstacleGrid.size() - 1, n = obstacleGrid[0].size() - 1;
+              return uniquePaths(m, n, obstacleGrid);
+          }
+      };
+      ```
+
+- 例题B_021：[不同路径 III](https://leetcode.cn/problems/unique-paths-iii/)
+
+  - 题目描述
+
+    ```
+    在二维网格 grid 上，有 4 种类型的方格：
+      1 表示起始方格。且只有一个起始方格。
+      2 表示结束方格，且只有一个结束方格。
+      0 表示我们可以走过的空方格。
+      -1 表示我们无法跨越的障碍。
+    返回在四个方向（上、下、左、右）上行走时，从起始方格到结束方格的不同路径的数目。
+    每一个无障碍方格都要通过一次，但是一条路径中不能重复通过同一个方格。1 <= grid.length * grid[0].length <= 20
+    ```
+
+  - 题目样例
+
+    ```
+    输入：[[1,0,0,0],[0,0,0,0],[0,0,2,-1]]
+    输出：2
+    解释：我们有以下两条路径：
+    1. (0,0),(0,1),(0,2),(0,3),(1,3),(1,2),(1,1),(1,0),(2,0),(2,1),(2,2)
+    2. (0,0),(1,0),(2,0),(2,1),(1,1),(0,1),(0,2),(0,3),(1,3),(1,2),(2,2)
+    
+    输入：[[0,1],[2,0]]
+    输出：0
+    解释：
+    没有一条路能完全穿过每一个空的方格一次。
+    请注意，起始和结束方格可以位于网格中的任意位置。
+    ```
+
+  - 题目解析
+
+    - 由于可以在四个方向（上、下、左、右）上行走，所有若以坐标位置$（x，y）$看作图上的节点，会形成环，不构成DAG图。
+    - 由于数据范围较小，我们可以直接$dfs$搜索
+    - 状态的定义：$f(x，y，step，vis)表示从起点(sx, sy)走到当前节点(x, y)时，已经走了step步，已经访问过的节点保存在vis里（并不包含当前节点）$
+    - 状态的转移：$访问当前节点后，再接着向四个方向dfs搜索$
+
+  - 代码实现
+
+    - 如下，你能改成状态压缩DP吗？基本和上面讲的这题差不多[吃奶酪](#P1433)
+
+      ```cpp
+      class Solution {
+      public:
+          static const int N = 20 + 5;
+          const int dx[4] = {1, 0, -1, 0}, dy[4] = {0, 1, 0, -1};
+          // space统计必须要走的方格数，(sx, sy)表示起点坐标，(ex, ey)表示终点坐标
+          int space, sx, sy, ex, ey, n, m;
+          int vis[N][N], ans;
+          // 状态<x, y, step, vis>表示从起点(sx, sy)走到当前节点(x, y)时，已经走了step步，已经访问过的节点保存在vis里（并不包含当前节点）
+          void dfs(int x, int y, int step, const vector<vector<int>>& grid) {
+              if (x == ex && y == ey) {
+                  if (step + 1 == space) ans += 1;
+                  return ;
+              }
+              for (int i = 0; i < 4; ++i) {
+                  int newx = x + dx[i], newy = y + dy[i];
+                  if (newx >= 0 && newx < n && newy >= 0 && newy < m && vis[newx][newy] == 0 && grid[newx][newy] != -1) {
+                      vis[x][y] = 1;
+                      dfs(newx, newy, step + 1, grid);
+                      vis[x][y] = 0;
+                  }
+              }
+          }
+          
+          int uniquePathsIII(vector<vector<int>>& grid) {
+              n = grid.size(), m = grid[0].size();
+              for (int i = 0; i < n; ++i) {
+                  for (int j = 0; j < m; ++j) {
+                      if (grid[i][j] != -1) space += 1;
+                      if (grid[i][j] == 1) sx = i, sy = j;
+                      if (grid[i][j] == 2) ex = i, ey = j;
+                  }
+              }
+      
+              dfs(sx, sy, 0, grid);
+              return ans;
+          }
+      };
+      ```
+
+- 例题B_022：[Minimizing the Sum](https://www.luogu.com.cn/problem/CF1969C)
+
+  - 题目描述
+
+    ```
+    给你一个长度为n的整数数组a。
+    你可以执行以下操作：选择数组中的一个元素，并用其邻近元素的值替换它。
+    你的任务是计算在执行上述操作最多k次的情况下，数组的总和可能达到的最小值。N <= 3e5, K <= 10
+    ```
+
+  - 题目样例
+
+    ```
+    // t 数据组数
+    // n k
+    // a[1], a[2], ...
+    4
+    3 1
+    3 1 2
+    1 3
+    5
+    4 2
+    2 2 1 3
+    6 3
+    4 1 2 2 4 3
+    ```
+
+    <div align="center" >
+        <img alt="xxxx" src="../pics/CF_1969C.png" style="zoom:0%"/>
+    </div>
+
+  - 题目解析一
+
+    - 由于操作数k很小，提示我们可以DP。这题我们展示在相同的状态的定义下，考虑不同的转移时，实现上以及时间复杂度的异同
+
+    - 状态的定义：$f(i，j)表示考虑前i个位置[1:i]，最多使用j次操作，的最小值$
+
+    - 状态的转移：人人为我型递推 $f(i，j) = min\{\ f(off - 1，j - (i - off)) + a[middle] * (i - off + 1)，middle，off的含义见下图 \ \}$
+
+      <div align="center" >
+          <img alt="xxxx" src="../pics/CF_1969C_diagram1.png" style="zoom:0%"/>
+      </div>
+
+    - 状态的边界：
+
+      - 由于我们状态的定义使用的是，$最多使用j次操作$，而不是恰好，所以有下面的边界
+      - $f(0，0) = f(0，1) = f(0，2) = f(0，3) ... = f(0，k) = 0$
+
+    - 代码实现如下，时间复杂度：状态数为$O(N * K)$，转移数为$O(K ^ 2)$，所以总的时间复杂度为$O(N * K ^ 3)$
+
+      ```cpp
+      #include <bits/stdc++.h>
+      using namespace std;
+      
+      using ll = long long;
+      const ll N = 3e5 + 5, K = 10 + 5, INF = 1e18;
+      // dp[i][j]表示前i个位置[1:i], 最多使用j次操作，的最小值
+      // 状态的转移：人人为我型递推，枚举中点middle，再枚举左边端点off，即将[off, i]的区间每个数，都由a[middle]替换。
+      ll t, n, k, a[N], dp[N][K];
+      
+      int main() {
+          cin >> t;
+          while (t--) {
+              cin >> n >> k;
+              for (int i = 1; i <= n; ++i) cin >> a[i];
+      
+              for (int i = 1; i <= n; ++i) {
+                  for (int j = 0; j <= k; ++j) {
+                      dp[i][j] = dp[i - 1][j] + a[i];
+                      for (int middle = i; middle >= 1; --middle) {
+                          if (i - middle > j) break;
+                          for (int off = middle; off >= 1; --off) {
+                              if (j - (i - off) < 0 || off - 1 < 0) break;
+                              
+                              dp[i][j] = std::min(dp[i][j], dp[off - 1][j - (i - off)] + a[middle] * (i - off + 1));
+                          }
+                      }
+                  }
+              }
+              cout << dp[n][k] << "\n";
+          }
+          return 0;
+      }
+      ```
+
+  - 题目解析二
+
+    - 上面的转移，我们是将区间$[off，i]$的每个数，都替换为$a[middle]$，在最优情况下，我们肯定是将区间$[off，i]$的每个数，都替换为区间$[off，i]$的最小值。
+
+    - 所以我们可以在枚举最后一段区间$[off，i]$时，同时记录区间$[off，i]$的最小值，这样转移数就是$O(K)$，整体的时间复杂度降为$O(N * K ^ 2)$，代码实现如下
+
+      ```cpp
+      #include <bits/stdc++.h>
+      using namespace std;
+      
+      using ll = long long;
+      const ll N = 3e5 + 5, K = 10 + 5, INF = 1e18;
+      // dp[i][j]表示前i个位置[1:i], 最多使用j次操作，的最小值
+      // 状态的转移：人人为我型递推，枚举最后一段区间[off, i]，将区间[off, i]的每个数都替换成区间[off，i]内的最小值。
+      ll t, n, k, a[N], dp[N][K];
+      
+      int main() {
+          cin >> t;
+          while (t--) {
+              cin >> n >> k;
+              for (int i = 1; i <= n; ++i) cin >> a[i];
+      
+              for (int i = 1; i <= n; ++i) {
+                  for (int j = 0; j <= k; ++j) {
+                      dp[i][j] = dp[i - 1][j] + a[i];
+                      // 枚举最后一段区间[off，i]，mi记录区间[off，i]的最小值
+                      ll mi = a[i];
+                      for (int off = i; off >= 1; --off) {
+                          if (j - (i - off) < 0) break;
+                          mi = std::min(mi, a[off]);
+                          dp[i][j] = std::min(dp[i][j], dp[off - 1][j - (i - off)] + mi * (i - off + 1));
+                      }
+                  }
+              }
+              cout << dp[n][k] << "\n";
+          }
+          return 0;
+      }
+      ```
+    
+  - 题目解析三
+  
+    - 状态的定义(不变)：$f(i，j)表示考虑前i个位置[1:i]，最多使用j次操作，的最小值$
+  
+    - 状态的转移：我为人人型递推 $f(i，j) \rightarrow f(m，j + m - i - 1)，枚举下一个区间[i + 1，m]$
+  
+    - 代码如下，状态数为$O(N * K)$，转移数为$O(K)$，所以总的时间复杂度为$O(N * K ^ 2)$
+    
+      ```cpp
+      #include <bits/stdc++.h>
+      using namespace std;
+      
+      using ll = long long;
+      const ll N = 3e5 + 5, K = 10 + 5, INF = 1e18;
+      // dp[i][j]表示前i个位置[1:i], 最多使用j次操作，的最小值
+      // 状态的转移：我为人人型递推，枚举下一段[i+1，m]，同时记录其最小值mi
+      ll t, n, k, a[N], dp[N][K];
+      
+      int main() {
+          cin >> t;
+          while (t--) {
+              cin >> n >> k;
+              for (int i = 1; i <= n; ++i) cin >> a[i];
+      
+              // std::memset(dp, 0x3f, sizeof dp); 由于是多组数据，这样会TLE
+              vector<vector<ll>> dp(n + 5, vector<ll>(k + 5, INF));
+              for (int j = 0; j <= k; ++j) dp[0][j] = 0;
+      
+              for (int i = 0; i < n; ++i) {
+                  for (int j = 0; j <= k; ++j) {
+                      // 枚举下一段[i+1，m], 同时记录其最小值mi
+                      ll mi = 1e9;
+                      for (int m = i + 1; ; ++m) {
+                          if (m > n || j + m - i - 1 > k) break;
+                          mi = std::min(mi, a[m]);
+      
+                          dp[m][j + m - i - 1] = std::min(dp[m][j + m - i - 1], dp[i][j] + mi * (m - i));
+                      }
+                  }
+              }
+              cout << dp[n][k] << "\n";
+          }
+          return 0;
+      }
+      ```
+    
+  - 小总结
+  
+    - 人人为我型递推，转移时考虑枚举最后一段是怎么来的
+    - 我为人人型递推，转移时考虑枚举下一段是怎么进行的
+    - 降低时间复杂度，记录区间最小值，应该是比较自然的优化
+
+- 例题B_023：[矩阵中移动的最大次数](https://leetcode.cn/problems/maximum-number-of-moves-in-a-grid/)
+
+    - 题目描述
+
+        ```
+        给你一个下标从 0 开始、大小为 m x n 的矩阵 grid ，矩阵由若干 正 整数组成。
+        你可以从矩阵第一列中的 任一 单元格出发，按以下方式遍历 grid ：
+        从单元格 (row, col) 可以移动到 (row - 1, col + 1)、(row, col + 1) 和 (row + 1, col + 1) 三个单元格中任一满足值 严格 大于当前单元格的单元格。返回你在矩阵中能够 移动 的 最大 次数。
+        ```
+
+    - 题目样例
+
+        ```
+        输入：grid = [[2,4,3,5],[5,4,9,3],[3,4,2,11],[10,9,13,15]]
+        输出：3
+        解释：可以从单元格 (0, 0) 开始并且按下面的路径移动：
+        - (0, 0) -> (0, 1).
+        - (0, 1) -> (1, 2).
+        - (1, 2) -> (2, 3).
+        可以证明这是能够移动的最大次数。
+        ```
+
+        <div align="center" >
+            <img alt="xxxx" src="../pics/maximum-number-of-moves-in-a-grid.png" style="zoom:0%"/>
+        </div>
+
+    - 题目解析
+
+        - 状态的定义：$f(i，j)表示从第一列出发，走到位置（第i行，第j列）结束时，移动的最大次数$
+        - 状态的转移：$刷表法, f(i，j) \rightarrow f(i + delt，j + 1)，其中delt=\{-1, 0, 1\}$
+        - 时间复杂度：状态数$O(N ^ 2) * 转移数O(1) = O(N ^ 3)$
+
+    - 代码实现
+
+        - 如下，可以发现$f(...，j + 1)$只依赖$f(...，j)$，所以可以滚动数组优化。注意最终的答案不一定在最后一列，任何一个位置都可以。
+        
+          ```cpp
+          class Solution {
+          public:
+              // dp[i][j]表示从第一列出发，走到位置（第i行，第j列）结束时，移动的最大次数
+              // 转移：刷表法（i，j）-> (i + delt, j + 1)，其中delt等于-1, 0, 1。也就是题目描述的转移方式
+              const int INF = 1e9;
+              int maxMoves(vector<vector<int>>& grid) {
+                  int m = grid.size(), n = grid[0].size(), ans = 0;
+                  vector<int> dp(m, 0);
+          
+                  for (int j = 0; j < n - 1; ++j) {
+                      vector<int> new_dp(m, -INF);
+                      for (int i = 0; i < m; ++i) {
+                          // i - 1, i - 0, i + 1三个位置
+                          for (int delt = -1; delt <= 1; ++delt) {
+                              if (i + delt >= 0 && i + delt < m && grid[i + delt][j + 1] > grid[i][j]) {
+                                  new_dp[i + delt] = std::max(new_dp[i + delt], dp[i] + 1);
+                              } 
+                          }
+                      }
+          
+                      dp = std::move(new_dp);
+                      ans = std::max(ans, *max_element(dp.begin(), dp.end()));
+                  }
+                  return ans;
+              }
+          };
+          ```
+
+- 例题B_024：[网格中的最小路径代价](https://leetcode.cn/problems/minimum-path-cost-in-a-grid/)
+
+    - 题目描述
+
+        ```
+        给你一个下标从 0 开始的整数矩阵 grid ，矩阵大小为 m x n ，由从 0 到 m * n - 1 的不同整数组成。你可以在此矩阵中，从一个单元格移动到 下一行 的任何其他单元格。如果你位于单元格 (x, y) ，且满足 x < m - 1 ，你可以移动到 (x + 1, 0), (x + 1, 1), ..., (x + 1, n - 1) 中的任何一个单元格。注意： 在最后一行中的单元格不能触发移动。
+        
+        每次可能的移动都需要付出对应的代价，代价用一个下标从 0 开始的二维数组 moveCost 表示，该数组大小为 (m * n) x n ，其中 moveCost[i][j] 是从值为 i 的单元格移动到下一行第 j 列单元格的代价。从 grid 最后一行的单元格移动的代价可以忽略。
+        
+        grid 一条路径的代价是：所有路径经过的单元格的 值之和 加上 所有移动的 代价之和 。从 第一行 任意单元格出发，返回到达 最后一行 任意单元格的最小路径代价。
+        ```
+
+    - 题目样例
+
+      ```
+      输入：grid = [[5,3],[4,0],[2,1]], moveCost = [[9,8],[1,5],[10,12],[18,6],[2,4],[14,3]]
+      输出：17
+      解释：最小代价的路径是 5 -> 0 -> 1 。
+      - 路径途经单元格值之和 5 + 0 + 1 = 6 。
+      - 从 5 移动到 0 的代价为 3 。
+      - 从 0 移动到 1 的代价为 8 。
+      路径总代价为 6 + 3 + 8 = 17 。
+      ```
+
+      <div align="center" >
+          <img alt="xxxx" src="../pics/minimum-path-cost-in-a-grid.png" style="zoom:0%"/>
+      </div>
+
+    - 题目解析
+
+      - 状态的定义：$f(i，j)表示从首行出发，走到位置（第i行，第j列）结束时，的最小值$
+      - 状态的转移：刷表法（即我为人人法）$f(i，j) \rightarrow f(i + 1, k)，其中k=\{0，1，2，...，n-1\}$
+      - 时间复杂度：$状态数O(m * n) * 转移数O(n) = O(m * n ^ 2)$
+
+    - 代码实现
+
+      - 如下，用刷表法实现时，是不是非常的自然，因为代码里转移的方式就是题目里描述的方式。
+
+      - 由于第$i + 1$行的状态只与第$i$行的状态有关，当然可以滚动数组优化。
+
+        ```cpp
+        class Solution {
+        public:
+            // dp[i][j]表示从首行出发，走到位置（第i行，第j列）结束时，的最小值
+            // 转移：(i, j) -> (i + 1, k)，其中k = 0, 1, 2, ..., n-1
+            // 时间复杂度: 状态数O(m * n) * 转移数O(n) = O(m * n ^ 2)
+            
+            const int INF = 1e9;
+            int minPathCost(vector<vector<int>>& grid, vector<vector<int>>& moveCost) {
+                int m = grid.size(), n = grid[0].size();
+                vector<int> dp(n, 0);
+                for (int j = 0; j < n; ++j) dp[j] = grid[0][j];
+        
+                for (int i = 0; i < m - 1; ++i) {
+                    vector<int> new_dp(n, INF);
+                    for (int j = 0; j < n; ++j) {
+                        int num = grid[i][j];
+                        for (int k = 0; k < n; ++k) {
+                            new_dp[k] = std::min(new_dp[k], dp[j] + moveCost[num][k] + grid[i + 1][k]);
+                        }
+                    }
+                    dp = std::move(new_dp);
+                }
+                return *min_element(dp.begin(), dp.end());
+            }
+        };
+        ```
+
+- 例题B_025：[下降路径最小和](https://leetcode.cn/problems/minimum-falling-path-sum/)
+
+    - 题目描述
+
+        ```
+        给你一个 n x n 的 方形 整数数组 matrix ，请你找出并返回通过 matrix 的下降路径 的 最小和 。1 <= n <= 100
+        
+        下降路径 可以从第一行中的任何元素开始，并从每一行中选择一个元素。在下一行选择的元素和当前行所选元素最多相隔一列（即位于正下方或者沿对角线向左或者向右的第一个元素）。具体来说，位置 (row, col) 的下一个元素应当是 (row + 1, col - 1)、(row + 1, col) 或者 (row + 1, col + 1) 。
+        ```
+
+    - 题目样例
+
+        ```
+        输入：matrix = [[2,1,3],[6,5,4],[7,8,9]]
+        输出：13
+        解释：如图所示，为和最小的两条下降路径
+        ```
+
+        <div align="center" >
+            <img alt="xxxx" src="../pics/minimum-falling-path-sum.jpg" style="zoom:0%"/>
+        </div>
+
+    - 题目解析
+
+        - 状态的定义：$f(i，j)表示从首行出发，走到位置（第i行，第j列）结束时，的最小值$
+        - 状态的转移：刷表法（即我为人人法）$f(i，j) \rightarrow f(i + 1, j + delt)，其中delt=\{-1，0，1\}$
+        - 时间复杂度：$O(N ^ 2)$
+        
+    - 代码实现
+
+        - 如下，用刷表法实现时，是不是非常的自然，因为代码里转移的方式就是题目里描述的方式。
+
+        - 由于第$i + 1$行的状态只与第$i$行的状态有关，当然可以滚动数组优化。
+
+            ```cpp
+            class Solution {
+            public:
+                // dp[i][j]表示从首行出发，走到位置（第i行，第j列）结束时，的最小值
+                // 转移：(i, j) -> (i + 1, j + delt)，其中delt = {-1, 0, 1}
+                
+                const int INF = 1e9;
+                int minFallingPathSum(vector<vector<int>>& matrix) {
+                    int n = matrix.size();
+                    vector<int> dp(n, 0);
+                    for (int j = 0; j < n; ++j) dp[j] = matrix[0][j];
+            
+                    for (int i = 0; i < n - 1; ++i) {
+                        vector<int> new_dp(n, INF);
+                        for (int j = 0; j < n; ++j) {
+                            // -1, 0, 1
+                            for (int delt = -1; delt <= 1; ++delt) {
+                                if (j + delt >= 0 && j + delt < n)
+                                    new_dp[j + delt] = std::min(new_dp[j + delt], dp[j] + matrix[i + 1][j + delt]);
+                            }
+                        }
+                        dp = std::move(new_dp);
+                    }
+                    return *min_element(dp.begin(), dp.end());
+                }
+            };
+            ```
+
+- 例题B_026：[下降路径最小和 II](https://leetcode.cn/problems/minimum-falling-path-sum-ii/)
+
+    - 题目描述
+
+        ```
+        给你一个 n x n 整数矩阵 grid ，请你返回 非零偏移下降路径 数字和的最小值。
+        
+        非零偏移下降路径 定义为：从 grid 数组中的每一行选择一个数字，且按顺序选出来的数字中，相邻数字不在原数组的同一列。1 <= n <= 200
+        ```
+
+    - 题目样例
+
+        ```
+        输入：grid = [[1,2,3],[4,5,6],[7,8,9]]
+        输出：13
+        解释：
+        所有非零偏移下降路径包括：
+        [1,5,9], [1,5,7], [1,6,7], [1,6,8],
+        [2,4,8], [2,4,9], [2,6,7], [2,6,8],
+        [3,4,8], [3,4,9], [3,5,7], [3,5,9]
+        下降路径中数字和最小的是 [1,5,7] ，所以答案是 13 。	
+        ```
+
+        <div align="center" >
+            <img alt="xxxx" src="../pics/minimum-falling-path-sum-ii.jpg" style="zoom:0%"/>
+        </div>
+        
+    - 题目解析一 
+    
+        - 状态的定义：$f(i，j)表示从首行走到（第i行，第j列），的最小值$
+    
+        - 状态的转移：刷表法 $f(i，j) \rightarrow f(i + 1, k)，k \ != \ j表示不在同一列$
+    
+        - 时间复杂度：$状态数O(N ^ 2) * 转移数O(N) = O(N ^ 3)$
+    
+        - 代码如下
+    
+            ```cpp
+            class Solution {
+            public:
+                // dp[i][j]表示从首行走到（第i行，第j列），的最小值
+                // 转移：刷表法，走到下一行的第k列，当然k != j
+                // 时间复杂度：状态数O(N * N) * 转移数O(N) = O(N ^ 3)
+                
+                int minFallingPathSum(vector<vector<int>>& grid) {
+                    int n = grid.size();
+                    vector<int> dp(n, 0);
+                    for (int j = 0; j < n; ++j) dp[j] = grid[0][j];
+            
+                    for (int i = 0; i < n - 1; ++i) {
+                        vector<int> new_dp(n, 1e9);
+                        for (int j = 0; j < n; ++j) {
+                            // 第j例 -> 第k列
+                            for (int k = 0; k < n; ++k) {
+                                if (k != j) {
+                                    new_dp[k] = std::min(new_dp[k], dp[j] + grid[i + 1][k]);
+                                }
+                            }
+                        }
+                        dp = std::move(new_dp);
+                    }
+                    return *min_element(dp.begin(), dp.end());
+                }
+            };
+            ```
+    
+    - 题目解析二
+    
+        - 状态的定义（不变）：$f(i，j)表示从首行走到（第i行，第j列），的最小值$
+        
+        - 状态的转移：填表法 $f(i，j) = min\{\ f(i - 1，k) + grid[i][j] \ \}，k \ != \ j表示不在同一列$
+        
+        - 如果直接实现上面的转移，转移数依旧是$O(N)$，总的时间复杂度还是$O(N ^ 3)$，但是可以发现我们在计算$第i行的f(i，...)$时，我们只需要$第i-1行的最小值，和次小值的f(i - 1，...)$，这样转移就是$O(1)$，总的时间复杂度降为$O(N ^ 2)$
+        
+        - 为什么还需要记录次小值？因为当$第i - 1行f(i - 1，k)$的最小值，和$第i行f(i，j)$，在同一列时（即$k == j$），就只能取上一行的次小值
+        
+        - 代码如下
+        
+          ```cpp
+          class Solution {
+          public:
+              static const int INF = 1e9;
+              // dp[i][j]表示从首行走到（第i行，第j列），的最小值
+              // 转移：填表法，由（上一行某一列）的最小值转移而来，由于（上一行某一列）的最小值可能和当前位置同列，所以也需要记录上一行的次小值
+              // 时间复杂度：状态数O(N * N) * 转移数O(1) = O(N ^ 2)
+              // mi1, mi2 分别记录最小值和次小值
+              // mi1_index, mi2_index 分别记录最小值index和次小值index
+          
+              int n, mi1 = INF, mi2 = -1, mi1_index = INF, mi2_index = -1;
+              void update(int value, int j) {
+                  if (value < mi1) {
+                      mi2 = mi1; mi2_index = mi1_index;
+                      mi1 = value, mi1_index = j;
+                  }
+                  else if (value < mi2) {
+                      mi2 = value, mi2_index = j;
+                  }
+              }
+          
+              int minFallingPathSum(vector<vector<int>>& grid) {
+                  n = grid.size();
+                  vector<int> dp(n, 0);
+                  for (int j = 0; j < n; ++j) {
+                      dp[j] = grid[0][j];
+                      update(dp[j], j);
+                  }
+                  for (int i = 1; i < n; ++i) {
+                      vector<int> new_dp(n, 0);
+                      // 计算第i行，第j列，的new_dp值
+                      for (int j = 0; j < n; ++j) new_dp[j] = (mi1_index != j? mi1: mi2) + grid[i][j];
+                      // 重新更新第i行的, mi1, mi2
+                      mi1 = mi2 = INF;
+                      for (int j = 0; j < n; ++j) update(new_dp[j], j);
+                      // move
+                      dp = std::move(new_dp);
+                  }
+                  
+                  assert(*min_element(dp.begin(), dp.end()) == mi1);
+                  return mi1;
+              }
+          };
+          ```
+
+- 例题B_027：[最大得分的路径数目](https://leetcode.cn/problems/number-of-paths-with-max-score/)
+
+    - 题目描述
+
+        ```
+        给你一个正方形字符数组 board ，你从数组最右下方的字符 'S' 出发。
+        
+        你的目标是到达数组最左上角的字符 'E' ，数组剩余的部分为数字字符 1, 2, ..., 9 或者障碍 'X'。在每一步移动中，你可以向上、向左或者左上方移动，可以移动的前提是到达的格子没有障碍。
+        
+        一条路径的 「得分」 定义为：路径上所有数字的和。
+        
+        请你返回一个列表，包含两个整数：第一个整数是 「得分」 的最大值，第二个整数是得到最大得分的方案数，请把结果对 10^9 + 7 取余。
+        
+        如果没有任何路径可以到达终点，请返回 [0, 0] 。
+        ```
+
+    - 题目样例
+
+        ```
+        输入：board = ["E23","2X2","12S"]
+        输出：[7,1]
+        
+        输入：board = ["E11","XXX","11S"]
+        输出：[0,0]
+        ```
+
+    - 题目解析
+
+        - 由于只能$向上、向左或者左上方$移动，如果把位置$坐标（x，y）$看作图上的节点，自然构成DAG图
+        - 状态的定义
+            - $dp[x][y]表示从起点走到（第x行，第y列）时，最大值$
+            - $cnt[x][y]表示从起点走到（第x行，第y列）时，得到最大值时，的方案数$
+        - 状态的转移
+            - 填表法 $dp[x][y] = max\{\ dp[x + 1][y]，dp[x][y + 1]，dp[x + 1][y + 1]\ \} + grid[x][y]$
+            - $cnt[x][y] += cnt[x + 1][y], 当(dp[x + 1][y] + grid[x][y] == dp[x][y])$
+            - $cnt[x][y] += cnt[x][y + 1], 当(dp[x][y + 1] + grid[x][y] == dp[x][y])$
+            - $cnt[x][y] += cnt[x + 1][y + 1], 当(dp[x + 1][y + 1] + grid[x][y] == dp[x][y])$
+
+    - 代码实现
+
+        - 注意如果每次都$std::memset()$会$TLE$
+
+        - 如果当前在$(第x行, 第y列)$处，”向上、向左或者左上方移动“的操作为（刷表法即从$(x, y)坐标$走向哪儿去）：
+
+            - $(x, y) \rightarrow (x - 1, y)，(x, y) \rightarrow (x, y - 1)，(x, y) \rightarrow (x - 1, y - 1)$
+
+        - 如果当前在$(第x行, 第y列)$处，”向上、向左或者左上方移动“的可逆操作为（填表法即$(x, y)坐标$由哪儿走来）：
+
+            - $(x, y) \leftarrow (x + 1, y)，(x, y) \leftarrow (x, y + 1)，(x, y) \leftarrow (x + 1, y + 1)$
+
+        - 记忆化填表法实现如下，时间复杂度$O(N ^ 2)$，请问刷表法是否好实现？
+
+            ```cpp
+            class Solution {
+            public:
+                static const int N = 1e2 + 5, MOD = 1e9 + 7, INF = 1e9;
+                // dp[x][y]表示从起点走到（第x行，第y列）时，最大值
+                // cnt[x][y]表示从起点走到（第x行，第y列）时，得到最大值时，的方案数
+                // 转移：填表法(x，y)可以由(x + 1, y)，(x, y + 1)，(x + 1, y + 1)转移而来
+                
+                int dp[N][N], cnt[N][N], n;
+                void dfs(int x, int y, const vector<string>& board) {
+                    if (!(x >= 0 && x < n && y >= 0 && y < n)) return ;
+                    if (board[x][y] == 'X') return ;
+                    if (board[x][y] == 'S') return ;
+                    if (dp[x][y] > -INF) return ;
+                    dfs(x + 1, y, board);
+                    dfs(x, y + 1, board);
+                    dfs(x + 1, y + 1, board);
+            
+                    int num = board[x][y] >= '1' && board[x][y] <= '9'? board[x][y] - '0': 0;
+                    int mx = std::max({dp[x + 1][y], dp[x][y + 1], dp[x + 1][y + 1]}) + num, c = 0;
+                    if (dp[x + 1][y] + num == mx) c = (c + cnt[x + 1][y]) % MOD;
+                    if (dp[x][y + 1] + num == mx) c = (c + cnt[x][y + 1]) % MOD;
+                    if (dp[x + 1][y + 1] + num == mx) c = (c + cnt[x + 1][y + 1]) % MOD;
+                    dp[x][y] = mx, cnt[x][y] = c;
+                    return ;
+                }
+            
+                vector<int> pathsWithMaxScore(vector<string>& board) {
+                    n = board.size();
+                    // std::memset(dp, -0x3f, sizeof dp);
+                    for (int i = 0; i < n + 5; ++i)
+                        for (int j = 0; j < n + 5; ++j)
+                            dp[i][j] = -INF;
+            
+                    dp[n - 1][n - 1] = 0, cnt[n - 1][n - 1] = 1;
+                    dfs(0, 0, board);
+                    if (dp[0][0] < 0) return {0, 0};
+                    return {dp[0][0], cnt[0][0]};
+                }
+            };
+            ```
+
+- 例题B_028：
+
+- 例题B_029：
+
+- 例题B_030：
 
 ##### 不要删这行
