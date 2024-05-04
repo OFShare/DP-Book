@@ -2429,10 +2429,325 @@
             };
             ```
 
-- 例题B_028：
+- 例题B_028：[矩阵中和能被 K 整除的路径](https://leetcode.cn/problems/paths-in-matrix-whose-sum-is-divisible-by-k/)
 
-- 例题B_029：
+    - 题目描述
 
-- 例题B_030：
+        ```
+        给你一个下标从 0 开始的 m x n 整数矩阵 grid 和一个整数 k 。你从起点 (0, 0) 出发，每一步只能往 下 或者往 右 ，你想要到达终点 (m - 1, n - 1)。请你返回路径和能被 k 整除的路径数目，由于答案可能很大，返回答案对 1e9 + 7 取余 的结果。1 <= m * n <= 5 * 1e4，1 <= k <= 50。
+        ```
 
-##### 不要删这行
+    - 题目样例
+
+        ```
+        输入：grid = [[5,2,4],[3,0,5],[0,7,2]], k = 3
+        输出：2
+        解释：有两条路径满足路径上元素的和能被 k 整除。
+        第一条路径为上图中用红色标注的路径，和为 5 + 2 + 4 + 5 + 2 = 18 ，能被 3 整除。
+        第二条路径为上图中用蓝色标注的路径，和为 5 + 3 + 0 + 5 + 2 = 15 ，能被 3 整除。
+        ```
+
+        <div align="center" >
+            <img alt="xxxx" src="../pics/paths-in-matrix-whose-sum-is-divisible-by-k.png" style="zoom:0%"/>
+        </div>
+
+    - 题目解析
+
+        - 状态的定义：$f(i，j，k)表示从起点（0，0）出发，走到（i，j）位置，路径和 \%K 等于k时，的方案数$
+        - 状态的转移：刷表法 
+            - $f(i，j，k) \rightarrow f(i + 1，j，newk)，往下走，newk = (k + grid[i + 1][j]) \% K$
+            - $f(i，j，k) \rightarrow f(i，j + 1，newk)，往右走，newk = (k + grid[i][j + 1]) \% K$
+        - 状态的边界：$f(0，0，grid[0][0] \% K) = 1, 起点方案数为1$
+        - 时间复杂度：转移是$O(1)$，总的时间复杂度为$O(m * n * k)$
+
+    - 代码实现
+
+        - 如下，本题用刷表法实现是不是非常自然？
+
+            ```cpp
+            class Solution {
+            public:
+                // dp[i][j][k]表示从起点（0，0）出发，走到（i，j）位置，路径和 %K 等于k时，的方案数。
+                // 转移：刷表法，往下走或者往右走
+                // 时间复杂度：状态数O(m * n * k) * 转移数O(1) = O(m * n * k)
+                
+                const int MOD = 1e9 + 7;
+                int numberOfPaths(vector<vector<int>>& grid, int K) {
+                    int m = grid.size(), n = grid[0].size();
+                    vector<vector<vector<int> > > dp(m, vector<vector<int> >(n, vector<int>(K, 0)));
+                    dp[0][0][grid[0][0] % K] = 1;
+                    
+                    for (int i = 0; i < m; ++i) {
+                        for (int j = 0; j < n; ++j) {
+                            for (int k = 0; k < K; ++k) {
+                                // 往下走：(i, j, k) -> (i + 1, j, newk)
+                                if (i + 1 < m) {
+                                    int newk = (k + grid[i + 1][j]) % K;
+                                    dp[i + 1][j][newk] = (dp[i + 1][j][newk] + dp[i][j][k]) % MOD;
+                                }
+                                // 往右走：(i, j, k) -> (i, j + 1, newk)
+                                if (j + 1 < n) {
+                                    int newk = (k + grid[i][j + 1]) % K;
+                                    dp[i][j + 1][newk] = (dp[i][j + 1][newk] + dp[i][j][k]) % MOD;
+                                }
+                            } 
+                        }
+                    }
+                    return dp[m - 1][n - 1][0];
+                }
+            };
+            ```
+
+- 例题B_029：[地下城游戏](https://leetcode.cn/problems/dungeon-game/)
+
+    - 题目描述
+
+        ```
+        恶魔们抓住了公主并将她关在了地下城 dungeon 的 右下角 。地下城是由 m x n 个房间组成的二维网格。我们英勇的骑士最初被安置在 左上角 的房间里，他必须穿过地下城并通过对抗恶魔来拯救公主。
+        
+        骑士的初始健康点数为一个正整数。如果他的健康点数在某一时刻降至 0 或以下，他会立即死亡。
+        
+        有些房间由恶魔守卫，因此骑士在进入这些房间时会失去健康点数（若房间里的值为负整数，则表示骑士将损失健康点数）；其他房间要么是空的（房间里的值为 0），要么包含增加骑士健康点数的魔法球（若房间里的值为正整数，则表示骑士将增加健康点数）。
+        
+        为了尽快解救公主，骑士决定每次只 向右 或 向下 移动一步。
+        
+        返回确保骑士能够拯救到公主所需的最低初始健康点数。
+        
+        注意：任何房间都可能对骑士的健康点数造成威胁，也可能增加骑士的健康点数，包括骑士进入的左上角房间以及公主被监禁的右下角房间。
+        ```
+
+    - 题目样例
+
+        ```
+        输入：dungeon = [[-2,-3,3],[-5,-10,1],[10,30,-5]]
+        输出：7
+        解释：如果骑士遵循最佳路径：右 -> 右 -> 下 -> 下 ，则骑士的初始健康点数至少为 7 。
+        ```
+
+        <div align="center" >
+            <img alt="xxxx" src="../pics/dungeon-game.jpg" style="zoom:0%"/>
+        </div>
+
+    - 题目解析
+
+        - 一种正向的比较直接的思路是二分答案，如果从$左上角（0，0）$以$X$初始健康点数可以到达$右下角（m - 1，n - 1）$，那么以$X + 1，X + 2，...$肯定也可以到到达，所以可以二分答案。
+        - 本文实现另一种思路，如果从$左上角（0，0）$出发，走过的路径为$A \rightarrow B \rightarrow ... \rightarrow C$，那么反过来的路径也是可行的$C \rightarrow ... \rightarrow B \rightarrow A$
+        - 所以我们可以反过来，从$右下角（m - 1，n - 1）$出发，递推到其他坐标位置。
+        - 状态的定义：$f(i，j)表示从右下角出发，走到（i，j）位置时，的最低健康点数，并不包含dungeon[i][j]$
+        - 状态的转移：刷表法 $f(i，j) \begin{cases} \rightarrow f(i - 1，j)，往上走\\ \\ \rightarrow f(i，j - 1)，往左走 \end{cases}$
+        - 状态的边界：$dp[m - 1][n - 1] = 1，终点最低健康点数为1$
+        
+    - 代码实现
+
+        - 如下，时间复杂度$O(m * n)$，像这种正向不好求，可以反向求解，正难则反。
+
+            ```cpp
+            class Solution {
+            public:
+                // f(i，j)表示从右下角出发，走到（i，j）位置时，的最低健康点数，并不包含dungeon[i][j]
+                const int INF = 1e9;
+                int calculateMinimumHP(vector<vector<int>>& dungeon) {
+                    int m = dungeon.size(), n = dungeon[0].size();
+                    vector<vector<int> > dp(m, vector<int>(n, INF));
+                    dp[m - 1][n - 1] = 1;
+                    for (int i = m - 1; i >= 0; --i) {
+                        for (int j = n - 1; j >= 0; --j) {
+                            // 向上走
+                            if (i - 1 >= 0) {
+                                dp[i - 1][j] = std::min(dp[i - 1][j], dp[i][j] - dungeon[i][j]);
+                                // 保证健康点数为一个正整数
+                                if (dp[i - 1][j] <= 0) dp[i - 1][j] = 1;
+                            }
+                            
+                            // 向左走
+                            if (j - 1 >= 0) {
+                                dp[i][j - 1] = std::min(dp[i][j - 1], dp[i][j] - dungeon[i][j]);
+                                // 保证健康点数为一个正整数
+                                if (dp[i][j - 1] <= 0) dp[i][j - 1] = 1;
+                            }
+                            
+                        }
+                    }
+                    return std::max(1, dp[0][0] - dungeon[0][0]);
+                }
+            };
+            ```
+
+- 例题B_030：[摘樱桃](https://leetcode.cn/problems/cherry-pickup/)
+
+    - 题目描述
+
+        ```
+        给你一个 n x n 的网格 grid ，代表一块樱桃地，每个格子由以下三种数字的一种来表示：
+          0 表示这个格子是空的，所以你可以穿过它。
+          1 表示这个格子里装着一个樱桃，你可以摘到樱桃然后穿过它。
+          -1 表示这个格子里有荆棘，挡着你的路。
+        请你统计并返回：在遵守下列规则的情况下，能摘到的最多樱桃数：
+        
+        从位置 (0, 0) 出发，最后到达 (n - 1, n - 1) ，只能向下或向右走，并且只能穿越有效的格子（即只可以穿过值为 0 或者 1 的格子）；
+        当到达 (n - 1, n - 1) 后，你要继续走，直到返回到 (0, 0) ，只能向上或向左走，并且只能穿越有效的格子；
+        当你经过一个格子且这个格子包含一个樱桃时，你将摘到樱桃并且这个格子会变成空的（值变为 0 ）；
+        如果在 (0, 0) 和 (n - 1, n - 1) 之间不存在一条可经过的路径，则无法摘到任何一个樱桃。
+        ```
+
+    - 题目样例
+
+        ```
+        输入：grid = [[0,1,-1],[1,0,-1],[1,1,1]]
+        输出：5
+        解释：玩家从 (0, 0) 出发：向下、向下、向右、向右移动至 (2, 2) 。
+        在这一次行程中捡到 4 个樱桃，矩阵变成 [[0,1,-1],[0,0,-1],[0,0,0]] 。
+        然后，玩家向左、向上、向上、向左返回起点，再捡到 1 个樱桃。
+        总共捡到 5 个樱桃，这是最大可能值。
+        ```
+        <div align="center" >
+            <img alt="xxxx" src="../pics/cherry-pickup.jpg" style="zoom:0%"/>
+        </div>
+    
+    - 题目解析
+      - 第一次从左上角走到右下角，第二次再从右下角走回左上角，由于路径是可逆的，第二次走的路径可以依旧看作是从左上角走到右下角。
+      
+      - 所以题目可以转化为，有两个人同时从左上角出发，走到右下角时，摘到樱桃的最大数。
+      
+      - 状态的定义
+      
+        - $f(x1，x2，step)表示从左上角开始，两人同时走，第一个人走到的位置为(x1，step - x1)，第二个人走到的位置为(x2，step - x2)时，的最大樱桃数$
+      
+      - 状态的转移
+      
+        - 填表法，$(x1，y1)和(x2，y2)可以由哪些位置走来$
+      
+          
+      
+        - $f(x1，x2，step) \begin{cases} \leftarrow f(x1 - 1，x2 - 1，step - 1) + delt，第一个人从上面走来，第二个人从上面走来\\ \\ \leftarrow f(x1 - 1，x2，step - 1) + delt，第一个人从上面走来，第二个人从左边走来 \\ \\ \leftarrow f(x1，x2 - 1，step - 1) + delt，第一个人从左边走来，第二个人从上面走来 \\ \\ \leftarrow f(x1，x2，step - 1) + delt，第一个人从左边走来，第二个人从左边走来\end{cases}$
+      
+          
+      
+        - $delt \begin{cases} \leftarrow grid[x1][y1] + grid[x2][y2]，(x1，y1)和(x2，y2)不在同一个位置 \\ \\ \leftarrow grid[x1][y1]，(x1，y1)和(x2，y2)在同一个位置\end{cases}$
+    
+    - 代码实现
+    
+      - 如下，填表法记忆化实现，时间复杂度$O(N ^ 3)$
+    
+      - 对于无效的状态，题目要求我们求最大值，我们可以用无穷小$（-INF）$表示。
+    
+        ```cpp
+        class Solution {
+        public:
+            static const int N = 50 + 5, INF = 1e9;
+            int dp[N][N][2 * N], n;
+            // 先从左上角走到右下角，再从右下角走到左上角，等价于，从左上角开始，有两个人同时走，最后走到右下角。
+            // dp[x1][x2][step]表示从左上角开始，两人同时走，第一个人走到的位置为(x1, step - x1)，第二个人走到的位置为(x2, step - x2)时，的最大樱桃数
+            // 转移：填表法 第一个人可以由上/左走过来，同理第二个人也可以由上/左走过来
+            // 时间复杂度：O(N * N * N)
+            
+            int dfs(int x1, int x2, int step, const vector<vector<int>> &grid) {
+                int y1 = step - x1, y2 = step - x2;
+                if (!(x1 >= 0 && x1 < n) || !(y1 >= 0 && y1 < n)) return -INF;
+                if (!(x2 >= 0 && x2 < n) || !(y2 >= 0 && y2 < n)) return -INF;
+                if (grid[x1][y1] == -1 || grid[x2][y2] == -1) return -INF;
+                if (x1 + y1 == 0 && x2 + y2 == 0) return grid[x1][y1];
+                if (dp[x1][x2][step] != -1) return dp[x1][x2][step];
+                
+                int delt = 0, ret = -INF;
+                if (x1 == x2 && y1 == y2) delt = grid[x1][y1];
+                else delt = grid[x1][y1] + grid[x2][y2];
+        
+                // 上，上
+                ret = std::max(ret, dfs(x1 - 1, x2 - 1, step - 1, grid) + delt);
+                // 上，左
+                ret = std::max(ret, dfs(x1 - 1, x2, step - 1, grid) + delt);
+                // 左，上
+                ret = std::max(ret, dfs(x1, x2 - 1, step - 1, grid) + delt);
+                // 左，左
+                ret = std::max(ret, dfs(x1, x2, step - 1, grid) + delt);
+                return dp[x1][x2][step] = ret;
+            }
+        
+            int cherryPickup(vector<vector<int>>& grid) {
+                n = grid.size();
+        
+                std::memset(dp, -1, sizeof dp);
+                int ret = dfs(n - 1, n - 1, n - 1 + n - 1, grid);
+                return ret >= 0? ret: 0;
+            }
+        };
+        ```
+
+- 例题B_031：[摘樱桃 II](https://leetcode.cn/problems/cherry-pickup-ii/)
+
+  - 题目描述
+
+    ```
+    给你一个 rows x cols 的矩阵 grid 来表示一块樱桃地。 grid 中每个格子的数字表示你能获得的樱桃数目。
+    
+    你有两个机器人帮你收集樱桃，机器人 1 从左上角格子 (0,0) 出发，机器人 2 从右上角格子 (0, cols-1) 出发。
+    
+    请你按照如下规则，返回两个机器人能收集的最多樱桃数目：
+    
+    从格子 (i,j) 出发，机器人可以移动到格子 (i+1, j-1)，(i+1, j) 或者 (i+1, j+1) 。
+    当一个机器人经过某个格子时，它会把该格子内所有的樱桃都摘走，然后这个位置会变成空格子，即没有樱桃的格子。
+    当两个机器人同时到达同一个格子时，它们中只有一个可以摘到樱桃。
+    两个机器人在任意时刻都不能移动到 grid 外面。
+    两个机器人最后都要到达 grid 最底下一行。
+    ```
+
+  - 题目样例
+
+    ```
+    输入：grid = [[1,0,0,0,0,0,1],[2,0,0,0,0,3,0],[2,0,9,0,0,0,0],[0,3,0,5,4,0,0],[1,0,2,3,0,0,6]]
+    输出：28
+    解释：机器人 1 和机器人 2 的路径在上图中分别用绿色和蓝色表示。
+    机器人 1 摘的樱桃数目为 (1 + 9 + 5 + 2) = 17 。
+    机器人 2 摘的樱桃数目为 (1 + 3 + 4 + 3) = 11 。
+    樱桃总数为： 17 + 11 = 28 。
+    ```
+
+    <div align="center" >
+        <img alt="xxxx" src="../pics/cherry-pickup-ii.png" style="zoom:0%"/>
+    </div>
+
+  - 题目解析
+
+    - 本题和上一题基本类似，可以发现机器人1和机器人2，它们的$行坐标X$肯定时刻相同
+    - 状态的定义：$f(x，y1，y2)表示机器人1在位置(x, y1)，机器人2在位置(x, y2)，从此出发，能获得的最大的樱桃数$
+    - 状态的转移：$f(x，y1，y2) \rightarrow f(x + 1，y1 + delt1，y2 + delt2)，delt1 = {-1，0，1}，delt2 = {-1，0，1}$
+  
+  - 代码实现
+  
+    - 如下，DAG模型，从某个状态出发，能获得的最大值。记忆化实现
+  
+      ```cpp
+      class Solution {
+      public:
+          static const int N = 70 + 5;
+          // dp[x][y1][y2]表示机器人1在位置(x, y1)，机器人2在位置(x, y2)，从此出发，能获得的最大的樱桃数
+          // 转移：机器人1，机器人2可以走向哪儿
+          // 时间复杂度：O(N ^ 3)
+          int m, n, dp[N][N][N];
+          int dfs(int x, int y1, int y2, const vector<vector<int>> &grid) {
+              if (x == m) return 0;
+              if (!(y1 >= 0 && y1 < n)) return 0;
+              if (!(y2 >= 0 && y2 < n)) return 0;
+              if (dp[x][y1][y2] != -1) return dp[x][y1][y2];
+      
+              int ret = 0, delt = (y1 == y2? grid[x][y1]: grid[x][y1] + grid[x][y2]);
+              for (int delt1 = -1; delt1 <= 1; ++delt1) {
+                  for (int delt2 = -1; delt2 <= 1; ++delt2) {
+                      ret = std::max(ret, dfs(x + 1, y1 + delt1, y2 + delt2, grid) + delt);
+                  }
+              }
+              return dp[x][y1][y2] = ret;
+          }
+      
+          int cherryPickup(vector<vector<int>>& grid) {
+              m = grid.size(), n = grid[0].size();
+              std::memset(dp, -1, sizeof dp);
+              return dfs(0, 0, n - 1, grid);
+          }
+      };
+      ```
+
+##### 写在后面的话
+
+- 至此，第二部分的学习内容已经全部讲解完毕，希望大家在学习过程中能够乐在其中！

@@ -10,7 +10,7 @@
 
 - A和B一般在（操作"可逆"或者比较容易寻找"可逆"关系）的时候，在实现上A和B都无太大区别。什么叫操作"可逆"，举个例子，从坐标$(x, y)$往下走一步到$(x + 1, y)$，那反过来，对于坐标$(x + 1, y)$就是向上走一步到坐标$(x, y)$，往下走和往上走就是可逆操作。
 
-- 
+- 经过这些题的练习，掌握刷表法、填表法、记忆化搜索、滚动数组优化、DAG模型，熟悉一些经典的DP问题。
 
 - |                             题目                             |                           参考代码                           |                           简要说明                           |
   | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
@@ -42,14 +42,14 @@
   | [矩阵中移动的最大次数](https://leetcode.cn/problems/maximum-number-of-moves-in-a-grid/) | [maximum-number-of-moves-in-a-grid.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/maximum-number-of-moves-in-a-grid.cpp) | 刷表法实现，你能改成填表法吗？[矩阵中严格递增的单元格数](https://leetcode.cn/problems/maximum-strictly-increasing-cells-in-a-matrix/)（相似的更难的题，难在哪儿？） |
   | [网格中的最小路径代价](https://leetcode.cn/problems/minimum-path-cost-in-a-grid/) | [minimum-path-cost-in-a-grid.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/minimum-path-cost-in-a-grid.cpp) |               本题刷表法的实现是不是非常自然？               |
   | [下降路径最小和](https://leetcode.cn/problems/minimum-falling-path-sum/) | [minimum-falling-path-sum.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/minimum-falling-path-sum.cpp) |                            刷表法                            |
-  | [下降路径最小和 II](https://leetcode.cn/problems/minimum-falling-path-sum-ii/) | [minimum-falling-path-sum-ii_1.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/minimum-falling-path-sum-ii_1.cpp)，[minimum-falling-path-sum-ii_2.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/minimum-falling-path-sum-ii_2.cpp) |      刷表法$O(N ^ 3)$，填表法$O(N ^ 2)比较自然的DP优化$      |
+  | [下降路径最小和 II](https://leetcode.cn/problems/minimum-falling-path-sum-ii/) | [minimum-falling-path-sum-ii_1.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/minimum-falling-path-sum-ii_1.cpp)，[minimum-falling-path-sum-ii_2.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/minimum-falling-path-sum-ii_2.cpp) |      刷表法$O(N ^ 3)$，填表法$O(N ^ 2)$比较自然的DP优化      |
   |                                                              |                                                              |                                                              |
   | [最大得分的路径数目](https://leetcode.cn/problems/number-of-paths-with-max-score/) | [number-of-paths-with-max-score.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/number-of-paths-with-max-score.cpp) |          填表法记忆化实现，为何不太好用刷表法实现？          |
-  | [矩阵中和能被 K 整除的路径](https://leetcode.cn/problems/paths-in-matrix-whose-sum-is-divisible-by-k/) |                                                              |                                                              |
-  |   [地下城游戏](https://leetcode.cn/problems/dungeon-game/)   |                                                              |                                                              |
-  |    [摘樱桃](https://leetcode.cn/problems/cherry-pickup/)     |                                                              |                                                              |
-  | [摘樱桃 II](https://leetcode.cn/problems/cherry-pickup-ii/)  |                                                              |                                                              |
-  | [网格图中递增路径的数目](https://leetcode.cn/problems/number-of-increasing-paths-in-a-grid/) |                                                              |                                                              |
+  | [矩阵中和能被 K 整除的路径](https://leetcode.cn/problems/paths-in-matrix-whose-sum-is-divisible-by-k/) |                             done                             |    将模数作为状态的一维，本题用刷表法实现是不是非常自然？    |
+  |   [地下城游戏](https://leetcode.cn/problems/dungeon-game/)   |                             done                             |          从A可以走到C，也可以从C走到A，那么路径可逆          |
+  |    [摘樱桃](https://leetcode.cn/problems/cherry-pickup/)     |                             done                             | 路径可逆，可转化为两人同时从左上角出发，走到右下角，的最大值 |
+  | [摘樱桃 II](https://leetcode.cn/problems/cherry-pickup-ii/)  |                             done                             | DAG模型，机器人1在$(x, y1)$同时机器人2在$(x, y2)$，从此出发，的最大值 |
+  |                                                              |                                                              |                                                              |
   |                                                              |                                                              |                                                              |
   |                                                              |                                                              |                                                              |
   
@@ -58,13 +58,16 @@
 
 - 如下
 
-- |                             题目                             | 参考代码 |
-  | :----------------------------------------------------------: | :------: |
-  | [任意子数组和的绝对值的最大值](https://leetcode.cn/problems/maximum-absolute-sum-of-any-subarray/) |   done   |
-  | [删除并获得点数](https://leetcode.cn/problems/delete-and-earn/) |   done   |
-  | [乘积最大子数组](https://leetcode.cn/problems/maximum-product-subarray/) |   done   |
-  |                                                              |          |
-  | [最小路径和](https://leetcode.cn/problems/minimum-path-sum/) |   done   |
-  | [矩阵的最大非负积](https://leetcode.cn/problems/maximum-non-negative-product-in-a-matrix/) |          |
-  | [Sequence Decomposing](https://www.luogu.com.cn/problem/AT_abc134_e) |          |
+- |                             题目                             |                           参考代码                           |
+  | :----------------------------------------------------------: | :----------------------------------------------------------: |
+  | [任意子数组和的绝对值的最大值](https://leetcode.cn/problems/maximum-absolute-sum-of-any-subarray/) |                             done                             |
+  | [删除并获得点数](https://leetcode.cn/problems/delete-and-earn/) | [delete-and-earn.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/delete-and-earn.cpp) |
+  | [乘积最大子数组](https://leetcode.cn/problems/maximum-product-subarray/) | [maximum-product-subarray.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/maximum-product-subarray.cpp) |
+  |                                                              |                                                              |
+  | [最小路径和](https://leetcode.cn/problems/minimum-path-sum/) | [minimum-path-sum.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/minimum-path-sum.cpp) |
+  | [矩阵的最大非负积](https://leetcode.cn/problems/maximum-non-negative-product-in-a-matrix/) |                                                              |
+  | [网格图中递增路径的数目](https://leetcode.cn/problems/number-of-increasing-paths-in-a-grid/) | done，还记得[滑雪](https://www.luogu.com.cn/problem/P1434)那题吗？ |
+  |       [传纸条](https://www.luogu.com.cn/problem/P1006)       |                                                              |
+  |   [UVA1347_Tour](https://www.luogu.com.cn/problem/UVA1347)   |        done，路径可逆转化为两人从最左端一起往最右端走        |
+  | [Sequence Decomposing](https://www.luogu.com.cn/problem/AT_abc134_e) |                                                              |
 
