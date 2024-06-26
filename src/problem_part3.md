@@ -18,9 +18,9 @@
   |                                                              |                                                              |                                                              |
   |    [零钱兑换](https://leetcode.cn/problems/coin-change/)     |                             done                             |               完全背包$求min$，使用DAG模型求解               |
   | [零钱兑换 II](https://leetcode.cn/problems/coin-change-ii/)  |                             done                             |         完全背包$求方案数$，为何不能用DAG模型求解？          |
-  | [完全平方数](https://leetcode.cn/problems/perfect-squares/)  |                                                              |                                                              |
+  | [完全平方数](https://leetcode.cn/problems/perfect-squares/)  |                             done                             |                                                              |
   |      [四方定理](https://www.luogu.com.cn/problem/P1586)      | [P1586.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/P1586.cpp) |                                                              |
-  | [数位成本和为目标值的最大数字](https://leetcode.cn/problems/form-largest-integer-with-digits-that-add-up-to-target/) |                                                              |                                                              |
+  | [数位成本和为目标值的最大数字](https://leetcode.cn/problems/form-largest-integer-with-digits-that-add-up-to-target/) |                             done                             |                                                              |
   |                                                              |                                                              |                                                              |
   
   
