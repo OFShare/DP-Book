@@ -52,16 +52,21 @@
   |   [排序数组](https://leetcode.cn/problems/sort-an-array/)    | [sort-an-array.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/sort-an-array.cpp) |               $入门，f(nums)表示将nums排好序$                |
   | [寻找两个正序数组的中位数](https://leetcode.cn/problems/median-of-two-sorted-arrays/) | [median-of-two-sorted-arrays.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/median-of-two-sorted-arrays.cpp) | $中等，f(L1, R1, L2, R2, k, nums1, nums2)表示在有序数组nums1中的[L1, R1]范围内，有序数组nums2中的[L2, R2]范围内，寻找第k小的数$ |
 
-##### 递归练习题
+##### 练习题
 
-- 如下，只给出参考代码
+- 如下，不仅仅只包含$dfs$题哟
 
 - |                             题目                             |                           参考代码                           |
   | :----------------------------------------------------------: | :----------------------------------------------------------: |
   | [二叉树的中序遍历](https://leetcode.cn/problems/binary-tree-inorder-traversal/description/) | [binary-tree-inorder-traversal.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/binary-tree-inorder-traversal.cpp) |
   | [二叉树的后序遍历](https://leetcode.cn/problems/binary-tree-postorder-traversal/description/) | [binary-tree-postorder-traversal.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/binary-tree-postorder-traversal.cpp) |
   | [N 叉树的后序遍历](https://leetcode.cn/problems/n-ary-tree-postorder-traversal/description/) | [n-ary-tree-postorder-traversal.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/n-ary-tree-postorder-traversal.cpp) |
-| [二叉树的最近公共祖先](https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/) | [lowest-common-ancestor-of-a-binary-tree.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/lowest-common-ancestor-of-a-binary-tree.cpp) |
+|                                                              |                                                              |
+  | [从前序与中序遍历序列构造二叉树](https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-inorder-traversal/) |                             done                             |
+  | [从中序与后序遍历序列构造二叉树](https://leetcode.cn/problems/construct-binary-tree-from-inorder-and-postorder-traversal/) |                             done                             |
+  | [根据前序和后序遍历构造二叉树](https://leetcode.cn/problems/construct-binary-tree-from-preorder-and-postorder-traversal/) |                             done                             |
+  |                                                              |                                                              |
+  | [二叉树的最近公共祖先](https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/) | [lowest-common-ancestor-of-a-binary-tree.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/lowest-common-ancestor-of-a-binary-tree.cpp) |
   |     [图像渲染](https://leetcode.cn/problems/flood-fill/)     | [flood-fill.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/flood-fill.cpp) |
   | [岛屿的周长](https://leetcode.cn/problems/island-perimeter/) | [island-perimeter.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/island-perimeter.cpp) |
   | [边界着色](https://leetcode.cn/problems/coloring-a-border/)  | [coloring-a-border.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/coloring-a-border.cpp) |
@@ -70,8 +75,22 @@
   | [AT_abc015_3](https://www.luogu.com.cn/problem/AT_abc015_3)  | [AT_abc015_3.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/AT_abc015_3.cpp) |
   | [可能的二分法](https://leetcode.cn/problems/possible-bipartition/) | [possible-bipartition.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/possible-bipartition.cpp) |
   |       [约瑟夫](https://www.luogu.com.cn/problem/P1145)       | [P1145_1.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/P1145_1.cpp)（模拟），[P1145_2.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/P1145_2.cpp)（等价映射） |
-  |  [最短的桥](https://leetcode.cn/problems/shortest-bridge/)   |                             done                             |
-  | [连通网络的操作次数](https://leetcode.cn/problems/number-of-operations-to-make-network-connected/) |                             done                             |
-  |   [螺旋矩阵](https://leetcode.cn/problems/spiral-matrix/)    |                             done                             |
-  |   [互质树](https://leetcode.cn/problems/tree-of-coprimes/)   |                  done, dfs搜索 + gcd + 回溯                  |
+  |  [最短的桥](https://leetcode.cn/problems/shortest-bridge/)   | [shortest-bridge.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/shortest-bridge.cpp) |
+  | [连通网络的操作次数](https://leetcode.cn/problems/number-of-operations-to-make-network-connected/) | [number-of-operations-to-make-network-connected.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/number-of-operations-to-make-network-connected.cpp) |
+  |   [螺旋矩阵](https://leetcode.cn/problems/spiral-matrix/)    | [spiral-matrix.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/spiral-matrix.cpp) |
+  |   [互质树](https://leetcode.cn/problems/tree-of-coprimes/)   | [tree-of-coprimes.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/tree-of-coprimes.cpp)，$dfs搜索 + gcd + 回溯$ |
+  | [[ABC133E] Virus Tree 2](https://www.luogu.com.cn/problem/AT_abc133_e) |     done，注意到影响节点u的染色的节点个数不多，$dfs搜索$     |
+  |                                                              |                                                              |
+  |   [课程表](https://leetcode.cn/problems/course-schedule/)    |           done，判断有向图中是否有环，$dfs + 回溯$           |
+  | [课程表 II](https://leetcode.cn/problems/course-schedule-ii/) | done，判断有向图中是否有环 + 输出一种拓扑序（正向好难/逆向较简单） |
+  | [课程表 IV](https://leetcode.cn/problems/course-schedule-iv/) |                        done，DAG模型                         |
+  |     [P1347 排序](https://www.luogu.com.cn/problem/P1347)     |                     done，拓扑排序综合题                     |
+  | [图中的最短环](https://leetcode.cn/problems/shortest-cycle-in-a-graph/) |     done，$枚举某点 + bfs$ 或者 $枚举某边（删边） + bfs$     |
+  | [图中的最长环](https://leetcode.cn/problems/longest-cycle-in-a-graph/) | done，注意到：每个节点 **至多** 有一条出边，所以有很多简单做法，更通用的做法是$Tarjan$算法 |
+  | [冗余连接](https://leetcode.cn/problems/redundant-connection/) | done，往树上删除一条边，可以枚举删除那条边再$dfs$染色确定是否联通$O(N^2)$，不过题目中只会有一个环很容易用并查集判断$O(NlogN)$ |
+  | [ABC014D 閉路](https://www.luogu.com.cn/problem/AT_abc014_4) |               done，往树上添加一条边求环的大小               |
+  |                                                              |                                                              |
+  | [2097. 合法重新排列数对](https://leetcode.cn/problems/valid-arrangement-of-pairs/) | done，一笔画问题，欧拉路径，$dfs$ + 回溯(走过的路径都算数)，逆序保存答案 |
+  |     [P1127 词链](https://www.luogu.com.cn/problem/P1127)     |                done，巧妙的转换为求欧拉路径？                |
   
+

@@ -4,7 +4,7 @@
 
 ##### 例题
 
-- 这是【第二卷】的例题题单，方便大家直接练习。
+- 这是[动态规划的思考艺术（第二卷）](https://ofshare.github.io/2024-05-04-2hello-algorithm/)的例题题单，方便大家直接练习。
 
 - 在（A：我为人人递推法、或者叫刷表法）中，转移一般不叫转移方程，因为这只是一种更新方式；在（B：人人为我递推法，或者叫填表法）中，转移一般叫做转移方程。为了统一，全书都用状态的转移来描述，而不是单纯的叫状态的转移方程。
 
@@ -20,7 +20,7 @@
   | [最长公共子序列 LCS](https://www.luogu.com.cn/problem/P1439) | [P1439.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/P1439.cpp) | 掌握$O(N ^ 2)$的通用做法，知道排列的特殊做法$O(N * logN)$，以及$O(N^2 / W)$的位运算优化高级通用做法，知晓最长公共子串的后缀自动机 (SAM)做法，知晓将$LIS$和$LCS$合在一起的问题[LCIS](https://codeforces.com/problemset/problem/10/D)，方案数[Common Subsequence](https://www.luogu.com.cn/problem/AT_abc130_e) |
   |      [编辑距离](https://www.luogu.com.cn/problem/P2758)      | [P2758.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/P2758.cpp) |                      时间复杂度$O(N^2)$                      |
   |   [斐波那契乘积](https://www.luogu.com.cn/problem/P10095)    | [P10095.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/P10095.cpp) |               $<=1e18$的斐波那契数个数不到90个               |
-  |      [四方定理](https://www.luogu.com.cn/problem/P1586)      |                             done                             |                     放在背包问题后。。。                     |
+  |                                                              |                                                              |                                                              |
   |     [最大正方形](https://www.luogu.com.cn/problem/P1387)     | [P1387.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/P1387.cpp) | 不一样的题还有[最大子矩阵](https://leetcode.cn/problems/max-submatrix-lcci/)$O(N ^ 3)$，[P4147 玉蟾宫](https://www.luogu.com.cn/problem/P4147)$O(N ^ 2)$，[P3400 仓鼠窝](https://www.luogu.com.cn/problem/P3400)统计子矩阵的个数$O(N ^ 2)$ |
   |        [滑雪](https://www.luogu.com.cn/problem/P1434)        | [P1434.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/P1434.cpp) |        DAG模型，从某个状态出发（结束），能获得最优解         |
   |       [最长路](https://www.luogu.com.cn/problem/P1807)       | [P1807.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/P1807.cpp) |                           DAG模型                            |
@@ -49,9 +49,6 @@
   |   [地下城游戏](https://leetcode.cn/problems/dungeon-game/)   | [dungeon-game.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/dungeon-game.cpp) |          从A可以走到C，也可以从C走到A，那么路径可逆          |
   |    [摘樱桃](https://leetcode.cn/problems/cherry-pickup/)     | [cherry-pickup.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/cherry-pickup.cpp) | 路径可逆，可转化为两人同时从左上角出发，走到右下角，的最大值 |
   | [摘樱桃 II](https://leetcode.cn/problems/cherry-pickup-ii/)  | [cherry-pickup-ii.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/cherry-pickup-ii.cpp) | DAG模型，机器人1在$(x, y1)$同时机器人2在$(x, y2)$，从此出发，的最大值 |
-  |                                                              |                                                              |                                                              |
-  |                                                              |                                                              |                                                              |
-  |                                                              |                                                              |                                                              |
   
 
 ##### 练习题
@@ -70,4 +67,10 @@
   |       [传纸条](https://www.luogu.com.cn/problem/P1006)       |                                                              |
   |   [UVA1347_Tour](https://www.luogu.com.cn/problem/UVA1347)   | [UVA1347.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/UVA1347.cpp)，路径可逆转化为两人从最左端一起往最右端走 |
   | [Sequence Decomposing](https://www.luogu.com.cn/problem/AT_abc134_e) |                                                              |
+  |                                                              |                                                              |
+  | [使数组 K 递增的最少操作次数](https://leetcode.cn/problems/minimum-operations-to-make-the-array-k-increasing/) |     done, 你能通过手玩几个样例观察到本质就是求$LIS$吗？      |
+  |                                                              |                                                              |
+  | [到达第 K 级台阶的方案数](https://leetcode.cn/problems/find-number-of-ways-to-reach-the-k-th-stair/) |                                                              |
+  | [吃掉 N 个橘子的最少天数](https://leetcode.cn/problems/minimum-number-of-days-to-eat-n-oranges/) |                            done，                            |
+  |   [LCP 20. 快速公交](https://leetcode.cn/problems/meChtZ/)   | done，$dfs(target) -> dfs(new_target / jump)$，可以看出状态的变化是$log$级别的 |
 

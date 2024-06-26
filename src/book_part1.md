@@ -1,6 +1,6 @@
 <div align=center >
   <font face="黑体" size=7>动态规划的思考艺术（第一卷）</font>
- </div>
+</div>
 
 ##### 写在前面的话
 
