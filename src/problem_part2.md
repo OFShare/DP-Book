@@ -70,7 +70,7 @@
   |                                                              |                                                              |
   | [使数组 K 递增的最少操作次数](https://leetcode.cn/problems/minimum-operations-to-make-the-array-k-increasing/) | [minimum-operations-to-make-the-array-k-increasing.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/minimum-operations-to-make-the-array-k-increasing.cpp), 你能手玩几个样例观察到本质就是求$LIS$吗？ |
   |                                                              |                                                              |
-  | [到达第 K 级台阶的方案数](https://leetcode.cn/problems/find-number-of-ways-to-reach-the-k-th-stair/) |                   done，一眼记忆化搜索DP？                   |
+  | [到达第 K 级台阶的方案数](https://leetcode.cn/problems/find-number-of-ways-to-reach-the-k-th-stair/) | [find-number-of-ways-to-reach-the-k-th-stair.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/find-number-of-ways-to-reach-the-k-th-stair.cpp)，一眼记忆化搜索DP？ |
   | [吃掉 N 个橘子的最少天数](https://leetcode.cn/problems/minimum-number-of-days-to-eat-n-oranges/) | [minimum-number-of-days-to-eat-n-oranges.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/minimum-number-of-days-to-eat-n-oranges.cpp)，直接按照题目描述转移是$O(N)$的，如何转换为$O(log)$? |
   |   [LCP 20. 快速公交](https://leetcode.cn/problems/meChtZ/)   | [LCP20.cpp](https://github.com/OFShare/DP-Book/blob/master/codes/LCP20.cpp)，$dfs(target) -> dfs(new\_target\ / \ jump)$，可以看出状态的变化是$log$级别的 |
 
